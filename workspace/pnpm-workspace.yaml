@@ -1,0 +1,4 @@
+# Đường dẫn tính từ thư mục chứa file này (workspace/)
+packages:
+  - "../apps/*"
+  - "../packages/*"

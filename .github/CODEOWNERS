@@ -1,0 +1,8 @@
+# Thư mục nhạy cảm bắt buộc có người rà soát. Thay @owner bằng tài khoản GitHub thật.
+/apps/api/src/modules/auth/         @owner
+/apps/api/src/modules/payments/     @owner
+/apps/api/src/modules/memberships/  @owner
+/apps/api/src/common/               @owner
+/apps/api/src/database/             @owner
+/db/migrations/                     @owner
+/.claude/settings.json              @owner

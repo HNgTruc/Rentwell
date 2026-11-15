@@ -1,0 +1,3 @@
+# Nội dung do phát triển sinh ra (dữ liệu dev của MinIO, tệp thử) không đưa vào git.
+uploads/*
+!uploads/README.md
