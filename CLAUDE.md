@@ -63,4 +63,6 @@ Tài liệu và giao tiếp bằng tiếng Việt; tên code, commit, API bằng
 
 ## Cấu hình Claude Code
 
+Làm sạch code: chỉ khi người dùng nhờ, theo skill `clean-code` (phạm vi rõ, duyệt kế hoạch trước, không đổi hành vi, không commit).
+
 Bộ `.claude/` (rules, commands, agents, skills) sẽ lớn dần theo dự án. Khi thấy một việc lặp lại lần thứ hai, đề xuất thêm thành phần phù hợp bằng `/new-skill` (xem `.claude/README.md`, mục "Mở rộng theo dự án"). Không tự thêm hay sửa `.claude/settings.json` khi chưa hỏi.

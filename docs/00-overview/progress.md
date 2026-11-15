@@ -61,6 +61,7 @@
 
 ## Ghi chú ngắn (mới nhất ở trên)
 
+- 2026-11-15: thêm skill `clean-code` (đã duyệt). Bỏ đề xuất `review-code`.
 - 2026-11-15: chủ dự án chọn làm máy chủ MCP loại B (sau MVP, 6 công cụ chỉ đọc, mở rộng được). Đã ghi ADR 0007 và roadmap; chưa thêm thư viện hay mã.
 - 2026-11-15: đã sửa `001_init.sql` (chi nhánh, kho riêng, chuyển hàng, đổi size) và đồng bộ `docs/02-database/schema-001-init.sql`. Còn lại: cập nhật skill `inventory-reservation` và rule `database.md` (chờ duyệt vì nằm trong `.claude/`).
 - 2026-11-15: chủ dự án chốt 8 điểm về chi nhánh. Đã viết lại `proposal-003` (quy tắc, luồng đặt, quy trình chuyển hàng, danh sách sửa `001_init.sql`); **chưa sửa file SQL, chờ duyệt**.
