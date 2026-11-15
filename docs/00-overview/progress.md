@@ -61,6 +61,8 @@
 
 ## Ghi chú ngắn (mới nhất ở trên)
 
+- 2026-11-15: chốt quyền theo chi nhánh: owner tạo/đóng chi nhánh, manager chuỗi sửa cài đặt chi nhánh; manager CN duyệt phiếu chuyển xuất từ chi nhánh mình, quản lý staff/warehouse/support của chi nhánh mình, chỉ xem giá. Đã sửa `roles-permissions.md`.
+- 2026-11-15: chưa bắt đầu P0, chủ dự án còn chỉnh tài liệu. Máy đã có Node LTS, pnpm, Docker Desktop, Git. Giữ `.gitignore` trong `workspace/` (mỗi máy chạy `git config core.excludesFile workspace/.gitignore`). Đã cập nhật skill `inventory-reservation` và rule `database.md` theo lược đồ chi nhánh.
 - 2026-11-15: thêm skill `clean-code` (đã duyệt). Bỏ đề xuất `review-code`.
 - 2026-11-15: chủ dự án chọn làm máy chủ MCP loại B (sau MVP, 6 công cụ chỉ đọc, mở rộng được). Đã ghi ADR 0007 và roadmap; chưa thêm thư viện hay mã.
 - 2026-11-15: đã sửa `001_init.sql` (chi nhánh, kho riêng, chuyển hàng, đổi size) và đồng bộ `docs/02-database/schema-001-init.sql`. Còn lại: cập nhật skill `inventory-reservation` và rule `database.md` (chờ duyệt vì nằm trong `.claude/`).
