@@ -33,6 +33,7 @@ Cấu hình Claude Code cho dự án Rentwell. Mọi thứ ở đây được co
     │   └── cases.md                   #   Bảng ca kiểm thử mẫu
     ├── inventory-reservation/SKILL.md #   Giữ chỗ, nhả chỗ, sổ cái tồn kho
     ├── payment-webhook/SKILL.md       #   Webhook thanh toán idempotent, hoàn tiền
+    ├── clean-code/SKILL.md            #   Làm sạch code trong phạm vi chỉ định, không đổi hành vi
     └── ui-ux-pro-max/                 #   Kho tra cứu UI/UX (phong cách, màu, phông, UX); có bối cảnh Rentwell
 ```
 
