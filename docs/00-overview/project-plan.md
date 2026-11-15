@@ -91,7 +91,7 @@ Tổng khoảng 35 tuần; MVP web sau khoảng 21 tuần. Chi tiết công vi�
 | [ ] | Chọn cổng thanh toán (PayOS, VNPay hoặc MoMo) | P4, tìm hiểu ngay từ P0 |
 | [ ] | Giảm theo bậc áp cho tổng đơn hay từng dòng | P3 |
 | [ ] | Cơ sở tính cọc theo phần trăm | P3 |
-| [ ] | Thanh toán đến sau khi giữ chỗ hết hạn thì xử lý thế nào | P4 |
+| [x] | Thanh toán đến sau khi giữ chỗ hết hạn thì xử lý thế nào (2026-11-15: thử giữ lại, hết hàng tự hoàn tiền; `booking-flow.md` mục 5) | P4 |
 | [ ] | Tên miền, tài khoản mạng xã hội cho Rentwell | Trước ra mắt |
 | [ ] | Rà soát pháp lý dữ liệu cá nhân | Trước ra mắt |
 | [x] | URL công khai: một website chung, theo đường dẫn (ADR 0005, 2026-11-15) | P3 |

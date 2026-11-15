@@ -110,7 +110,7 @@ Quy tắc: không xuất quá số **có thể rút** (kho nguồn phải còn �
 ## 5b. Khác biệt so với đề xuất ban đầu (đã làm)
 
 - Thêm `item_types.free_size_exchange` (quần áo, thời trang = `true`: đổi size không thu phí).
-- Đổi size **chỉ khi đơn `confirmed`** (chưa bàn giao), qua hàm `swap_booking_inventory`; đổi giữa hai biến thể **cùng một mẫu**. Đổi khi đang thuê chưa làm (cần chốt thêm nếu muốn).
+- Đổi size qua hàm `swap_booking_inventory`, giữa hai biến thể **cùng một mẫu**, khi đơn `confirmed` hoặc **đang thuê** (`handed_over`, chốt 2026-11-15: món cũ giữ thêm đêm đệm rồi nhả, món mới giữ từ hôm nay).
 - Thêm chính sách `branches_public_read` để trang web chung đọc chi nhánh đang hoạt động công khai.
 - Thêm trigger chặn đổi chi nhánh của đơn đã tạo; trả đồ đúng chi nhánh bảo đảm bằng khóa ngoại ghép `(tenant_id, booking_id, branch_id)`.
 - Trả trễ: dùng `late_fee_rules` cấp chuỗi và `fees.fee_type = 'late'` có sẵn; hạn trả theo `branches.return_time`.

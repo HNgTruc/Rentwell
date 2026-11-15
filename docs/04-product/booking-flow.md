@@ -32,7 +32,7 @@ stateDiagram-v2
 | Thanh toán | Khách | Cổng thanh toán; webhook xác nhận → `confirmed` |
 | Soạn đồ | Nhân viên kho | Kiểm tra tình trạng, đóng gói (danh sách việc, đơn vẫn ở `confirmed`) |
 | Giao / nhận tại cửa hàng | Nhân viên giao nhận / kho | Biên bản bàn giao, chụp ảnh tình trạng, khách ký nhận → `handed_over` |
-| Trong thời gian thuê | Khách | Có thể gia hạn nếu còn trống; nhắc trả đồ trước hạn |
+| Trong thời gian thuê | Khách | Có thể gia hạn nếu còn trống; đổi size tại chi nhánh đã thuê; nhắc trả đồ trước hạn |
 | Nhận lại | Nhân viên | Biên bản trả: số lượng tốt/hỏng/mất, ảnh → `returned` |
 | Kiểm tra và chốt | Kho + quản lý | Ghi hư hỏng vào sổ cái kho, tính phí trễ/bồi thường, hoàn cọc → `completed` |
 | Tồn kho sau trả | Hệ thống | Hết đêm đệm thì món sẵn sàng cho thuê lại (giặt, kiểm tra) |
@@ -60,13 +60,20 @@ stateDiagram-v2
 
 ## 5. Trường hợp ngoại lệ cần xử lý
 
-- Khách không đến nhận / không trả đúng hạn.
+- **Khách không đến nhận** (hoặc vắng mặt khi giao), đã chốt 2026-11-15: giữ đồ đến hết ngày nhận (`start_date`, theo giờ đóng cửa chi nhánh). Hết ngày mà chưa bàn giao: job chuyển đơn `confirmed` → `cancelled` (lý do "khách không đến nhận"), nhả tồn các đêm còn lại, **hoàn cọc, giữ tiền thuê**.
+- **Trả trễ**: tính phí trễ theo `late_fee_rules` (cấp chuỗi), hạn là `return_time` của chi nhánh trong ngày `end_date`.
 - Đồ hỏng nặng hoặc mất: bồi thường theo `replacement_value`.
-- Thanh toán đến sau khi giữ chỗ đã hết hạn: tồn đã nhả; hoàn tiền tự động hoặc cấp lại nếu còn trống (quy tắc cần chốt).
+- **Thanh toán đến sau khi giữ chỗ đã hết hạn**, đã chốt 2026-11-15: tồn đã nhả. Khi webhook báo thanh toán thành công cho đơn `expired`, hệ thống **thử giữ chỗ lại** đúng ngày, đúng chi nhánh (`reserve_booking_inventory`). Thành công: đơn `expired` → `confirmed`. Hết hàng: **tự hoàn tiền** và báo khách. Ghi `booking_status_history` cả hai trường hợp.
 - Webhook đến trùng hoặc đảo thứ tự: xử lý idempotent, kiểm tra trạng thái hiện tại.
 
-## Quy tắc chi nhánh (đề xuất, chờ duyệt)
+## Quy tắc chi nhánh (đã chốt, ADR 0006)
 
-- Đơn online: hệ thống gán chi nhánh gần khách nhất còn đủ hàng; đơn tại quầy: chi nhánh của nhân viên tạo đơn.
-- Giao, nhận và trả đồ chỉ ở chi nhánh của đơn; ở chi nhánh khác bị từ chối.
-- Xem `../01-architecture/adr/0006-chain-branches.md`.
+- Đơn online: khách nhập địa chỉ, chọn chi nhánh trong danh sách sắp từ gần đến xa (chọn sẵn chi nhánh gần nhất còn đủ hàng); đơn tại quầy: chi nhánh của nhân viên tạo đơn. Đơn đã tạo không đổi chi nhánh.
+- Giao, nhận, trả đồ và đổi size chỉ ở chi nhánh của đơn; ở chi nhánh khác bị từ chối.
+
+## Đổi size (đã chốt 2026-11-15)
+
+- Khách tự đến chi nhánh đã thuê. Quần áo, thời trang (`free_size_exchange`) không thu phí; món khác thu hoặc hoàn chênh lệch giá tại quầy.
+- **Trước khi nhận đồ** (`confirmed`): đổi cho cả kỳ thuê.
+- **Đang thuê** (`handed_over`): khách mang món cũ đến; nhân viên kiểm tra tình trạng (hư hỏng ghi theo luồng thường); món cũ bị chiếm thêm số đêm đệm rồi nhả các đêm còn lại; món mới giữ từ hôm nay tới hết kỳ. Còn ít nhất một đêm thuê mới đổi được.
+- Hàm `swap_booking_inventory`; lịch sử bất biến `booking_item_swaps`.

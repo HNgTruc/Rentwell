@@ -50,7 +50,7 @@
 - [ ] Chọn cổng thanh toán
 - [ ] Giảm theo bậc áp cho tổng đơn hay từng dòng
 - [ ] Cơ sở tính cọc theo phần trăm
-- [ ] Thanh toán đến sau khi giữ chỗ hết hạn
+- [x] (2026-11-15) Thanh toán đến sau khi giữ chỗ hết hạn: thử giữ lại, hết hàng thì tự hoàn tiền
 - [ ] Tên miền, mạng xã hội, nhãn hiệu cho Rentwell
 - [x] (2026-11-15) Duyệt hướng thiết kế lược đồ 002 (đánh giá, bộ phận, định tuyến) và các câu hỏi mở về đánh giá
 - [x] (2026-11-15) Chốt quy tắc chi nhánh (kho riêng, chọn theo khoảng cách, đơn tại quầy, phí giao cấp chuỗi, chuyển hàng, trả đúng chi nhánh, đổi size tại chỗ)
@@ -61,6 +61,7 @@
 
 ## Ghi chú ngắn (mới nhất ở trên)
 
+- 2026-11-15: chốt 3 ngoại lệ phía khách: tiền về trễ (giữ lại nếu còn, hết thì hoàn); đổi size cả khi đang thuê (đã sửa `swap_booking_inventory` trong `001_init.sql`, chạy thử đúng); khách không đến nhận (hết ngày nhận thì hủy, hoàn cọc, giữ tiền thuê).
 - 2026-11-15: chốt quyền theo chi nhánh: owner tạo/đóng chi nhánh, manager chuỗi sửa cài đặt chi nhánh; manager CN duyệt phiếu chuyển xuất từ chi nhánh mình, quản lý staff/warehouse/support của chi nhánh mình, chỉ xem giá. Đã sửa `roles-permissions.md`.
 - 2026-11-15: chưa bắt đầu P0, chủ dự án còn chỉnh tài liệu. Máy đã có Node LTS, pnpm, Docker Desktop, Git. Giữ `.gitignore` trong `workspace/` (mỗi máy chạy `git config core.excludesFile workspace/.gitignore`). Đã cập nhật skill `inventory-reservation` và rule `database.md` theo lược đồ chi nhánh.
 - 2026-11-15: thêm skill `clean-code` (đã duyệt). Bỏ đề xuất `review-code`.

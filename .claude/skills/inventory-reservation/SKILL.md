@@ -17,13 +17,13 @@ Mô hình: `docs/02-database/erd.md`, `docs/02-database/proposal-003-branches.md
 
 ## Hàm CSDL (gọi, không tự viết lại logic ở tầng ứng dụng)
 
-| Hàm | Dùng khi |
-|---|---|
-| `reserve_booking_inventory(tenant, booking)` | Tạo đơn `hold`: giữ chỗ mọi dòng |
-| `release_booking_inventory(tenant, booking)` | Hủy đơn: nhả chỗ |
-| `expire_holds()` | Worker chạy mỗi phút: nhả đơn quá hạn chưa thanh toán |
-| `reserve_inventory` / `release_inventory` `(tenant, branch, variant, start, end, qty)` | Cấp thấp cho một biến thể tại một chi nhánh; ưu tiên hàm theo đơn |
-| `swap_booking_inventory(tenant, booking, from_variant, to_variant, qty)` | Đổi size tại chi nhánh: chỉ đơn `confirmed`, cùng mẫu, cùng kho; sau đó app cập nhật `booking_items` và ghi `booking_item_swaps` trong cùng giao dịch |
+| Hàm                                                                                    | Dùng khi                                                                                                                                                                                                           |
+| -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `reserve_booking_inventory(tenant, booking)`                                           | Tạo đơn `hold`: giữ chỗ mọi dòng                                                                                                                                                                                   |
+| `release_booking_inventory(tenant, booking)`                                           | Hủy đơn: nhả chỗ                                                                                                                                                                                                   |
+| `expire_holds()`                                                                       | Worker chạy mỗi phút: nhả đơn quá hạn chưa thanh toán                                                                                                                                                              |
+| `reserve_inventory` / `release_inventory` `(tenant, branch, variant, start, end, qty)` | Cấp thấp cho một biến thể tại một chi nhánh; ưu tiên hàm theo đơn                                                                                                                                                  |
+| `swap_booking_inventory(tenant, booking, from_variant, to_variant, qty)`               | Đổi size tại chi nhánh: đơn `confirmed` (cả kỳ) hoặc `handed_over` (từ hôm nay; món cũ giữ thêm đêm đệm), cùng mẫu, cùng kho; sau đó app cập nhật `booking_items` và ghi `booking_item_swaps` trong cùng giao dịch |
 
 ## Quy trình tạo đơn (giữ chỗ)
 

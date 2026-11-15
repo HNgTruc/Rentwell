@@ -37,7 +37,7 @@ File nguồn sự thật: `schema-001-init.sql` (PostgreSQL 15+, 42 bảng, đã
 |---|---|
 | `reserve_inventory` | Giữ chỗ một biến thể trong kho của một chi nhánh cho các đêm trong khoảng |
 | `release_inventory` | Nhả chỗ (theo chi nhánh) |
-| `swap_booking_inventory` | Đổi size tại chi nhánh: nhả món cũ, giữ món mới, cùng kho, một giao dịch (chỉ khi đơn `confirmed`) |
+| `swap_booking_inventory` | Đổi size tại chi nhánh: nhả món cũ, giữ món mới, cùng kho, một giao dịch (đơn `confirmed` hoặc đang thuê `handed_over`) |
 | `validate_transfer_movement` | Kiểm tra phiếu chuyển hàng trước khi ghi sổ (trạng thái, chi nhánh, món) |
 | `forbid_booking_branch_change` | Không cho đổi chi nhánh của đơn đã tạo |
 | `reserve_booking_inventory` | Giữ chỗ cho cả đơn (mọi dòng) |

@@ -859,13 +859,18 @@ BEGIN
   RETURN n;
 END $$;
 
--- Đổi size tại chi nhánh (chỉ khi đơn đã xác nhận, chưa bàn giao): nhả món cũ và giữ món mới
--- trong CÙNG kho, CÙNG đơn, cho toàn bộ kỳ thuê (kể cả đêm đệm), trong một giao dịch.
--- Hai biến thể phải cùng mẫu sản phẩm. Gọi hàm này TRƯỚC khi app cập nhật booking_items,
--- rồi app ghi booking_item_swaps trong cùng giao dịch. Hết hàng size mới => lỗi 23514.
+-- Đổi size tại chi nhánh của đơn, trong một giao dịch, CÙNG kho, CÙNG đơn, giữa hai biến thể CÙNG mẫu.
+--   * Đơn 'confirmed' (chưa nhận đồ): nhả món cũ và giữ món mới cho toàn kỳ thuê (kể cả đêm đệm).
+--   * Đơn 'handed_over' (đang thuê): khách mang món cũ trả lại hôm nay. Món cũ vẫn bị chiếm thêm số đêm đệm
+--     (giặt, kiểm tra) rồi mới nhả các đêm còn lại; món mới được giữ từ hôm nay tới hết kỳ (kể cả đêm đệm).
+--     Chỉ đổi khi còn ít nhất một đêm thuê. Tình trạng món cũ do nhân viên kiểm tra; hư hỏng ghi theo luồng thường.
+-- Gọi hàm này TRƯỚC khi app cập nhật booking_items, rồi app ghi booking_item_swaps trong cùng giao dịch.
+-- Hết hàng size mới => lỗi 23514, toàn bộ giao dịch hoàn tác.
 CREATE FUNCTION swap_booking_inventory(p_tenant uuid, p_booking uuid, p_from_variant uuid, p_to_variant uuid, p_qty int)
 RETURNS void LANGUAGE plpgsql AS $$
-DECLARE b bookings%ROWTYPE; v_buffer int; v_have int; v_type_from uuid; v_type_to uuid;
+DECLARE
+  b bookings%ROWTYPE; v_buffer int; v_have int; v_type_from uuid; v_type_to uuid;
+  v_release_from date; v_reserve_from date;
 BEGIN
   IF p_qty <= 0 OR p_from_variant = p_to_variant THEN
     RAISE EXCEPTION 'Yêu cầu đổi size không hợp lệ' USING ERRCODE = '22023';
@@ -875,8 +880,8 @@ BEGIN
   IF NOT FOUND THEN
     RAISE EXCEPTION 'Đơn không tồn tại' USING ERRCODE = '22023';
   END IF;
-  IF b.status <> 'confirmed' THEN
-    RAISE EXCEPTION 'Chỉ đổi size khi đơn đã xác nhận và chưa bàn giao' USING ERRCODE = '23514';
+  IF b.status NOT IN ('confirmed','handed_over') THEN
+    RAISE EXCEPTION 'Chỉ đổi size khi đơn đã xác nhận hoặc đang thuê' USING ERRCODE = '23514';
   END IF;
 
   SELECT quantity, buffer_nights INTO v_have, v_buffer
@@ -892,13 +897,24 @@ BEGIN
     RAISE EXCEPTION 'Chỉ đổi giữa các size/màu của cùng một mẫu' USING ERRCODE = '23514';
   END IF;
 
+  IF b.status = 'confirmed' THEN
+    v_release_from := b.start_date;
+    v_reserve_from := b.start_date;
+  ELSE
+    IF current_date >= b.end_date THEN
+      RAISE EXCEPTION 'Đã hết kỳ thuê, không còn đêm để đổi' USING ERRCODE = '23514';
+    END IF;
+    v_release_from := greatest(b.start_date, current_date + v_buffer);
+    v_reserve_from := greatest(b.start_date, current_date);
+  END IF;
+
   -- Khóa theo thứ tự variant để tránh deadlock với các giao dịch khác
   IF p_from_variant < p_to_variant THEN
-    PERFORM release_inventory(p_tenant, b.branch_id, p_from_variant, b.start_date, b.end_date + v_buffer, p_qty);
-    PERFORM reserve_inventory(p_tenant, b.branch_id, p_to_variant,   b.start_date, b.end_date + v_buffer, p_qty);
+    PERFORM release_inventory(p_tenant, b.branch_id, p_from_variant, v_release_from, b.end_date + v_buffer, p_qty);
+    PERFORM reserve_inventory(p_tenant, b.branch_id, p_to_variant,   v_reserve_from, b.end_date + v_buffer, p_qty);
   ELSE
-    PERFORM reserve_inventory(p_tenant, b.branch_id, p_to_variant,   b.start_date, b.end_date + v_buffer, p_qty);
-    PERFORM release_inventory(p_tenant, b.branch_id, p_from_variant, b.start_date, b.end_date + v_buffer, p_qty);
+    PERFORM reserve_inventory(p_tenant, b.branch_id, p_to_variant,   v_reserve_from, b.end_date + v_buffer, p_qty);
+    PERFORM release_inventory(p_tenant, b.branch_id, p_from_variant, v_release_from, b.end_date + v_buffer, p_qty);
   END IF;
 END $$;
 
