@@ -18,13 +18,13 @@ Cho mỗi `booking_item` (biến thể, số lượng):
 
 1. Giá một đêm cơ sở: `item_types.base_price_per_night`.
 2. Nếu có **giá mùa** (`seasonal_prices`) bao trùm đêm đó thì dùng giá mùa cho đêm đó. Tính **từng đêm** vì một đơn có thể đi qua nhiều mùa.
-3. Áp **giảm theo số đêm** (`price_tiers`): bậc theo tổng số đêm của đơn (ví dụ từ 3 đêm giảm 10%).
-4. Thành tiền dòng = tổng giá các đêm sau giảm × số lượng.
+3. Cộng giá các đêm, rồi áp **giảm theo số đêm** (`price_tiers` của **loại món của dòng này**): bậc cao nhất mà số đêm thuê đạt tới (ví dụ từ 3 đêm giảm 10%). Đêm mùa cũng được giảm.
+4. Thành tiền dòng = (tổng giá các đêm − phần giảm bậc) × số lượng.
 5. Lưu `price_per_night` (đã gồm giảm bậc/mùa, giá trung bình làm tròn có kiểm soát) cùng snapshot `buffer_nights` vào `booking_items`.
 
 > Quy tắc làm tròn: tính bằng số nguyên đồng; làm tròn một lần ở cuối dòng, hướng làm tròn ghi rõ trong code và kiểm thử. Không cộng dồn sai số.
 
-> Cần chốt khi cài đặt (ghi thành ADR): giảm theo bậc áp cho **tổng đơn** hay **từng dòng**; thứ tự áp giá mùa và giảm bậc.
+> Đã chốt (ADR 0008, 2026-11-15): giảm bậc **theo từng dòng**; **giá mùa từng đêm trước, giảm bậc sau** trên tổng của dòng.
 
 ## 3. Phí giao hàng
 
@@ -46,7 +46,7 @@ Quy tắc ở `delivery_fee_rules` (một bộ cho mỗi cửa hàng), `delivery
 
 ## 4. Cọc
 
-- Mức cọc theo cấu hình loại món: `deposit_type` (`fixed` số tiền cố định, hoặc `percent` tối đa 100) và `deposit_value`; cửa hàng đặt. Cơ sở tính phần trăm (giá thuê hay giá trị thay thế `replacement_value`) cần chốt khi cài đặt và ghi thành ADR.
+- Mức cọc theo cấu hình loại món: `deposit_type` (`fixed` số tiền cố định, hoặc `percent` tối đa 100) và `deposit_value`; cửa hàng đặt. Cọc phần trăm tính trên **giá trị thay thế** (`replacement_value` × số lượng; ADR 0008). Loại món cọc % thì mọi biến thể phải có `replacement_value > 0` (API kiểm tra).
 - Cọc nằm trong bảng `deposits`, tách khỏi tiền thuê.
 - Hoàn cọc = cọc − phí trễ − bồi thường hư hỏng − phí khác đã chốt; không âm. Phần thiếu (nếu có) tạo `fees` cần thu thêm.
 

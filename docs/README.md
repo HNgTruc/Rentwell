@@ -44,7 +44,8 @@ docs/
 │       ├── 0004-sql-first-migrations.md
 │       ├── 0005-one-shared-website.md
 │       ├── 0006-chain-branches.md
-│       └── 0007-mcp-server.md
+│       ├── 0007-mcp-server.md
+│       └── 0008-pricing-tiers-deposit.md
 ├── 02-database/
 │   ├── schema-overview.md     # Nhóm bảng, quy tắc, giới hạn đã biết
 │   ├── schema-001-init.sql    # Migration khởi tạo (42 bảng)

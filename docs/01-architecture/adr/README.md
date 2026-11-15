@@ -14,5 +14,6 @@ Architecture Decision Records: mỗi quyết định kiến trúc một file.
 | `0005-one-shared-website.md` | Một website chung cho mọi cửa hàng, URL theo đường dẫn. |
 | `0006-chain-branches.md` | Chuỗi nhiều chi nhánh; gán đơn theo vị trí khách; trả đúng chi nhánh. |
 | `0007-mcp-server.md` | Máy chủ MCP riêng của Rentwell (loại B), chỉ đọc, làm sau MVP. |
+| `0008-pricing-tiers-deposit.md` | Giảm bậc theo dòng, giá mùa trước giảm bậc, cọc % trên giá trị thay thế. |
 
 > Khi thêm hoặc xóa mục trong thư mục này, cập nhật bảng trên.

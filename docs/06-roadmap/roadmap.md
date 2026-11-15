@@ -58,6 +58,7 @@ Mỗi giai đoạn gồm: **Mục tiêu**, **Công việc**, **Tiêu chí hoàn 
 
 **Công việc**
 - [ ] **Duyệt `proposal-003-branches.md` và sửa `001_init.sql` (thêm chi nhánh, tồn kho theo chi nhánh) TRƯỚC khi áp migration đầu tiên.**
+- [ ] Spike cổng thanh toán: so sánh vài cổng phổ biến ở Việt Nam (phí, điều kiện đăng ký, sandbox, hoàn tiền, webhook, chữ ký), trình chủ dự án chọn.
 - [ ] Spike bản đồ: địa chỉ → tọa độ, khoảng cách đường đi, chi phí, giới hạn gọi; kết quả quyết định chọn nhà cung cấp (nay là lõi của việc gán chi nhánh).
 - [ ] Tạo monorepo (pnpm + Turborepo), cấu trúc theo `monorepo-structure.md`.
 - [ ] Docker Compose: Postgres, Redis, MinIO, Mailpit.
