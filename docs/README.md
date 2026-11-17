@@ -49,7 +49,7 @@ docs/
 │       └── 0009-business-rules-batch-2026-11-17.md
 ├── 02-database/
 │   ├── schema-overview.md     # Nhóm bảng, quy tắc, giới hạn đã biết
-│   ├── schema-001-init.sql    # Migration khởi tạo (47 bảng)
+│   ├── schema-001-init.sql    # Migration khởi tạo (49 bảng)
 │   ├── erd.md                 # Sơ đồ ERD (Mermaid)
 │   ├── proposal-002-reviews-routing-chat.md  # Đề xuất lược đồ (đã duyệt hướng)
 │   ├── proposal-003-branches.md  # Chuỗi nhiều chi nhánh (đã duyệt, đã áp dụng)

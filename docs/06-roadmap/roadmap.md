@@ -58,7 +58,8 @@ Mỗi giai đoạn gồm: **Mục tiêu**, **Công việc**, **Tiêu chí hoàn 
 
 **Công việc**
 - [x] (2026-11-15) **Duyệt `proposal-003-branches.md` và sửa `001_init.sql` (thêm chi nhánh, tồn kho theo chi nhánh) TRƯỚC khi áp migration đầu tiên.**
-- [ ] **Duyệt `proposal-004-walkin-holidays-config.md` và sửa `001_init.sql` (khách vãng lai, bảng ngày lễ và phụ thu, cờ xác minh, đóng chi nhánh) TRƯỚC khi áp migration đầu tiên.**
+- [x] (2026-11-17) **Duyệt `proposal-004-walkin-holidays-config.md` và sửa `001_init.sql` (khách vãng lai, bảng ngày lễ và phụ thu, cờ xác minh, đóng chi nhánh) TRƯỚC khi áp migration đầu tiên.**
+- [ ] Chạy thử `001_init.sql` mới và `db/tests/001_walkin_holidays_close_branch.sql` trên PostgreSQL thật (chưa chạy lần nào).
 - [ ] Spike cổng thanh toán phải kiểm thêm: mỗi chuỗi có merchant riêng (ADR 0009), hoàn tiền qua API, webhook theo từng chuỗi.
 - [ ] Spike cổng thanh toán: so sánh vài cổng phổ biến ở Việt Nam (phí, điều kiện đăng ký, sandbox, hoàn tiền, webhook, chữ ký), trình chủ dự án chọn.
 - [ ] Spike bản đồ: địa chỉ → tọa độ, khoảng cách đường đi, chi phí, giới hạn gọi; kết quả quyết định chọn nhà cung cấp (nay là lõi của việc gán chi nhánh).

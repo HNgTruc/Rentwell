@@ -17,11 +17,11 @@ Rà soát toàn bộ tài liệu trước P0 cho thấy nhiều quy tắc nghi�
 | 5 | Cọc | Thu **cùng lúc thanh toán đơn** (thuê + giao + cọc, một lần trả). Hoàn cọc là một khoản hoàn tiền riêng sau khi trả đồ |
 | 6 | Hoàn tiền | Hoàn **về đúng kênh đã trả**, hệ thống gửi lệnh hoàn trong **24 giờ**; thời gian tiền về tùy ngân hàng. Đơn tại quầy: cửa hàng ghi nhận hoàn bằng đúng phương thức đã thu |
 | 7 | Làm tròn | Tiền: làm tròn **đến đồng gần nhất** (half-up), một lần ở cuối dòng. Km tính phí giao: **làm tròn lên** số nguyên km |
-| 8 | Phí trễ | Theo **ngày**; **ân hạn mặc định 2 giờ** sau `return_time`; quá ân hạn dù chỉ vài giờ tính **trọn 1 ngày**. Ân hạn, mức phí, trần vẫn do chuỗi đặt trong `late_fee_rules`; 2 giờ chỉ là giá trị mặc định khi tạo quy tắc |
+| 8 | Phí trễ | Theo **ngày**; **ân hạn mặc định 2 giờ** sau `return_time`; quá ân hạn dù chỉ vài giờ tính **trọn 1 ngày**. Ân hạn, mức phí, trần vẫn do chuỗi đặt trong `late_fee_rules`; 2 giờ là `DEFAULT` sẵn có của `grace_hours` ở DB |
 | 9 | Ngày lễ | Có **bảng ngày lễ dùng chung** (nền tảng quản lý, không thuộc tenant) làm lịch tham chiếu. **Chuỗi gán phụ thu** cho từng ngày lễ. Thứ tự tính giá: xem mục "Thứ tự tính giá cập nhật" |
 | 10 | Gia hạn | Tính lại theo **tổng số đêm mới** của dòng đơn (giá mùa và phụ thu từng đêm, bậc giảm theo tổng đêm), **thu phần chênh** so với đã thu |
 | 11 | Đơn tại quầy | Khách vãng lai **chỉ cần tên và số điện thoại**, không bắt tài khoản. Tạo hồ sơ khách theo chuỗi không gắn `user`; sau này liên kết được với tài khoản. Không qua `hold`: tạo thẳng `confirmed` khi đã ghi nhận thu tiền tại quầy |
-| 12 | Đóng chi nhánh | **Chặn đóng** khi còn đơn mở (`hold`, `confirmed`, `handed_over`) hoặc còn tồn kho, hoặc phiếu chuyển hàng chưa xong tại chi nhánh đó. Hệ thống trả danh sách việc còn lại |
+| 12 | Đóng chi nhánh | **Chặn đóng** khi còn đơn mở (`hold`, `confirmed`, `handed_over`, `returned`) hoặc còn tồn kho, hoặc phiếu chuyển hàng chưa xong (`requested`, `approved`, `in_transit`) tại chi nhánh đó. Trigger ở DB chặn (mã `BRANCH_HAS_OPEN_BOOKINGS`, `BRANCH_HAS_STOCK`, `BRANCH_HAS_OPEN_TRANSFERS`); API liệt kê việc còn lại |
 | 13 | Xác minh danh tính | Chuỗi **bật theo từng loại món** và đặt **ngưỡng** (cọc hoặc giá trị thay thế); nền tảng không đặt ngưỡng cứng. Làm ở P7 |
 | 14 | Giờ mở cửa | `branches.opening_hours` có định dạng cố định: mỗi thứ trong tuần một khung giờ hoặc nghỉ. Không hỗ trợ nghỉ trưa hay ngày lễ riêng ở MVP. "Hết ngày nhận" tính theo giờ đóng cửa của ngày đó |
 
@@ -33,7 +33,7 @@ ADR 0008 giữ nguyên, thêm một bước cho phụ thu ngày lễ. Cho mỗi 
 2. Nếu đêm đó là ngày lễ mà chuỗi đã gán phụ thu cho ngày lễ đó: cộng phụ thu vào giá đêm (phụ thu theo **phần trăm** của giá đêm, hoặc **số tiền cố định**; chọn một khi cấu hình).
 3. Cộng giá các đêm, trừ giảm bậc theo số đêm, nhân số lượng, làm tròn một lần (như ADR 0008). **Phụ thu ngày lễ nằm trong tổng trước khi giảm bậc**, nên đêm lễ cũng được giảm bậc (nhất quán với đêm mùa).
 
-Điểm này là giả định của Claude để cho đủ quy tắc; chủ dự án chưa xác nhận riêng. Xem "Điểm còn mở".
+Đã được chủ dự án xác nhận ngày 2026-11-17 (phụ thu cộng trước giảm bậc).
 
 ## Hệ quả
 
@@ -43,10 +43,15 @@ ADR 0008 giữ nguyên, thêm một bước cho phụ thu ngày lễ. Cho mỗi 
 - Không có bảng chia tiền, công nợ, hoa hồng. Nếu sau này nền tảng muốn thu hộ thì cần ADR mới và xem xét điều kiện pháp lý.
 - Khách có tài khoản chung nên **giới hạn số đơn `hold` chưa thanh toán tính theo người dùng toàn nền tảng**, không chỉ theo chuỗi.
 
+## Bổ sung ngày 2026-11-17 (sau khi duyệt proposal-004)
+
+- Ngưỡng xác minh so với **cọc của dòng** (cột `item_types.verification_min_deposit`; cờ `requires_verification` đã có sẵn).
+- Giới hạn **3 đơn `hold`** chưa thanh toán mỗi người dùng trên toàn nền tảng.
+- `001_init.sql` đã sửa theo proposal-004 (49 bảng); chưa chạy thử trên PostgreSQL.
+
 ## Điểm còn mở
 
-- Phụ thu ngày lễ đứng trước giảm bậc (mục trên): cần chủ dự án xác nhận.
-- Khoảng cách và dịch vụ bản đồ, cổng thanh toán cụ thể: spike P0.
+- Dịch vụ bản đồ và cổng thanh toán cụ thể: spike P0.
 
 ## Phương án đã cân nhắc
 

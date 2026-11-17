@@ -2,7 +2,7 @@
 
 **Trạng thái:** Đã duyệt (P1) · **Cập nhật lần cuối:** 2026-11-15
 
-File nguồn sự thật: `schema-001-init.sql` (PostgreSQL 15+, 47 bảng, đã kiểm thử trên 16). Sơ đồ: `erd.md`.
+File nguồn sự thật: `schema-001-init.sql` (PostgreSQL 15+, 49 bảng; bản 47 bảng đã kiểm thử trên 16, phần thêm theo proposal-004 chưa chạy thử). Sơ đồ: `erd.md`.
 
 ## 1. Nhóm bảng
 

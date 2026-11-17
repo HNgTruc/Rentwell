@@ -1,7 +1,14 @@
 # Đề xuất lược đồ 004: khách vãng lai, ngày lễ, cấu hình xác minh và giờ mở cửa
 
-**Trạng thái:** ĐỀ XUẤT, chờ chủ dự án duyệt. **Chưa sửa** `001_init.sql`. Căn cứ: `../01-architecture/adr/0009-business-rules-batch-2026-11-17.md`.
-Vì `001_init.sql` chưa áp ở đâu, đề xuất sửa thẳng file 001 trước lần áp đầu (như proposal-003), kèm kiểm thử trong `db/tests/`. Sau lần áp đầu thì chỉ dùng migration mới.
+**Trạng thái:** ĐÃ DUYỆT (2026-11-17) và ĐÃ ÁP DỤNG vào `db/migrations/001_init.sql` (bản sao: `schema-001-init.sql`, nay 49 bảng). **Chưa chạy thử trên PostgreSQL** (Docker Desktop chưa chạy lúc làm); kiểm thử đã viết ở `../../db/tests/001_walkin_holidays_close_branch.sql`, chưa chạy lần nào. Căn cứ: `../01-architecture/adr/0009-business-rules-batch-2026-11-17.md`.
+Vì `001_init.sql` chưa áp ở đâu nên sửa thẳng file 001 (như proposal-003). Sau lần áp đầu thì chỉ dùng migration mới.
+
+**Khác biệt so với đề xuất ban đầu (khi áp dụng):**
+- `item_types.requires_verification` đã có sẵn; chỉ thêm `verification_min_deposit` (tên đổi từ `verification_min_value` cho rõ cơ sở so sánh là cọc).
+- `late_fee_rules.grace_hours` đã có `DEFAULT 2`; không cần API điền.
+- Đóng chi nhánh làm bằng trigger `forbid_closing_branch_in_use` (không phải hàm `close_branch`); tính cả đơn `returned` vào đơn mở. Lỗi 23514 với MESSAGE `BRANCH_HAS_OPEN_BOOKINGS`, `BRANCH_HAS_STOCK`, `BRANCH_HAS_OPEN_TRANSFERS`.
+- `holidays` bật RLS riêng: mọi người đọc, chỉ `is_platform_admin()` ghi.
+- `holiday_surcharges` không có `updated_at` và không có phụ thu theo loại món (backlog).
 
 ## 1. Hiện trạng liên quan (đã kiểm tra trong `001_init.sql`)
 
@@ -99,7 +106,9 @@ Không cần cột mới: `hold_expires_at` đã có. Hằng số 15 phút đặ
 
 ## 5. Cần chủ dự án duyệt
 
-- [ ] Danh sách sửa ở mục 2 (đặc biệt 2.1 và 2.2).
-- [ ] Phụ thu ngày lễ cộng **trước** giảm bậc (ADR 0009, "Điểm còn mở").
-- [ ] Ngưỡng xác minh so với **cọc của dòng** (mục 2.3).
-- [ ] Sửa thẳng `001_init.sql` trước lần áp đầu, thay vì migration 002.
+- [x] (2026-11-17) Danh sách sửa ở mục 2.
+- [x] (2026-11-17) Phụ thu ngày lễ cộng **trước** giảm bậc.
+- [x] (2026-11-17) Ngưỡng xác minh so với **cọc của dòng** (mục 2.3).
+- [x] (2026-11-17) Sửa thẳng `001_init.sql` trước lần áp đầu, thay vì migration 002.
+- [ ] Chạy thử `001_init.sql` và `db/tests/001_walkin_holidays_close_branch.sql` trên PostgreSQL thật; sửa lỗi nếu có.
+- [ ] Bổ sung kiểm thử đóng chi nhánh khi còn đơn mở và còn tồn kho (cần seed).

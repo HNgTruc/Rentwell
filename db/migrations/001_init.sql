@@ -77,7 +77,8 @@ CREATE TABLE branches (
   longitude         numeric(9,6),
   pickup_time       time NOT NULL DEFAULT '08:00',   -- giờ bắt đầu nhận đồ trong ngày nhận
   return_time       time NOT NULL DEFAULT '18:00',   -- hạn trả đồ trong ngày trả (quá giờ tính phí trễ)
-  opening_hours     jsonb NOT NULL DEFAULT '{}',
+  -- Giờ mở cửa: {"mon":{"open":"08:00","close":"20:00"},"sun":null,...}; null hoặc thiếu = nghỉ. Zod ở API kiểm định dạng chi tiết (ADR 0009).
+  opening_hours     jsonb NOT NULL DEFAULT '{}' CHECK (jsonb_typeof(opening_hours) = 'object'),
   delivery_enabled  boolean NOT NULL DEFAULT false,
   accepts_online    boolean NOT NULL DEFAULT true,   -- false = chỉ nhận đơn tại quầy
   status            text NOT NULL DEFAULT 'active' CHECK (status IN ('active','closed')),
@@ -133,10 +134,16 @@ CREATE TABLE files (
   UNIQUE (tenant_id, id)
 );
 
+-- Hồ sơ khách THEO CHUỖI (xác minh, điểm tin cậy, danh sách đen). Tên, sđt, email, địa chỉ giao dùng chung nằm ở users/user_addresses.
+-- Khách vãng lai ở đơn tại quầy: user_id NULL, chỉ cần full_name và phone; sau này gán user_id khi khách có tài khoản (ADR 0009).
 CREATE TABLE customer_profiles (
   id                  uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   tenant_id           uuid NOT NULL REFERENCES tenants (id),
-  user_id             uuid NOT NULL REFERENCES users (id),
+  user_id             uuid REFERENCES users (id),
+  full_name           text,
+  phone               text,
+  linked_at           timestamptz,                 -- thời điểm gán tài khoản cho hồ sơ vãng lai
+  CONSTRAINT customer_profiles_identity CHECK (user_id IS NOT NULL OR (full_name IS NOT NULL AND phone IS NOT NULL)),
   verification_status text NOT NULL DEFAULT 'unverified'
                       CHECK (verification_status IN ('unverified','pending','verified','rejected')),
   trust_score         int NOT NULL DEFAULT 0,
@@ -147,6 +154,7 @@ CREATE TABLE customer_profiles (
   UNIQUE (tenant_id, user_id),
   UNIQUE (tenant_id, id)
 );
+CREATE INDEX customer_profiles_phone_idx ON customer_profiles (tenant_id, phone) WHERE phone IS NOT NULL;
 
 CREATE TABLE verification_documents (
   id                  uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -266,6 +274,7 @@ CREATE TABLE item_types (
   buffer_nights         int NOT NULL DEFAULT 0 CHECK (buffer_nights >= 0),  -- đêm đệm để vệ sinh sau khi trả
   free_size_exchange    boolean NOT NULL DEFAULT false,  -- true (quần áo, thời trang): đổi size tại quầy không thu phí
   requires_verification boolean NOT NULL DEFAULT false,
+  verification_min_deposit bigint CHECK (verification_min_deposit IS NULL OR verification_min_deposit >= 0),  -- NULL = luôn bắt khi cờ bật; có giá trị = chỉ bắt khi cọc của dòng đạt ngưỡng (ADR 0009)
   min_customer_age      smallint,
   usage_guide           text,
   safety_notes          text,
@@ -338,6 +347,30 @@ CREATE TABLE seasonal_prices (
   multiplier_percent int NOT NULL CHECK (multiplier_percent BETWEEN 1 AND 1000),
   CHECK (end_date >= start_date),
   FOREIGN KEY (tenant_id, item_type_id) REFERENCES item_types (tenant_id, id) ON DELETE CASCADE
+);
+
+-- Lịch ngày lễ DÙNG CHUNG toàn nền tảng, không có tenant_id (RLS riêng ở mục 10: mọi người đọc, chỉ super admin ghi).
+-- Khoảng [start_date, end_date) cùng quy ước đêm. Phụ thu do từng chuỗi gán ở holiday_surcharges (ADR 0009).
+CREATE TABLE holidays (
+  id         uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  code       text NOT NULL UNIQUE,                 -- vd: tet-2027
+  name       text NOT NULL,
+  start_date date NOT NULL,
+  end_date   date NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  CHECK (end_date > start_date)
+);
+
+-- Phụ thu ngày lễ theo chuỗi: percent (1 đến 100, của giá đêm) hoặc fixed (đồng mỗi đêm). Cộng vào giá đêm TRƯỚC giảm bậc.
+-- Chưa có phụ thu theo loại món (backlog).
+CREATE TABLE holiday_surcharges (
+  tenant_id  uuid NOT NULL REFERENCES tenants (id),
+  holiday_id uuid NOT NULL REFERENCES holidays (id),
+  mode       text NOT NULL CHECK (mode IN ('percent','fixed')),
+  value      bigint NOT NULL CHECK (value > 0),
+  is_active  boolean NOT NULL DEFAULT true,
+  PRIMARY KEY (tenant_id, holiday_id),
+  CHECK (mode <> 'percent' OR value <= 100)
 );
 
 -- rules: [{"hours_before_start": 48, "refund_percent": 100}, {"hours_before_start": 0, "refund_percent": 0}]
@@ -1182,6 +1215,36 @@ BEGIN
 END $$;
 
 -- ---------------------------------------------------------------------
+-- 9b. Đóng chi nhánh: chặn khi còn việc dang dở (ADR 0009)
+-- Lỗi 23514, MESSAGE là mã để API ánh xạ và liệt kê việc còn lại.
+-- ---------------------------------------------------------------------
+CREATE FUNCTION forbid_closing_branch_in_use() RETURNS trigger
+LANGUAGE plpgsql AS $$
+BEGIN
+  IF NEW.status = 'closed' AND OLD.status <> 'closed' THEN
+    IF EXISTS (SELECT 1 FROM bookings
+                WHERE tenant_id = NEW.tenant_id AND branch_id = NEW.id
+                  AND status IN ('hold','confirmed','handed_over','returned')) THEN
+      RAISE EXCEPTION 'BRANCH_HAS_OPEN_BOOKINGS' USING ERRCODE = '23514';
+    END IF;
+    IF EXISTS (SELECT 1 FROM branch_stock
+                WHERE tenant_id = NEW.tenant_id AND branch_id = NEW.id AND quantity_usable > 0) THEN
+      RAISE EXCEPTION 'BRANCH_HAS_STOCK' USING ERRCODE = '23514';
+    END IF;
+    IF EXISTS (SELECT 1 FROM stock_transfers
+                WHERE tenant_id = NEW.tenant_id
+                  AND (from_branch_id = NEW.id OR to_branch_id = NEW.id)
+                  AND status IN ('requested','approved','in_transit')) THEN
+      RAISE EXCEPTION 'BRANCH_HAS_OPEN_TRANSFERS' USING ERRCODE = '23514';
+    END IF;
+  END IF;
+  RETURN NEW;
+END $$;
+CREATE TRIGGER trg_branches_forbid_close_in_use
+  BEFORE UPDATE OF status ON branches
+  FOR EACH ROW EXECUTE FUNCTION forbid_closing_branch_in_use();
+
+-- ---------------------------------------------------------------------
 -- 10. Row Level Security: mỗi cửa hàng chỉ thấy dữ liệu của mình
 -- ---------------------------------------------------------------------
 DO $$
@@ -1217,5 +1280,12 @@ CREATE POLICY tenants_write ON tenants FOR ALL
 -- Chính sách tenant_isolation (tạo ở vòng lặp trên) vẫn lo phần ghi và đọc chi nhánh đã đóng.
 CREATE POLICY branches_public_read ON branches FOR SELECT
   USING (status = 'active');
+
+-- holidays: bảng dùng chung, không có tenant_id nên vòng lặp trên không áp. Mọi người đọc, chỉ super admin ghi.
+ALTER TABLE holidays ENABLE ROW LEVEL SECURITY;
+ALTER TABLE holidays FORCE ROW LEVEL SECURITY;
+CREATE POLICY holidays_read ON holidays FOR SELECT USING (true);
+CREATE POLICY holidays_write ON holidays FOR ALL
+  USING (is_platform_admin()) WITH CHECK (is_platform_admin());
 
 COMMIT;

@@ -18,7 +18,7 @@ Cho mỗi `booking_item` (biến thể, số lượng):
 
 1. Giá một đêm cơ sở: `item_types.base_price_per_night`.
 2. Nếu có **giá mùa** (`seasonal_prices`) bao trùm đêm đó thì dùng giá mùa cho đêm đó. Tính **từng đêm** vì một đơn có thể đi qua nhiều mùa.
-2b. Nếu đêm đó thuộc một **ngày lễ** (`holidays`, bảng dùng chung) mà chuỗi đã gán **phụ thu** (`holiday_surcharges`: phần trăm hoặc số tiền cố định mỗi đêm) thì cộng phụ thu vào giá đêm (ADR 0009; chờ duyệt lược đồ ở `../02-database/proposal-004-walkin-holidays-config.md`). Hàm tính giá nhận ngày lễ và phụ thu như tham số, không đọc DB.
+2b. Nếu đêm đó thuộc một **ngày lễ** (`holidays`, bảng dùng chung) mà chuỗi đã gán **phụ thu** (`holiday_surcharges`: phần trăm hoặc số tiền cố định mỗi đêm) thì cộng phụ thu vào giá đêm (ADR 0009; lược đồ: `../02-database/proposal-004-walkin-holidays-config.md`, đã áp vào `001_init.sql`). Hàm tính giá nhận ngày lễ và phụ thu như tham số, không đọc DB.
 3. Cộng giá các đêm, rồi áp **giảm theo số đêm** (`price_tiers` của **loại món của dòng này**): bậc cao nhất mà số đêm thuê đạt tới (ví dụ từ 3 đêm giảm 10%). Đêm mùa cũng được giảm.
 4. Thành tiền dòng = (tổng giá các đêm − phần giảm bậc) × số lượng.
 5. Lưu `price_per_night` (đã gồm giảm bậc/mùa, giá trung bình làm tròn có kiểm soát) cùng snapshot `buffer_nights` vào `booking_items`.
@@ -57,7 +57,7 @@ Quy tắc ở `delivery_fee_rules` (một bộ cho mỗi cửa hàng), `delivery
 
 - Theo `late_fee_rules` của cửa hàng: đơn giá mỗi ngày trễ (hoặc theo phần trăm giá thuê ngày), có thể có ân hạn vài giờ và mức trần.
 - Trễ tính theo thời điểm trả thực tế so với `return_time` của ngày hẹn.
-- Đã chốt (ADR 0009): tính **theo ngày**; **ân hạn mặc định 2 giờ** (chuỗi đổi được trong `late_fee_rules`; API điền 2 giờ khi tạo quy tắc mới); quá ân hạn dù chỉ vài giờ tính **trọn 1 ngày**, trễ 1,5 ngày tính 2 ngày; áp mức trần nếu có.
+- Đã chốt (ADR 0009): tính **theo ngày**; **ân hạn mặc định 2 giờ** (chuỗi đổi được trong `late_fee_rules`; `grace_hours` mặc định 2 ở DB); quá ân hạn dù chỉ vài giờ tính **trọn 1 ngày**, trễ 1,5 ngày tính 2 ngày; áp mức trần nếu có.
 
 ## 6. Chính sách hủy
 
@@ -97,4 +97,4 @@ Quy tắc ở `delivery_fee_rules` (một bộ cho mỗi cửa hàng), `delivery
 
 Đơn thuộc đúng một chi nhánh; phí giao tính từ chi nhánh đến địa chỉ khách; tồn kho giữ chỗ trong kho chi nhánh (`reserve_booking_inventory` lấy `branch_id` từ đơn, khóa theo `(branch_id, variant_id)` thứ tự cố định). Cách chọn chi nhánh gần nhất còn đủ hàng và các ràng buộc: `../02-database/proposal-003-branches.md` mục 3.
 
-Giới hạn số đơn `hold` chưa thanh toán tính **theo người dùng toàn nền tảng** (hồ sơ khách dùng chung, ADR 0009), không chỉ theo chuỗi. Con số giới hạn chưa chốt (ghi vào tài liệu khi làm P3).
+Giới hạn số đơn `hold` chưa thanh toán tính **theo người dùng toàn nền tảng** (hồ sơ khách dùng chung, ADR 0009), không chỉ theo chuỗi. Giới hạn là **3 đơn `hold`** mỗi người dùng (ADR 0009); hằng số cấu hình ở API.
