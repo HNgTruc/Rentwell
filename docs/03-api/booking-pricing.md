@@ -49,7 +49,7 @@ Quy tắc ở `delivery_fee_rules` (một bộ cho mỗi cửa hàng), `delivery
 
 ## 4. Cọc
 
-- Mức cọc theo cấu hình loại món: `deposit_type` (`fixed` số tiền cố định, hoặc `percent` tối đa 100) và `deposit_value`; cửa hàng đặt. Cọc phần trăm tính trên **giá trị thay thế** (`replacement_value` × số lượng; ADR 0008). Loại món cọc % thì mọi biến thể phải có `replacement_value > 0` (API kiểm tra).
+- Mức cọc theo cấu hình loại món: `deposit_type` (`fixed` số tiền cố định, hoặc `percent` tối đa 100) và `deposit_value`; cửa hàng đặt. Cọc phần trăm tính trên **giá trị thay thế** (`replacement_value` × số lượng; ADR 0008). Cọc cố định tính **theo mỗi món**: `deposit_value` × số lượng (chốt 2026-11-17, ADR 0009). Loại món cọc % thì mọi biến thể phải có `replacement_value > 0` (API kiểm tra).
 - Cọc nằm trong bảng `deposits`, tách khỏi tiền thuê. **Cọc thu cùng lúc thanh toán đơn** (một lần trả: thuê + giao + cọc; ADR 0009).
 - Hoàn cọc = cọc − phí trễ − bồi thường hư hỏng − phí khác đã chốt; không âm. Phần thiếu (nếu có) tạo `fees` cần thu thêm.
 

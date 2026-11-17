@@ -1,6 +1,6 @@
 # Công nghệ sử dụng (Tech Stack)
 
-**Trạng thái:** Nháp, chờ duyệt · **Cập nhật lần cuối:** 2026-11-15
+**Trạng thái:** Đã duyệt hướng tổng thể (2026-11-17); các điểm 🟡 vẫn chờ spike P0 · **Cập nhật lần cuối:** 2026-11-17
 
 Nguyên tắc chọn công nghệ cho dự án làm một mình, chuẩn doanh nghiệp:
 

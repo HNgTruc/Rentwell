@@ -26,6 +26,8 @@
 
 ## Cổng thiết kế (người dùng thiết kế xong, Claude mới làm giao diện)
 
+Công cụ: Figma (đọc qua MCP Figma). Thứ tự cần có: hệ thiết kế chung và màn admin đầu (đăng nhập, khung, quản lý nhân viên) **trước P1**; web khách **trước P3**; mobile **trước P6**.
+
 - [ ] Thiết kế `apps/web` (khách) đã được người dùng duyệt
 - [ ] Thiết kế `apps/admin` (quản trị) đã được người dùng duyệt
 - [ ] Thiết kế `apps/mobile` (khách và nhân viên) đã được người dùng duyệt
@@ -57,18 +59,22 @@
 - [x] (2026-11-17) Giới hạn 3 đơn `hold` chưa thanh toán mỗi người dùng toàn nền tảng
 - [ ] Chọn dịch vụ bản đồ (Goong hay OSRM): spike P0
 - [ ] Chọn công nghệ migration (dbmate hay node-pg-migrate), Kysely, lưu tệp, email, hosting: spike P0 (tech-stack mục 9)
-- [ ] Duyệt tổng thể `project-plan`, `roadmap`, `tech-stack` (đang "Nháp, chờ duyệt")
-- [ ] MCP loại A (Figma, Postgres chỉ đọc, GitHub) và cho phép thêm SDK MCP
-- [ ] Tên miền, mạng xã hội, nhãn hiệu cho Rentwell
+- [x] (2026-11-17) Duyệt tổng thể `project-plan`, `roadmap`, `tech-stack` (điểm 🟡 vẫn chờ spike)
+- [x] (2026-11-17) MCP loại A: Postgres chỉ đọc (DB dev), GitHub, Figma; thêm đầu P0 sau khi có Postgres dev, mô tả để duyệt lần cuối trước khi thêm
+- [ ] Cho phép thêm SDK MCP (loại B, sau MVP)
+- [x] (2026-11-17) Tiêu chí spike: cổng thanh toán ưu tiên **chuỗi nhỏ tự đăng ký merchant dễ** (kèm sandbox, API hoàn tiền, webhook có chữ ký); bản đồ ưu tiên **API trả phí theo lượt có gói miễn phí** (ví dụ Goong), không tự host
+- [x] (2026-11-17) Thiết kế giao diện: chủ dự án làm trên **Figma**; hệ thiết kế + màn đăng nhập, khung admin, quản lý nhân viên xong **trước P1**; web khách trước P3, mobile trước P6
+- [ ] Tên miền, mạng xã hội, nhãn hiệu cho Rentwell (2026-11-17: kiểm tra tên miền trong P0, mua trước P8)
 - [x] (2026-11-15) Duyệt hướng thiết kế lược đồ 002 (đánh giá, bộ phận, định tuyến) và các câu hỏi mở về đánh giá
 - [x] (2026-11-15) Chốt quy tắc chi nhánh (kho riêng, chọn theo khoảng cách, đơn tại quầy, phí giao cấp chuỗi, chuyển hàng, trả đúng chi nhánh, đổi size tại chỗ)
 - [x] (2026-11-15) Duyệt và sửa `001_init.sql` theo `proposal-003-branches.md` (47 bảng, đã chạy thử trên PostgreSQL 16)
 - [ ] Chốt công nghệ chat thời gian thực (SSE hay WebSocket): Claude đề xuất chi tiết và hỏi lại ở đầu P7
-- [ ] Rà soát pháp lý dữ liệu cá nhân
+- [ ] Rà soát pháp lý dữ liệu cá nhân (2026-11-17: Claude soạn danh sách dữ liệu và câu hỏi ở P7, chủ dự án hỏi luật sư trước P8; Claude không đưa ý kiến pháp lý)
 - [x] (2026-11-15) URL công khai: một website chung, theo đường dẫn (ADR 0005)
 
 ## Ghi chú ngắn (mới nhất ở trên)
 
+- 2026-11-17 (cuối): duyệt `project-plan`, `roadmap`, `tech-stack`; chọn MCP loại A (thêm đầu P0); thiết kế bằng Figma trước P1; chốt tiêu chí spike thanh toán và bản đồ; cập nhật skill `pricing-calculation`, `cases.md` và rule `pricing-money.md` theo ADR 0009. Chạy thử SQL: chờ chủ dự án bật Docker Desktop.
 - 2026-11-17 (sau): duyệt proposal-004, đã sửa `001_init.sql` (thêm `holidays`, `holiday_surcharges`, khách vãng lai, `verification_min_deposit`, trigger đóng chi nhánh, CHECK `opening_hours`) và chép sang `docs/02-database/schema-001-init.sql`; viết `db/tests/001_walkin_holidays_close_branch.sql`. **Chưa chạy thử**: Docker Desktop chưa chạy, máy chưa có psql.
 - 2026-11-17: rà soát toàn bộ tài liệu trước P0. Chủ dự án chốt 14 quy tắc nghiệp vụ (ADR 0009). Viết `proposal-004` (chờ duyệt, chưa sửa `001_init.sql`). Phát hiện `users` và `user_addresses` đã nằm ngoài tenant nên hồ sơ khách chung gần như khớp lược đồ sẵn. Dọn mâu thuẫn: số bảng 47, trạng thái đầu file, tick việc đã xong. Giả định cần xác nhận: phụ thu ngày lễ cộng trước giảm bậc.
 

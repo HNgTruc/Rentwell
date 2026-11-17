@@ -10,14 +10,19 @@ Quy tắc nghiệp vụ: `docs/03-api/booking-pricing.md`. Quy tắc code: `.cla
 ## Nguyên tắc
 
 - **Hàm thuần:** đầu vào là dữ liệu (ngày, số lượng, bảng giá, quy tắc), đầu ra là số tiền; không đọc DB, không `new Date()`.
-- **Tiền là số nguyên đồng**; làm tròn một lần ở cuối dòng, hướng làm tròn ghi trong code và có kiểm thử.
+- **Tiền là số nguyên đồng**; làm tròn **half-up** (đến đồng gần nhất) **một lần ở cuối dòng**, sau khi nhân số lượng (ADR 0009).
 - **Số đêm** = `end_date − start_date`, khoảng `[start, end)`.
-- **Giá mùa tính từng đêm**, rồi áp giảm theo bậc theo quy tắc đã chốt.
+- **Thứ tự một dòng** (ADR 0008, 0009): giá từng đêm (giá mùa nếu có) → cộng phụ thu ngày lễ của đêm đó → cộng các đêm → trừ % bậc cao nhất theo số đêm thuê → nhân số lượng → làm tròn.
+- Ngày lễ và phụ thu là **tham số đầu vào** (lấy từ `holidays`, `holiday_surcharges` ở tầng service), hàm giá không đọc DB.
+- **Km giao làm tròn lên** số nguyên trước khi tính phí.
+- **Phí trễ theo ngày**: quá `return_time + grace_hours` dù vài giờ tính trọn 1 ngày.
+- **Gia hạn**: tính lại cả dòng theo tổng đêm mới, kết quả là phần chênh phải thu.
+- **Cọc %** trên `replacement_value` × số lượng; cọc của dòng cũng là cơ sở so ngưỡng xác minh (`verification_min_deposit`).
 - Server tính lại khi tạo đơn; không tin giá từ client.
 
 ## Quy trình
 
-1. **Chốt quy tắc trước khi code.** Nếu gặp điểm chưa chốt (giảm bậc áp cho tổng đơn hay từng dòng; cơ sở tính cọc phần trăm; thứ tự giá mùa và giảm bậc), **dừng và hỏi người dùng**, rồi ghi ADR. Không tự chọn.
+1. **Chốt quy tắc trước khi code.** Các điểm đã chốt ở ADR 0008 và 0009. Nếu gặp điểm mới chưa có trong ADR, **dừng và hỏi người dùng**, rồi ghi ADR. Không tự chọn.
 2. **Viết bảng ca kiểm thử trước** (xem `cases.md`), gồm ca biên.
 3. **Cài hàm thuần** trong `packages/shared` (nếu web/mobile cần báo giá) hoặc `modules/pricing`.
 4. **Chạy kiểm thử** cho đến khi xanh.

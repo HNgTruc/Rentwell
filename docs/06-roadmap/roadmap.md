@@ -1,6 +1,6 @@
 # Lộ trình phát triển (Roadmap)
 
-**Trạng thái:** Nháp, chờ duyệt · **Cập nhật lần cuối:** 2026-11-15
+**Trạng thái:** Đã duyệt (2026-11-17) · **Cập nhật lần cuối:** 2026-11-17
 
 ## 1. Giả định lập kế hoạch
 
@@ -60,9 +60,10 @@ Mỗi giai đoạn gồm: **Mục tiêu**, **Công việc**, **Tiêu chí hoàn 
 - [x] (2026-11-15) **Duyệt `proposal-003-branches.md` và sửa `001_init.sql` (thêm chi nhánh, tồn kho theo chi nhánh) TRƯỚC khi áp migration đầu tiên.**
 - [x] (2026-11-17) **Duyệt `proposal-004-walkin-holidays-config.md` và sửa `001_init.sql` (khách vãng lai, bảng ngày lễ và phụ thu, cờ xác minh, đóng chi nhánh) TRƯỚC khi áp migration đầu tiên.**
 - [ ] Chạy thử `001_init.sql` mới và `db/tests/001_walkin_holidays_close_branch.sql` trên PostgreSQL thật (chưa chạy lần nào).
-- [ ] Spike cổng thanh toán phải kiểm thêm: mỗi chuỗi có merchant riêng (ADR 0009), hoàn tiền qua API, webhook theo từng chuỗi.
-- [ ] Spike cổng thanh toán: so sánh vài cổng phổ biến ở Việt Nam (phí, điều kiện đăng ký, sandbox, hoàn tiền, webhook, chữ ký), trình chủ dự án chọn.
-- [ ] Spike bản đồ: địa chỉ → tọa độ, khoảng cách đường đi, chi phí, giới hạn gọi; kết quả quyết định chọn nhà cung cấp (nay là lõi của việc gán chi nhánh).
+- [ ] Spike cổng thanh toán: so sánh vài cổng phổ biến ở Việt Nam, trình chủ dự án chọn. **Tiêu chí ưu tiên số 1: chuỗi nhỏ (hộ kinh doanh, cá nhân) tự đăng ký merchant dễ**; kèm sandbox, API hoàn tiền, webhook có chữ ký, khóa và webhook theo từng chuỗi (ADR 0009); sau đó mới xét phí.
+- [ ] Spike bản đồ: địa chỉ → tọa độ, khoảng cách đường đi, chi phí, giới hạn gọi. **Hướng đã chọn: API trả phí theo lượt có gói miễn phí** (ứng viên chính Goong), không tự host OSRM.
+- [ ] Kiểm tra tên miền cho Rentwell (web + tên miền con admin): Claude liệt kê vài tên miền còn trống, chủ dự án chọn; nếu vướng thì đổi tên sớm. Mua trước P8.
+- [ ] MCP loại A (Postgres chỉ đọc trên DB dev, GitHub, Figma): sau khi Docker Compose có Postgres, mô tả từng cái để duyệt lần cuối rồi thêm `.mcp.json`.
 - [ ] Tạo monorepo (pnpm + Turborepo), cấu trúc theo `monorepo-structure.md`.
 - [ ] Docker Compose: Postgres, Redis, MinIO, Mailpit.
 - [ ] Áp `schema-001-init.sql` thành migration đầu tiên; seed dữ liệu mẫu.
@@ -216,6 +217,7 @@ Mỗi giai đoạn gồm: **Mục tiêu**, **Công việc**, **Tiêu chí hoàn 
 - [ ] Chat thời gian thực trên nền phiếu hỗ trợ: nút "Hỏi cửa hàng" ở trang món và "Cần hỗ trợ" trong chi tiết đơn; công nghệ truyền tin (SSE hay WebSocket) cần duyệt trước khi thêm. Thêm khoảng 2 tuần.
 - [ ] Thông báo (`notifications`): trong ứng dụng, push, email; mẫu thông báo; tùy chọn nhận.
 - [ ] Báo cáo cho chủ cửa hàng: doanh thu, tỷ lệ lấp đầy, món hot, đơn trễ.
+- [ ] Soạn tài liệu cho rà soát pháp lý: dữ liệu cá nhân thu thập (hồ sơ chung, giấy tờ xác minh, vị trí, địa chỉ giao), mục đích, nơi lưu, thời hạn, ai truy cập, cùng danh sách câu hỏi để chủ dự án hỏi luật sư trước P8.
 - [ ] Bảng điều khiển super admin: danh sách cửa hàng, khóa/mở, số liệu hệ thống.
 - [ ] Xác minh danh tính khách (`verification_documents`) cho món giá trị cao.
 

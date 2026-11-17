@@ -82,5 +82,5 @@ Cấu hình sẽ nằm ở `.mcp.json` (gốc repo) và quyền ở `.claude/set
 
 - [x] Làm MCP loại B, sau MVP (2026-11-15)
 - [x] Bản đầu 6 công cụ chỉ đọc như mục 3, được mở rộng thêm sau (2026-11-15)
-- [ ] Có dùng MCP loại A nào ở mục 6?
+- [x] (2026-11-17) MCP loại A: dùng cả ba (PostgreSQL chỉ đọc trên DB dev, GitHub, Figma). Thêm vào `.mcp.json` **đầu P0, sau khi có Postgres dev**; trước khi thêm, Claude mô tả từng cái (gói, quyền, chi phí, rủi ro) để duyệt lần cuối.
 - [ ] Cho phép thêm SDK MCP khi bắt đầu làm?
