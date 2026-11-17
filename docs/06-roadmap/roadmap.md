@@ -59,7 +59,7 @@ Mỗi giai đoạn gồm: **Mục tiêu**, **Công việc**, **Tiêu chí hoàn 
 **Công việc**
 - [x] (2026-11-15) **Duyệt `proposal-003-branches.md` và sửa `001_init.sql` (thêm chi nhánh, tồn kho theo chi nhánh) TRƯỚC khi áp migration đầu tiên.**
 - [x] (2026-11-17) **Duyệt `proposal-004-walkin-holidays-config.md` và sửa `001_init.sql` (khách vãng lai, bảng ngày lễ và phụ thu, cờ xác minh, đóng chi nhánh) TRƯỚC khi áp migration đầu tiên.**
-- [ ] Chạy thử `001_init.sql` mới và `db/tests/001_walkin_holidays_close_branch.sql` trên PostgreSQL thật (chưa chạy lần nào).
+- [x] (2026-11-17) Chạy thử `001_init.sql` mới và `db/tests/001_walkin_holidays_close_branch.sql` trên PostgreSQL 16.16: 20/20 ca đạt.
 - [ ] Spike cổng thanh toán: so sánh vài cổng phổ biến ở Việt Nam, trình chủ dự án chọn. **Tiêu chí ưu tiên số 1: chuỗi nhỏ (hộ kinh doanh, cá nhân) tự đăng ký merchant dễ**; kèm sandbox, API hoàn tiền, webhook có chữ ký, khóa và webhook theo từng chuỗi (ADR 0009); sau đó mới xét phí.
 - [ ] Spike bản đồ: địa chỉ → tọa độ, khoảng cách đường đi, chi phí, giới hạn gọi. **Hướng đã chọn: API trả phí theo lượt có gói miễn phí** (ứng viên chính Goong), không tự host OSRM.
 - [ ] Kiểm tra tên miền cho Rentwell (web + tên miền con admin): Claude liệt kê vài tên miền còn trống, chủ dự án chọn; nếu vướng thì đổi tên sớm. Mua trước P8.

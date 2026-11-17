@@ -2,7 +2,7 @@
 
 **Trạng thái:** Đã duyệt (P1) · **Cập nhật lần cuối:** 2026-11-15
 
-SQL đi kèm: `schema-001-init.sql` (PostgreSQL 15+, 49 bảng; bản 47 bảng đã chạy thử trên 16, phần thêm theo proposal-004 chưa chạy thử). Sơ đồ Mermaid chỉ hiển thị cột chính.
+SQL đi kèm: `schema-001-init.sql` (PostgreSQL 15+, đã chạy thử trên 16: 49 bảng, 2026-11-17). Sơ đồ Mermaid chỉ hiển thị cột chính.
 
 ## Quyết định đã chốt
 1. **Mọi món đều theo số lượng.** Không theo dõi từng chiếc. Giày hay bông tai là 1 món. Tồn kho tính theo **biến thể (SKU)**; món không có size/màu vẫn có 1 biến thể "Mặc định".

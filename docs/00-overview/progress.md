@@ -55,7 +55,7 @@ Công cụ: Figma (đọc qua MCP Figma). Thứ tự cần có: hệ thiết k�
 - [x] (2026-11-15) Thanh toán đến sau khi giữ chỗ hết hạn: thử giữ lại, hết hàng thì tự hoàn tiền
 - [x] (2026-11-17) Chốt 14 quy tắc nghiệp vụ: mô hình tiền (merchant riêng mỗi chuỗi), hồ sơ khách chung cơ bản, duyệt đơn tự động, giữ chỗ 15 phút, cọc thu cùng lúc, hoàn tiền 24 giờ, làm tròn, phí trễ, ngày lễ, gia hạn, đơn tại quầy, đóng chi nhánh, xác minh, giờ mở cửa (ADR 0009)
 - [x] (2026-11-17) Duyệt `proposal-004` và sửa `001_init.sql` (49 bảng); phụ thu ngày lễ cộng trước giảm bậc; ngưỡng xác minh theo cọc của dòng
-- [ ] Chạy thử `001_init.sql` mới và `db/tests/001_walkin_holidays_close_branch.sql` trên PostgreSQL thật (Docker Desktop chưa chạy)
+- [x] (2026-11-17) Chạy thử `001_init.sql` (49 bảng) và `db/tests/001_walkin_holidays_close_branch.sql` trên PostgreSQL 16.16: áp thành công, 20/20 ca đạt
 - [x] (2026-11-17) Giới hạn 3 đơn `hold` chưa thanh toán mỗi người dùng toàn nền tảng
 - [ ] Chọn dịch vụ bản đồ (Goong hay OSRM): spike P0
 - [ ] Chọn công nghệ migration (dbmate hay node-pg-migrate), Kysely, lưu tệp, email, hosting: spike P0 (tech-stack mục 9)
@@ -75,7 +75,7 @@ Công cụ: Figma (đọc qua MCP Figma). Thứ tự cần có: hệ thiết k�
 ## Ghi chú ngắn (mới nhất ở trên)
 
 - 2026-11-17 (cuối): duyệt `project-plan`, `roadmap`, `tech-stack`; chọn MCP loại A (thêm đầu P0); thiết kế bằng Figma trước P1; chốt tiêu chí spike thanh toán và bản đồ; cập nhật skill `pricing-calculation`, `cases.md` và rule `pricing-money.md` theo ADR 0009. Chạy thử SQL: chờ chủ dự án bật Docker Desktop.
-- 2026-11-17 (sau): duyệt proposal-004, đã sửa `001_init.sql` (thêm `holidays`, `holiday_surcharges`, khách vãng lai, `verification_min_deposit`, trigger đóng chi nhánh, CHECK `opening_hours`) và chép sang `docs/02-database/schema-001-init.sql`; viết `db/tests/001_walkin_holidays_close_branch.sql`. **Chưa chạy thử**: Docker Desktop chưa chạy, máy chưa có psql.
+- 2026-11-17 (sau): duyệt proposal-004, đã sửa `001_init.sql` (thêm `holidays`, `holiday_surcharges`, khách vãng lai, `verification_min_deposit`, trigger đóng chi nhánh, CHECK `opening_hours`) và chép sang `docs/02-database/schema-001-init.sql`; viết `db/tests/001_walkin_holidays_close_branch.sql`. Đã chạy thử cùng ngày trên PostgreSQL 16.16 (container tạm): 49 bảng, 20/20 ca kiểm thử đạt.
 - 2026-11-17: rà soát toàn bộ tài liệu trước P0. Chủ dự án chốt 14 quy tắc nghiệp vụ (ADR 0009). Viết `proposal-004` (chờ duyệt, chưa sửa `001_init.sql`). Phát hiện `users` và `user_addresses` đã nằm ngoài tenant nên hồ sơ khách chung gần như khớp lược đồ sẵn. Dọn mâu thuẫn: số bảng 47, trạng thái đầu file, tick việc đã xong. Giả định cần xác nhận: phụ thu ngày lễ cộng trước giảm bậc.
 
 - 2026-11-15: chốt quy tắc giá và cọc (ADR 0008). Cổng thanh toán: so sánh ở spike P0.

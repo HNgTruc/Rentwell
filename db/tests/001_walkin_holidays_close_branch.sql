@@ -5,7 +5,7 @@
 --   psql "$DATABASE_MIGRATION_URL" -v ON_ERROR_STOP=1 -f db/tests/001_walkin_holidays_close_branch.sql
 -- Toàn bộ chạy trong một giao dịch và ROLLBACK ở cuối, không để lại dữ liệu.
 -- Kiểm thử RLS dùng role không phải superuser/owner (quy tắc 9 của dự án).
--- TRẠNG THÁI: đã viết, CHƯA chạy lần nào (chưa có PostgreSQL trên máy phát triển lúc viết).
+-- TRẠNG THÁI: chạy lần đầu 2026-11-17 trên PostgreSQL 16.16, 20/20 ca đạt.
 -- Chưa phủ: chặn đóng chi nhánh khi còn đơn mở hoặc còn tồn kho (cần seed món, biến thể, đơn;
 -- thêm khi có seed ở P0).
 -- =====================================================================

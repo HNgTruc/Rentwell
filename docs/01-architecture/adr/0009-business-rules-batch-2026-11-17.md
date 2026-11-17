@@ -48,7 +48,7 @@ ADR 0008 giữ nguyên, thêm một bước cho phụ thu ngày lễ. Cho mỗi 
 - Ngưỡng xác minh so với **cọc của dòng** (cột `item_types.verification_min_deposit`; cờ `requires_verification` đã có sẵn).
 - Giới hạn **3 đơn `hold`** chưa thanh toán mỗi người dùng trên toàn nền tảng.
 - **Cọc cố định tính theo mỗi món**: `deposit_value` × số lượng (giống cọc % cũng nhân số lượng).
-- `001_init.sql` đã sửa theo proposal-004 (49 bảng); chưa chạy thử trên PostgreSQL.
+- `001_init.sql` đã sửa theo proposal-004 (49 bảng); đã chạy thử trên PostgreSQL 16.16, 20/20 ca kiểm thử đạt.
 
 ## Điểm còn mở
 

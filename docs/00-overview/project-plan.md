@@ -97,7 +97,7 @@ Tổng khoảng 35 tuần; MVP web sau khoảng 21 tuần. Chi tiết công vi�
 | [ ] | Rà soát pháp lý dữ liệu cá nhân (Claude soạn danh sách câu hỏi ở P7, chủ dự án hỏi luật sư) | Trước P8 |
 | [x] | URL công khai: một website chung, theo đường dẫn (ADR 0005, 2026-11-15) | P3 |
 | [x] | 14 quy tắc nghiệp vụ: mô hình tiền, hồ sơ khách, duyệt đơn, giữ chỗ 15 phút, cọc, hoàn tiền, làm tròn, phí trễ, ngày lễ, gia hạn, đơn tại quầy, đóng chi nhánh, xác minh, giờ mở cửa (2026-11-17; ADR 0009) | P0 |
-| [x] | Duyệt `proposal-004` (khách vãng lai, ngày lễ, cờ xác minh); phụ thu ngày lễ cộng trước giảm bậc (2026-11-17; đã sửa `001_init.sql`, chưa chạy thử) | Trước áp `001_init.sql` |
+| [x] | Duyệt `proposal-004` (khách vãng lai, ngày lễ, cờ xác minh); phụ thu ngày lễ cộng trước giảm bậc (2026-11-17; đã sửa `001_init.sql`, đã chạy thử trên PostgreSQL 16, 20/20 ca đạt) | Trước áp `001_init.sql` |
 | [ ] | Chọn dịch vụ bản đồ: spike P0, hướng API trả phí theo lượt có gói miễn phí (ứng viên Goong) | P3 |
 | [x] | Duyệt tổng thể `project-plan`, `roadmap`, `tech-stack` (2026-11-17; điểm 🟡 vẫn chờ spike) | Trước P0 |
 
