@@ -1,6 +1,6 @@
 # ADR 0006: Chuỗi cửa hàng nhiều chi nhánh, gán đơn theo vị trí khách
 
-**Trạng thái:** Chấp nhận (2026-11-15); danh sách sửa lược đồ chờ duyệt (`../../02-database/proposal-003-branches.md`)
+**Trạng thái:** Chấp nhận (2026-11-15); danh sách sửa lược đồ đã duyệt và áp dụng vào `001_init.sql` (`../../02-database/proposal-003-branches.md`)
 
 ## Bối cảnh
 

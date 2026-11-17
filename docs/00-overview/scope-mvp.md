@@ -21,6 +21,7 @@
 | 13 | **Một website chung** cho mọi cửa hàng (chi nhánh), URL theo đường dẫn; khách xem danh mục và đánh giá của cả nền tảng (ADR 0005) |
 | 14 | **Chọn chi nhánh theo khoảng cách:** khách nhập địa chỉ, thấy chi nhánh từ gần đến xa; gần nhất hết hàng thì xuống chi nhánh kế tiếp; **thuê ở chi nhánh nào trả ở chi nhánh đó**; áp dụng cả đơn tại quầy và online (ADR 0006) |
 | 15 | Mỗi chi nhánh **kho riêng**; **chuyển hàng giữa chi nhánh** thuộc nghiệp vụ Kho; **phí giao chỉ cấp chuỗi**; **đổi size** do khách tự đến chi nhánh đã thuê (quần áo/thời trang không thu phí đổi); trả trễ hạn thì tính phí trễ |
+| 16 | *(2026-11-17, ADR 0009)* Mỗi chuỗi có **merchant riêng**, nền tảng không giữ tiền; hồ sơ khách chung thông tin cơ bản, giấy tờ và đơn theo chuỗi; đơn online tự xác nhận khi thanh toán, giữ chỗ 15 phút; có **phụ thu ngày lễ** (bảng ngày lễ dùng chung); khách vãng lai tại quầy chỉ cần tên và sđt |
 
 ## Trong phạm vi MVP (đến M4: web chạy trọn một đơn)
 

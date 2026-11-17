@@ -1,7 +1,7 @@
 # Thiết kế MCP cho Rentwell (bản demo, chờ duyệt)
 
 **Trạng thái:** ĐÃ CHỌN làm loại B sau MVP (ADR 0007); thư viện chờ duyệt lúc bắt đầu.
-**Trước đó:** ĐỀ XUẤT. Chưa thêm thư viện, dịch vụ hay mã nào. Theo quy tắc làm việc, mọi thành phần mới phải được chủ dự án duyệt trước.
+Chưa thêm thư viện, dịch vụ hay mã nào. Theo quy tắc làm việc, mọi thành phần mới phải được chủ dự án duyệt trước.
 Tham khảo: khung `fdhhhdjd/MCP-STARTER-KIT` (TypeScript, MIT, mới, ít người dùng, mã chưa kiểm). Chỉ mượn **ý tưởng và bố cục**, không sao chép mã.
 
 ## 1. Có hai loại MCP, đừng nhầm

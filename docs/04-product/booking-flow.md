@@ -28,8 +28,8 @@ stateDiagram-v2
 |---|---|---|
 | Chọn món, ngày | Khách | Kiểm tra còn trống, báo giá (`/quotes`), thấy tổng chi phí chi tiết |
 | Chọn nhận tại cửa hàng hoặc giao tận nơi | Khách | Nếu giao: kiểm tra cùng tỉnh, tính khoảng cách và phí |
-| Tạo đơn | Khách | Giữ chỗ trong giao dịch; đơn ở `hold`, có hạn thanh toán |
-| Thanh toán | Khách | Cổng thanh toán; webhook xác nhận → `confirmed` |
+| Tạo đơn | Khách | Giữ chỗ trong giao dịch; đơn ở `hold`, hạn thanh toán **15 phút** (ADR 0009) |
+| Thanh toán | Khách | Một lần trả gồm thuê + giao + cọc, qua merchant của chuỗi; webhook xác nhận → `confirmed` **tự động**, cửa hàng không duyệt tay (ADR 0009) |
 | Soạn đồ | Nhân viên kho | Kiểm tra tình trạng, đóng gói (danh sách việc, đơn vẫn ở `confirmed`) |
 | Giao / nhận tại cửa hàng | Nhân viên giao nhận / kho | Biên bản bàn giao, chụp ảnh tình trạng, khách ký nhận → `handed_over` |
 | Trong thời gian thuê | Khách | Có thể gia hạn nếu còn trống; đổi size tại chi nhánh đã thuê; nhắc trả đồ trước hạn |
@@ -65,6 +65,14 @@ stateDiagram-v2
 - Đồ hỏng nặng hoặc mất: bồi thường theo `replacement_value`.
 - **Thanh toán đến sau khi giữ chỗ đã hết hạn**, đã chốt 2026-11-15: tồn đã nhả. Khi webhook báo thanh toán thành công cho đơn `expired`, hệ thống **thử giữ chỗ lại** đúng ngày, đúng chi nhánh (`reserve_booking_inventory`). Thành công: đơn `expired` → `confirmed`. Hết hàng: **tự hoàn tiền** và báo khách. Ghi `booking_status_history` cả hai trường hợp.
 - Webhook đến trùng hoặc đảo thứ tự: xử lý idempotent, kiểm tra trạng thái hiện tại.
+
+## Quy tắc bổ sung (đã chốt 2026-11-17, ADR 0009)
+
+- **Đơn tại quầy:** khách vãng lai chỉ cần tên và số điện thoại (hồ sơ khách theo chuỗi, chưa gắn tài khoản); không qua `hold`, tạo thẳng `confirmed` khi đã ghi nhận thu tiền tại quầy. Lược đồ: `../02-database/proposal-004-walkin-holidays-config.md` (chờ duyệt).
+- **Gia hạn:** tính lại theo tổng số đêm mới, thu phần chênh (`booking-pricing.md` mục 2).
+- **Đóng chi nhánh:** bị chặn khi còn đơn mở (`hold`, `confirmed`, `handed_over`), còn tồn kho hoặc còn phiếu chuyển hàng chưa xong tại chi nhánh đó; hệ thống liệt kê việc còn lại.
+- **Hết ngày nhận:** tính theo giờ đóng cửa của chi nhánh trong ngày đó (`opening_hours`: mỗi thứ một khung giờ, có ngày nghỉ).
+- **Hoàn tiền (kể cả tự hoàn khi hết hàng):** về đúng kênh đã trả, lệnh hoàn gửi trong 24 giờ.
 
 ## Quy tắc chi nhánh (đã chốt, ADR 0006)
 

@@ -1,6 +1,6 @@
 # Hỗ trợ khách, đánh giá và chat
 
-**Trạng thái:** Đề xuất theo quyết định của chủ dự án (2026-11-15) · chờ duyệt chi tiết
+**Trạng thái:** Hướng đã duyệt (2026-11-15), xem mục 6; còn chờ chốt công nghệ chat thời gian thực ở P7
 Liên quan: `roles-permissions.md`, `booking-flow.md`, `../02-database/proposal-002-reviews-routing-chat.md`, `../00-overview/scope-mvp.md`.
 
 ## 1. Quyết định đã nhận

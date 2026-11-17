@@ -45,20 +45,22 @@ docs/
 │       ├── 0005-one-shared-website.md
 │       ├── 0006-chain-branches.md
 │       ├── 0007-mcp-server.md
-│       └── 0008-pricing-tiers-deposit.md
+│       ├── 0008-pricing-tiers-deposit.md
+│       └── 0009-business-rules-batch-2026-11-17.md
 ├── 02-database/
 │   ├── schema-overview.md     # Nhóm bảng, quy tắc, giới hạn đã biết
-│   ├── schema-001-init.sql    # Migration khởi tạo (42 bảng)
+│   ├── schema-001-init.sql    # Migration khởi tạo (47 bảng)
 │   ├── erd.md                 # Sơ đồ ERD (Mermaid)
 │   ├── proposal-002-reviews-routing-chat.md  # Đề xuất lược đồ (đã duyệt hướng)
-│   └── proposal-003-branches.md  # Chuỗi nhiều chi nhánh (chờ duyệt)
+│   ├── proposal-003-branches.md  # Chuỗi nhiều chi nhánh (đã duyệt, đã áp dụng)
+│   └── proposal-004-walkin-holidays-config.md  # Khách vãng lai, ngày lễ, cờ xác minh (chờ duyệt)
 ├── 03-api/
 │   ├── api-conventions.md     # REST, lỗi, phân trang, idempotency, versioning
 │   └── booking-pricing.md     # Thuật toán giá, tồn kho, phí giao hàng
 ├── 04-product/
 │   ├── roles-permissions.md   # Ma trận phân quyền RBAC
 │   ├── booking-flow.md        # Vòng đời đơn thuê
-│   └── support-reviews-chat.md  # Hỗ trợ, đánh giá, định tuyến, chat (đề xuất)
+│   └── support-reviews-chat.md  # Hỗ trợ, đánh giá, định tuyến, chat (đã duyệt hướng)
 ├── 05-devops/
 │   ├── environments.md        # local / staging / production
 │   └── ci-cd.md               # Pipeline, release, rollback

@@ -84,6 +84,12 @@ Lỗi (theo RFC 9457 Problem Details):
 |---|---|
 | Auth | `POST /v1/auth/login`, `/refresh`, `/logout`, `/forgot-password` |
 | Cửa hàng | `GET/PATCH /v1/tenant`, `/v1/tenant/members` |
+| Chi nhánh | `/v1/branches`, `POST /v1/branches/:id/close` (bị chặn khi còn đơn mở, tồn kho, phiếu chuyển; ADR 0009) |
+| Chọn chi nhánh | `POST /v1/branch-options` (nhận địa chỉ, ngày, món; trả chi nhánh từ gần đến xa kèm khoảng cách, còn hàng, phí giao) |
+| Chuyển kho | `/v1/stock-transfers`, `/approve`, `/dispatch`, `/receive` |
+| Đổi size | `POST /v1/bookings/:id/swaps` |
+| Đơn tại quầy | `POST /v1/bookings` với `channel=offline` (khách vãng lai: tên + sđt) |
+| Ngày lễ | `GET /v1/holidays`; `/v1/holiday-surcharges` (chuỗi gán phụ thu) |
 | Danh mục | `/v1/item-types`, `/v1/item-types/:id/variants`, `/v1/categories` |
 | Tồn kho | `/v1/inventory/movements`, `/v1/inventory/availability?variant=&from=&to=` |
 | Báo giá | `POST /v1/quotes` (tính giá, không giữ chỗ) |

@@ -57,7 +57,9 @@ Mỗi giai đoạn gồm: **Mục tiêu**, **Công việc**, **Tiêu chí hoàn 
 **Mục tiêu:** Có nền móng kỹ thuật để mọi giai đoạn sau chỉ lo nghiệp vụ.
 
 **Công việc**
-- [ ] **Duyệt `proposal-003-branches.md` và sửa `001_init.sql` (thêm chi nhánh, tồn kho theo chi nhánh) TRƯỚC khi áp migration đầu tiên.**
+- [x] (2026-11-15) **Duyệt `proposal-003-branches.md` và sửa `001_init.sql` (thêm chi nhánh, tồn kho theo chi nhánh) TRƯỚC khi áp migration đầu tiên.**
+- [ ] **Duyệt `proposal-004-walkin-holidays-config.md` và sửa `001_init.sql` (khách vãng lai, bảng ngày lễ và phụ thu, cờ xác minh, đóng chi nhánh) TRƯỚC khi áp migration đầu tiên.**
+- [ ] Spike cổng thanh toán phải kiểm thêm: mỗi chuỗi có merchant riêng (ADR 0009), hoàn tiền qua API, webhook theo từng chuỗi.
 - [ ] Spike cổng thanh toán: so sánh vài cổng phổ biến ở Việt Nam (phí, điều kiện đăng ký, sandbox, hoàn tiền, webhook, chữ ký), trình chủ dự án chọn.
 - [ ] Spike bản đồ: địa chỉ → tọa độ, khoảng cách đường đi, chi phí, giới hạn gọi; kết quả quyết định chọn nhà cung cấp (nay là lõi của việc gán chi nhánh).
 - [ ] Tạo monorepo (pnpm + Turborepo), cấu trúc theo `monorepo-structure.md`.
@@ -104,7 +106,8 @@ Mỗi giai đoạn gồm: **Mục tiêu**, **Công việc**, **Tiêu chí hoàn 
 **Mục tiêu:** Cửa hàng quản lý được món đồ và biết còn bao nhiêu.
 
 **Công việc**
-- [ ] Tồn kho theo chi nhánh: nhập kho, lô, lịch tồn theo chi nhánh; chuyển kho giữa chi nhánh (nếu duyệt).
+- [ ] Tồn kho theo chi nhánh: nhập kho, lô, lịch tồn theo chi nhánh; chuyển kho giữa chi nhánh (đã duyệt, xem `proposal-003-branches.md` mục 3).
+- [ ] Bảng ngày lễ dùng chung (super admin nhập) và phụ thu ngày lễ theo chuỗi (ADR 0009).
 - [ ] CRUD: danh mục, thương hiệu, nhà cung cấp, loại món, biến thể (SKU: size/màu), ảnh.
 - [ ] Thuộc tính động (`attribute_definitions`).
 - [ ] Lô hàng (`inventory_lots`): ngày sản xuất, nơi sản xuất, nhà cung cấp, ngày mua.

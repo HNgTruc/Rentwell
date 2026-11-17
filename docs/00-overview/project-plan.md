@@ -14,9 +14,10 @@ Mục tiêu cuối: **một đơn đi trọn vòng đời** (đặt → thanh to
 
 - Trong MVP: đăng ký cửa hàng, phân quyền, danh mục và tồn kho, đặt thuê và tính giá, thanh toán và cọc, bàn giao, phí trễ và hư hỏng.
 - Sau MVP: mobile, chăm sóc khách hàng, thông báo, báo cáo.
-- Ngoài phạm vi: thuê theo giờ, giao liên tỉnh, mã giảm giá, chat, bảo hiểm...
+- Ngoài phạm vi: thuê theo giờ, giao liên tỉnh, mã giảm giá, bảo hiểm...
+- Chat là lớp thời gian thực trên phiếu hỗ trợ, làm ở P7 (không phải hệ thống riêng).
 
-Quyết định đã chốt (thuê theo đêm, theo số lượng, một điểm nhận trả, giao cùng tỉnh, cửa hàng tự đặt phí giao): `scope-mvp.md`.
+Quyết định đã chốt (thuê theo đêm, theo số lượng, chuỗi nhiều chi nhánh mỗi chi nhánh một điểm nhận trả, giao cùng tỉnh, cửa hàng tự đặt phí giao): `scope-mvp.md`. Quy tắc nghiệp vụ bổ sung ngày 2026-11-17 (mô hình tiền, hồ sơ khách, giữ chỗ, cọc, hoàn tiền, làm tròn, phí trễ, ngày lễ...): ADR 0009.
 
 ## 3. Giả định
 
@@ -95,6 +96,10 @@ Tổng khoảng 35 tuần; MVP web sau khoảng 21 tuần. Chi tiết công vi�
 | [ ] | Tên miền, tài khoản mạng xã hội cho Rentwell | Trước ra mắt |
 | [ ] | Rà soát pháp lý dữ liệu cá nhân | Trước ra mắt |
 | [x] | URL công khai: một website chung, theo đường dẫn (ADR 0005, 2026-11-15) | P3 |
+| [x] | 14 quy tắc nghiệp vụ: mô hình tiền, hồ sơ khách, duyệt đơn, giữ chỗ 15 phút, cọc, hoàn tiền, làm tròn, phí trễ, ngày lễ, gia hạn, đơn tại quầy, đóng chi nhánh, xác minh, giờ mở cửa (2026-11-17; ADR 0009) | P0 |
+| [ ] | Duyệt `proposal-004` (khách vãng lai, ngày lễ, cờ xác minh) và phụ thu ngày lễ cộng trước giảm bậc | Trước áp `001_init.sql` |
+| [ ] | Chọn dịch vụ bản đồ (Goong hay OSRM): spike P0 | P3 |
+| [ ] | Duyệt tổng thể `project-plan`, `roadmap`, `tech-stack` (đang "Nháp, chờ duyệt") | Trước P0 |
 
 ## 10. Cách theo dõi
 
