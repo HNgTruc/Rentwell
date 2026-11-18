@@ -1,4 +1,16 @@
+# Áp cho cả repo qua `git config core.excludesFile <đường dẫn tuyệt đối tới file này>` (mỗi máy một lần,
+# script: infra/scripts/setup-git.sh). Mẫu không có "/" ở đầu nên khớp ở mọi cấp thư mục.
 .env
 .env.*
 !.env.example
 node_modules/
+dist/
+.next/
+.turbo/
+.expo/
+coverage/
+tmp/
+*.log
+*.tsbuildinfo
+.DS_Store
+.claude/settings.local.json

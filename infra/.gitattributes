@@ -1,0 +1,3 @@
+# Script shell và hook git phải dùng LF ở mọi máy (sh không đọc được CRLF).
+scripts/*.sh text eol=lf
+git-hooks/* text eol=lf

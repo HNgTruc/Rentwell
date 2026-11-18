@@ -47,7 +47,7 @@ flowchart LR
 | Ngôn ngữ | TypeScript (strict mode) | ✅ | Kiểu dữ liệu xuyên suốt, bắt lỗi sớm |
 | Runtime | Node.js LTS | ✅ | Ổn định, hệ sinh thái lớn |
 | Quản lý gói | pnpm | ✅ | Nhanh, tiết kiệm đĩa, hỗ trợ workspace tốt |
-| Monorepo | pnpm workspaces + Turborepo | ✅ | Cache build, chạy tác vụ song song, chia sẻ package |
+| Monorepo | pnpm workspaces, chạy bằng `pnpm -r` (không Turborepo, ADR 0010) | ✅ | Chạy theo thứ tự phụ thuộc, chia sẻ package; cấu hình giữ trong `workspace/` |
 | Chất lượng code | ESLint, Prettier, `tsc --noEmit` | ✅ | Chuẩn hóa, chạy trong CI |
 | Validation | Zod (dùng chung client và server) | ✅ | Một schema, dùng cho form và API |
 
@@ -58,12 +58,12 @@ flowchart LR
 | Framework | NestJS | ✅ | Cấu trúc module rõ, DI, guard cho RBAC; hợp "modular monolith" |
 | Kiểu API | REST + OpenAPI (Swagger) | ✅ | Sinh tài liệu và client kiểu an toàn |
 | Truy cập DB | Kysely (query builder có kiểu) + kysely-codegen | 🟡 | Giữ SQL là trung tâm, hợp với RLS và hàm `reserve_inventory`. Phương án khác: Drizzle, Prisma (khó hơn khi dùng RLS và `SET LOCAL`) |
-| Migration | SQL thuần, quản lý bằng dbmate hoặc node-pg-migrate | 🟡 | Schema hiện có là SQL thuần (49 bảng, trigger, RLS) nên giữ SQL làm nguồn sự thật |
+| Migration | SQL thuần, quản lý bằng dbmate (ADR 0004) | ✅ | Schema hiện có là SQL thuần (49 bảng, trigger, RLS) nên giữ SQL làm nguồn sự thật |
 | Xác thực | JWT access token ngắn hạn + refresh token xoay vòng, băm mật khẩu argon2 | ✅ | Chuẩn cho web và mobile |
 | Phân quyền | RBAC qua bảng `memberships` + guard phía server + RLS ở DB | ✅ | Hai lớp bảo vệ độc lập |
 | Hàng đợi / tác vụ nền | BullMQ trên Redis | ✅ | Hết hạn giữ chỗ (`expire_holds`), gửi thông báo, webhook thanh toán |
 | Cache, rate limit | Redis | ✅ | Giới hạn tần suất, khóa phân tán nhẹ |
-| Tệp | S3-compatible (MinIO khi dev, Cloudflare R2 hoặc S3 khi chạy thật), upload qua presigned URL | 🟡 | Ảnh sản phẩm, giấy tờ xác minh, ảnh bàn giao |
+| Tệp | S3-compatible (Cloudflare R2 hoặc S3 khi chạy thật; **giả lập khi dev chờ chốt**: image MinIO cộng đồng đã ngừng phát hành), upload qua presigned URL | 🟡 | Ảnh sản phẩm, giấy tờ xác minh, ảnh bàn giao |
 | Email | Resend hoặc SMTP | 🟡 | Giao dịch (xác nhận đơn, quên mật khẩu) |
 | Push | Expo Push Notifications (FCM/APNs bên dưới) | ✅ | Đi cùng Expo |
 | Thanh toán | PayOS, VNPay hoặc MoMo (chọn một cho MVP) | 🟡 | Cần xác nhận điều kiện đăng ký tài khoản merchant cho cá nhân |

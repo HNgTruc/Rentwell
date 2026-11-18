@@ -1,3 +1,5 @@
+-- migrate:up transaction:false
+-- (dấu cho dbmate; transaction:false vì file tự có BEGIN/COMMIT. Không có phần down: lùi bằng migration mới.)
 -- =====================================================================
 -- 001_init.sql  |  Nền tảng cho thuê đồ (multi-tenant)  |  PostgreSQL 15+
 -- Phạm vi: P1 (MVP)
@@ -1289,3 +1291,6 @@ CREATE POLICY holidays_write ON holidays FOR ALL
   USING (is_platform_admin()) WITH CHECK (is_platform_admin());
 
 COMMIT;
+
+-- migrate:down
+-- Không lùi migration: thay đổi bằng migration mới (quy tắc 4).

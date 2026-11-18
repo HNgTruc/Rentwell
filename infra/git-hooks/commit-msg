@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+# Kiểm commit message theo Conventional Commits qua lefthook + commitlint.
+root="$(git rev-parse --show-toplevel)"
+LEFTHOOK_CONFIG="$root/workspace/lefthook.yml" exec "$root/workspace/node_modules/.bin/lefthook" run commit-msg "$@"

@@ -1,6 +1,6 @@
 # ADR-0002: Monorepo với pnpm workspaces và Turborepo
 
-- **Trạng thái:** Đã chấp nhận
+- **Trạng thái:** Đã chấp nhận; phần Turborepo bị thay thế bởi ADR 0010 (2026-11-17: dùng `pnpm -r`)
 - **Ngày:** 2026-11-15
 
 ## Bối cảnh

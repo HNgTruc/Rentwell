@@ -1,6 +1,6 @@
 # Cấu trúc mã nguồn (Monorepo)
 
-**Trạng thái:** Nháp v2 (đơn giản hóa) · **Cập nhật lần cuối:** 2026-11-15
+**Trạng thái:** Đã kiểm ở P0 (v3, 2026-11-17: bỏ Turborepo, ADR 0010) · **Cập nhật lần cuối:** 2026-11-17
 
 ## Mục tiêu thiết kế
 
@@ -20,7 +20,8 @@
 ├── workspace/                               # CHỈ file cấu hình công cụ
 │   ├── package.json
 │   ├── pnpm-workspace.yaml
-│   ├── turbo.json
+│   ├── pnpm-lock.yaml
+│   ├── lefthook.yml  commitlint.config.mjs
 │   ├── .gitignore
 │   ├── .editorconfig
 │   └── .env.example
@@ -28,12 +29,14 @@
 └── README.md   CLAUDE.md
 ```
 
-- Mọi lệnh `pnpm`, `turbo` chạy trong `workspace/`; CI đặt thư mục làm việc là `workspace/`.
+- Mọi lệnh `pnpm` chạy trong `workspace/`; CI đặt thư mục làm việc là `workspace/`.
 - `.github/` bắt buộc ở gốc (GitHub chỉ đọc workflow ở đây). `.git/` do git quy định.
-- **Chưa kiểm chứng (spike P0), có ba rủi ro vì cấu hình nằm ngoài thư mục chứa `apps/`:**
-  1. pnpm và Turborepo thường mong `package.json`, `pnpm-workspace.yaml`, `turbo.json` cùng cấp với `apps/`. Nếu không chịu thì đưa ba file đó ra gốc.
-  2. Git chỉ áp `.gitignore` cho thư mục chứa nó và con của nó, nên `workspace/.gitignore` **không** chặn `node_modules`, `dist`, `.next` trong `apps/`. Cách xử lý: script thiết lập đặt `git config core.excludesFile` trỏ tới file này (cấu hình cục bộ, mỗi máy chạy một lần), hoặc quay lại đặt `.gitignore` ở gốc. Trước khi xử lý, kiểm `git status` có hiện `node_modules` hay không.
-  3. Trình soạn thảo tìm `.editorconfig` chỉ đi lên từ file đang sửa, nên `workspace/.editorconfig` không áp cho `apps/`. Quy tắc định dạng khi đó do Prettier (cấu hình ở `packages/config`) đảm nhiệm.
+- **Đã kiểm ở P0 (2026-11-17, ADR 0010), vì cấu hình nằm ngoài thư mục chứa `apps/`:**
+  1. pnpm chạy tốt. **Turborepo không chạy** (từ chối package ngoài thư mục chứa `turbo.json`) nên đã bỏ, dùng `pnpm -r`.
+  2. `.gitignore` không tự áp cho `apps/`: đã xử lý bằng `core.excludesFile` qua `infra/scripts/setup-git.sh` (mỗi máy chạy một lần); đã kiểm `node_modules` trong `apps/` bị bỏ qua.
+  3. `.editorconfig` không áp cho `apps/`: định dạng do Prettier (`packages/config/prettier.json`) đảm nhiệm.
+  4. Node không tìm thấy công cụ cài ở `workspace/node_modules` khi chạy trong package: mỗi package tự khai báo `typescript`, `vitest`, `eslint`.
+  5. lefthook tìm cấu hình ở gốc repo: hook nằm ở `infra/git-hooks/` (`core.hooksPath`) và trỏ tới `workspace/lefthook.yml`.
 
 ## Sơ đồ
 
@@ -69,16 +72,11 @@ rentwell/
 │
 ├── CLAUDE.md                      # Hướng dẫn cho Claude Code
 ├── README.md                      # Giới thiệu và cách chạy
-├── package.json                   # Script gốc
-├── pnpm-workspace.yaml
-├── turbo.json
-├── .gitignore
-├── .editorconfig
-├── .nvmrc                         # Phiên bản Node cố định
-└── .env.example                   # Mẫu biến môi trường (KHÔNG chứa giá trị thật)
+└── workspace/                     # package.json, pnpm-workspace.yaml, lockfile, .gitignore, .editorconfig,
+                                   # .env.example, lefthook.yml (xem "Bố cục ngoài cùng")
 ```
 
-Gốc repo chỉ được phép có đúng các mục trên (danh sách cho phép). Có mục lạ ở gốc thì CI báo lỗi, xem mục "Giữ gốc sạch" bên dưới.
+Gốc repo chỉ được phép có đúng các mục ở "Bố cục ngoài cùng" (danh sách cho phép; `infra/scripts/check-root.sh`). Có mục lạ ở gốc thì CI báo lỗi, xem mục "Giữ gốc sạch" bên dưới.
 
 ## Từng ứng dụng
 
@@ -205,7 +203,7 @@ apps/mobile/
 - **Thêm module:** thêm thư mục trong `modules/` theo khuôn (dùng skill `add-api-module`).
 - **Thêm app:** thêm thư mục trong `apps/`, dùng lại `packages/*`.
 - **Tách dịch vụ sau này:** module có ranh giới rõ nên tách tiến trình nền (`worker.ts`) hoặc `payments` thành dịch vụ riêng không cần viết lại; chỉ làm khi có số đo chứng minh cần.
-- **Build nhanh:** Turborepo lưu đệm theo từng package, chỉ build phần thay đổi.
+- **Build:** `pnpm -r` chạy theo thứ tự phụ thuộc (không có bộ nhớ đệm như Turborepo, ADR 0010); xem lại nếu CI chậm.
 - **Chạy nhẹ:** web và admin tách riêng nên tải riêng; `packages/ui` chỉ chứa phần dùng chung thật.
 
 ## Giữ gốc sạch (không sinh file rác)

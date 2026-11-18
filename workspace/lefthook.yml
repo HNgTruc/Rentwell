@@ -1,0 +1,24 @@
+# Hook git cục bộ. Được gọi qua infra/git-hooks/* (core.hooksPath, đặt bởi infra/scripts/setup-git.sh).
+# Lệnh chạy từ gốc repo; mọi lệnh pnpm chạy trong workspace/.
+# Hook do infra/scripts/setup-git.sh cài (core.hooksPath); không để lefthook tự đồng bộ vào .git/hooks.
+no_auto_install: true
+pre-commit:
+  parallel: true
+  commands:
+    format:
+      glob: "*.{ts,tsx,js,mjs,mts,json}"
+      exclude: "(^|/)(pnpm-lock\\.yaml|openapi/.*)$"
+      run: workspace/node_modules/.bin/prettier --config packages/config/prettier.json --check {staged_files}
+    lint:
+      glob: "*.{ts,tsx,js,mjs,mts}"
+      run: pnpm -C workspace lint
+    secrets-guard:
+      # Chặn commit file .env thật (chỉ cho phép .env.example)
+      # Lọc trong script (lefthook 2 nhận glob, không nhận regex ở exclude); script trả mã lỗi rõ ràng
+      glob: "{**/.env,**/.env.*,.env,.env.*}"
+      run: sh infra/scripts/check-no-env.sh {staged_files}
+
+commit-msg:
+  commands:
+    commitlint:
+      run: workspace/node_modules/.bin/commitlint --config workspace/commitlint.config.mjs --edit {1}

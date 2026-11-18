@@ -17,6 +17,7 @@ Các module nghiệp vụ; mỗi thư mục là một ranh giới.
 | `notifications/` | Email, đẩy, thông báo trong ứng dụng. |
 | `payments/` | Thanh toán, cọc, hoàn tiền, webhook cổng thanh toán. |
 | `pricing/` | Bảng giá, giá mùa, giảm theo bậc, phí giao hàng (hàm thuần). |
+| `health/` | `GET /v1/health`: kiểm API và kết nối CSDL (200 hoặc 503). Không dùng ngữ cảnh tenant. |
 | `reports/` | Báo cáo cho cửa hàng và quản trị. |
 | `support/` | Phiếu hỗ trợ và khiếu nại. |
 | `tenants/` | Cửa hàng (tenant), điểm nhận/trả, cấu hình cửa hàng. |

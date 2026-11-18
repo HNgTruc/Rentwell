@@ -2,3 +2,9 @@
 packages:
   - "../apps/*"
   - "../packages/*"
+
+# Script cài đặt của gói phụ thuộc: mặc định bị chặn; chỉ bật khi thật cần và ghi lý do.
+allowBuilds:
+  "@scarf/scarf": false   # đo lượt dùng (kéo theo từ swagger-ui), gửi dữ liệu ra ngoài: chặn
+  "@swc/core": false      # postinstall chỉ kiểm tra file nhị phân; nhị phân có sẵn qua optionalDependencies
+  "lefthook": false       # postinstall tự ghi hook vào .git; dự án cài hook bằng infra/scripts/setup-git.sh
