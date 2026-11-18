@@ -1,6 +1,6 @@
 # Đề xuất lược đồ 004: khách vãng lai, ngày lễ, cấu hình xác minh và giờ mở cửa
 
-**Trạng thái:** ĐÃ DUYỆT (2026-11-17) và ĐÃ ÁP DỤNG vào `db/migrations/001_init.sql` (bản sao: `schema-001-init.sql`, nay 49 bảng). **Đã chạy thử 2026-11-17 trên PostgreSQL 16.16:** áp thành công (49 bảng), kiểm thử `../../db/tests/001_walkin_holidays_close_branch.sql` đạt 20/20 ca. Căn cứ: `../01-architecture/adr/0009-business-rules-batch-2026-11-17.md`.
+**Trạng thái:** ĐÃ DUYỆT (2026-11-17) và ĐÃ ÁP DỤNG vào `db/migrations/001_init.sql` (bản sao: `schema-001-init.sql`, nay 49 bảng). **Đã chạy thử 2026-11-17 trên PostgreSQL 16.16:** áp thành công (49 bảng), kiểm thử `../../db/tests/001_walkin_holidays_close_branch.sql` đạt 19/19 ca. Căn cứ: `../01-architecture/adr/0009-business-rules-batch-2026-11-17.md`.
 Vì `001_init.sql` chưa áp ở đâu nên sửa thẳng file 001 (như proposal-003). Sau lần áp đầu thì chỉ dùng migration mới.
 
 **Khác biệt so với đề xuất ban đầu (khi áp dụng):**
@@ -110,5 +110,5 @@ Không cần cột mới: `hold_expires_at` đã có. Hằng số 15 phút đặ
 - [x] (2026-11-17) Phụ thu ngày lễ cộng **trước** giảm bậc.
 - [x] (2026-11-17) Ngưỡng xác minh so với **cọc của dòng** (mục 2.3).
 - [x] (2026-11-17) Sửa thẳng `001_init.sql` trước lần áp đầu, thay vì migration 002.
-- [x] (2026-11-17) Chạy thử `001_init.sql` và `db/tests/001_walkin_holidays_close_branch.sql` trên PostgreSQL 16.16: 20/20 ca đạt, không cần sửa.
+- [x] (2026-11-17) Chạy thử `001_init.sql` và `db/tests/001_walkin_holidays_close_branch.sql` trên PostgreSQL 16.16: 19/19 ca đạt, không cần sửa.
 - [ ] Bổ sung kiểm thử đóng chi nhánh khi còn đơn mở và còn tồn kho (cần seed).

@@ -59,11 +59,11 @@ Tổng khoảng 35 tuần; MVP web sau khoảng 21 tuần. Chi tiết công vi�
 ## 7. Kế hoạch hai tuần đầu (P0, việc cụ thể)
 
 **Tuần 1: nền móng**
-- [ ] Tạo repo, monorepo pnpm + Turborepo theo `monorepo-structure.md`.
-- [ ] Docker Compose: Postgres, Redis, MinIO, Mailpit.
-- [ ] Áp `schema-001-init.sql` làm migration đầu; viết seed hai cửa hàng mẫu.
-- [ ] Khung NestJS: cấu hình bằng Zod, log JSON, health check, Swagger.
-- [ ] CI GitHub Actions: lint, typecheck, test, build.
+- [x] (2026-11-17) Tạo monorepo pnpm theo `monorepo-structure.md` (bỏ Turborepo, ADR 0010).
+- [x] (2026-11-17) Docker Compose: Postgres, Redis, Mailpit (MinIO ngừng phát hành image; chọn thay thế trước P2).
+- [x] (2026-11-17) Áp `001_init.sql` làm migration đầu (dbmate); seed hai chuỗi mẫu.
+- [x] (2026-11-17) Khung NestJS: cấu hình bằng Zod, log JSON, health check, Swagger.
+- [ ] CI GitHub Actions: lint, typecheck, test, build (đã viết, chờ chạy xanh trên GitHub).
 
 **Tuần 2: kiểm chứng rủi ro (spike)**
 - [ ] Kysely + RLS: mỗi request đặt `app.tenant_id` trong giao dịch, chứng minh không rò dữ liệu.
@@ -97,7 +97,7 @@ Tổng khoảng 35 tuần; MVP web sau khoảng 21 tuần. Chi tiết công vi�
 | [ ] | Rà soát pháp lý dữ liệu cá nhân (Claude soạn danh sách câu hỏi ở P7, chủ dự án hỏi luật sư) | Trước P8 |
 | [x] | URL công khai: một website chung, theo đường dẫn (ADR 0005, 2026-11-15) | P3 |
 | [x] | 14 quy tắc nghiệp vụ: mô hình tiền, hồ sơ khách, duyệt đơn, giữ chỗ 15 phút, cọc, hoàn tiền, làm tròn, phí trễ, ngày lễ, gia hạn, đơn tại quầy, đóng chi nhánh, xác minh, giờ mở cửa (2026-11-17; ADR 0009) | P0 |
-| [x] | Duyệt `proposal-004` (khách vãng lai, ngày lễ, cờ xác minh); phụ thu ngày lễ cộng trước giảm bậc (2026-11-17; đã sửa `001_init.sql`, đã chạy thử trên PostgreSQL 16, 20/20 ca đạt) | Trước áp `001_init.sql` |
+| [x] | Duyệt `proposal-004` (khách vãng lai, ngày lễ, cờ xác minh); phụ thu ngày lễ cộng trước giảm bậc (2026-11-17; đã sửa `001_init.sql`, đã chạy thử trên PostgreSQL 16, 19/19 ca đạt) | Trước áp `001_init.sql` |
 | [ ] | Chọn dịch vụ bản đồ: spike P0, hướng API trả phí theo lượt có gói miễn phí (ứng viên Goong) | P3 |
 | [x] | Duyệt tổng thể `project-plan`, `roadmap`, `tech-stack` (2026-11-17; điểm 🟡 vẫn chờ spike) | Trước P0 |
 

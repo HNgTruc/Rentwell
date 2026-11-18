@@ -1,0 +1,75 @@
+# CI cho mỗi PR và mỗi lần đẩy lên main (docs/05-devops/ci-cd.md).
+# Lệnh pnpm chạy trong workspace/ (bố cục repo, ADR 0010: không dùng Turborepo).
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PNPM_VERSION: 12.16.1
+  NODE_VERSION: 24
+
+jobs:
+  quality:
+    name: Định dạng, lint, typecheck, test, build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: workspace
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - run: npm install -g pnpm@${{ env.PNPM_VERSION }}
+      - run: pnpm install --frozen-lockfile
+      - name: Gốc repo chỉ có mục được phép
+        run: sh ../infra/scripts/check-root.sh
+      - name: Không sửa migration đã đóng băng
+        if: github.event_name == 'pull_request'
+        run: sh ../infra/scripts/check-migrations-immutable.sh origin/${{ github.base_ref }}
+      - run: pnpm format:check
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - name: Quét phụ thuộc có lỗ hổng mức cao
+        run: pnpm audit --audit-level high
+
+  database:
+    name: Migration, seed, kiểm thử SQL/RLS (Postgres thật)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: workspace
+    env:
+      # Giá trị giả của môi trường dev/CI (khớp infra/compose/postgres-init/01-roles.sql), không phải bí mật
+      DATABASE_MIGRATION_URL: postgres://rentwell_migrator:migrator_dev@127.0.0.1:5432/rentwell?sslmode=disable
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - run: npm install -g pnpm@${{ env.PNPM_VERSION }}
+      - run: pnpm install --frozen-lockfile
+      - name: Bật Postgres dev
+        run: docker compose -f ../infra/compose/docker-compose.dev.yml up -d --wait postgres
+      - run: pnpm db:migrate
+      - run: pnpm db:seed
+      - run: pnpm db:test
+      - name: Role ứng dụng không phải superuser, không chủ bảng, không BYPASSRLS
+        run: |
+          out=$(docker compose -f ../infra/compose/docker-compose.dev.yml exec -T postgres psql -U postgres -d rentwell -tAc \
+            "select (select rolsuper or rolbypassrls from pg_roles where rolname='rentwell_app')::int
+                  + (select count(*) from pg_tables where tableowner='rentwell_app')")
+          test "$out" = "0" || { echo "Role ứng dụng có quyền vượt RLS"; exit 1; }

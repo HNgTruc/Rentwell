@@ -13,16 +13,18 @@ Giai đoạn hiện tại: xem `docs/06-roadmap/roadmap.md` (làm theo thứ t�
 
 ## Bố cục repo
 
-Gốc repo: `apps/`, `packages/`, `db/`, `infra/`, `docs/` (mã và tài liệu), `storage/` (ảnh, video, tệp media), `workspace/` (chỉ file cấu hình công cụ: `package.json`, `pnpm-workspace.yaml`, `turbo.json`, `.gitignore`, `.editorconfig`, `.env.example`), cùng `.claude/`, `.github/`, `README.md`, `CLAUDE.md`. Lệnh `pnpm` và `turbo` chạy trong `workspace/`.
+Gốc repo: `apps/`, `packages/`, `db/`, `infra/`, `docs/` (mã và tài liệu), `storage/` (ảnh, video, tệp media), `workspace/` (chỉ file cấu hình công cụ: `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `lefthook.yml`, `commitlint.config.mjs`, `.gitignore`, `.editorconfig`, `.env.example`), cùng `.claude/`, `.github/`, `README.md`, `CLAUDE.md`. Lệnh `pnpm` chạy trong `workspace/` (không dùng Turborepo, ADR 0010).
 
 ## Lệnh thường dùng
 
 ```
 cd workspace
 pnpm install
-docker compose -f infra/compose/docker-compose.dev.yml up -d
-pnpm db:migrate        # chạy migration
+sh ../infra/scripts/setup-git.sh   # một lần mỗi máy: .gitignore và hook git
+pnpm db:up             # Postgres, Redis, Mailpit (Docker)
+pnpm db:migrate        # chạy migration (dbmate, cần DATABASE_MIGRATION_URL)
 pnpm db:seed           # nạp dữ liệu mẫu
+pnpm db:test           # kiểm thử SQL/RLS
 pnpm dev               # chạy tất cả app
 pnpm lint && pnpm typecheck && pnpm test
 ```

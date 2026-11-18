@@ -1,0 +1,45 @@
+# Dịch vụ cho môi trường phát triển. CHỈ dùng ở máy dev: mật khẩu là giá trị giả, cổng chỉ mở cho 127.0.0.1.
+# Chạy từ workspace/: docker compose -f ../infra/compose/docker-compose.dev.yml up -d
+# Lưu trữ tệp kiểu S3: chưa có (image MinIO cộng đồng đã ngừng phát hành), chờ chốt thay thế trước P2.
+name: rentwell-dev
+
+services:
+  postgres:
+    image: postgres:16.16
+    environment:
+      POSTGRES_USER: postgres            # superuser: chỉ để khởi tạo role và chạy seed ở dev
+      POSTGRES_PASSWORD: postgres_dev
+      POSTGRES_DB: rentwell
+      TZ: Asia/Ho_Chi_Minh
+      PGTZ: Asia/Ho_Chi_Minh
+    command: ["postgres", "-c", "timezone=Asia/Ho_Chi_Minh"]
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./postgres-init:/docker-entrypoint-initdb.d:ro   # tạo role migration và role ứng dụng
+      - ../../db:/db:ro                                   # seed và kiểm thử SQL chạy bằng psql trong container
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d rentwell"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  redis:
+    image: redis:7.4-alpine
+    ports:
+      - "127.0.0.1:6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  mailpit:
+    image: axllent/mailpit:v1.27
+    ports:
+      - "127.0.0.1:1025:1025"   # SMTP
+      - "127.0.0.1:8025:8025"   # giao diện xem thư: http://localhost:8025
+
+volumes:
+  pgdata:

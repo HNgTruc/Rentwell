@@ -1,6 +1,6 @@
 # ADR-0004: Migration SQL thuần, truy vấn có kiểu bằng query builder
 
-- **Trạng thái:** Đề xuất (xác nhận sau spike ở P0)
+- **Trạng thái:** Đã chấp nhận phần công cụ migration: **dbmate** (2026-11-17, chủ dự án chọn; đã chạy 001 thành công). Phần Kysely + RLS vẫn chờ spike P0 tuần 2.
 - **Ngày:** 2026-11-15
 
 ## Bối cảnh

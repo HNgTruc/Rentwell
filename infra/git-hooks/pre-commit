@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+# Trỏ lefthook tới cấu hình trong workspace/ (gốc repo giữ gọn). Bỏ qua tạm: LEFTHOOK=0 git commit ...
+root="$(git rev-parse --show-toplevel)"
+LEFTHOOK_CONFIG="$root/workspace/lefthook.yml" exec "$root/workspace/node_modules/.bin/lefthook" run pre-commit "$@"

@@ -59,18 +59,19 @@ Mỗi giai đoạn gồm: **Mục tiêu**, **Công việc**, **Tiêu chí hoàn 
 **Công việc**
 - [x] (2026-11-15) **Duyệt `proposal-003-branches.md` và sửa `001_init.sql` (thêm chi nhánh, tồn kho theo chi nhánh) TRƯỚC khi áp migration đầu tiên.**
 - [x] (2026-11-17) **Duyệt `proposal-004-walkin-holidays-config.md` và sửa `001_init.sql` (khách vãng lai, bảng ngày lễ và phụ thu, cờ xác minh, đóng chi nhánh) TRƯỚC khi áp migration đầu tiên.**
-- [x] (2026-11-17) Chạy thử `001_init.sql` mới và `db/tests/001_walkin_holidays_close_branch.sql` trên PostgreSQL 16.16: 20/20 ca đạt.
+- [x] (2026-11-17) Chạy thử `001_init.sql` mới và `db/tests/001_walkin_holidays_close_branch.sql` trên PostgreSQL 16.16: 19/19 ca đạt.
 - [ ] Spike cổng thanh toán: so sánh vài cổng phổ biến ở Việt Nam, trình chủ dự án chọn. **Tiêu chí ưu tiên số 1: chuỗi nhỏ (hộ kinh doanh, cá nhân) tự đăng ký merchant dễ**; kèm sandbox, API hoàn tiền, webhook có chữ ký, khóa và webhook theo từng chuỗi (ADR 0009); sau đó mới xét phí.
 - [ ] Spike bản đồ: địa chỉ → tọa độ, khoảng cách đường đi, chi phí, giới hạn gọi. **Hướng đã chọn: API trả phí theo lượt có gói miễn phí** (ứng viên chính Goong), không tự host OSRM.
 - [ ] Kiểm tra tên miền cho Rentwell (web + tên miền con admin): Claude liệt kê vài tên miền còn trống, chủ dự án chọn; nếu vướng thì đổi tên sớm. Mua trước P8.
 - [ ] MCP loại A (Postgres chỉ đọc trên DB dev, GitHub, Figma): sau khi Docker Compose có Postgres, mô tả từng cái để duyệt lần cuối rồi thêm `.mcp.json`.
-- [ ] Tạo monorepo (pnpm + Turborepo), cấu trúc theo `monorepo-structure.md`.
-- [ ] Docker Compose: Postgres, Redis, MinIO, Mailpit.
-- [ ] Áp `schema-001-init.sql` thành migration đầu tiên; seed dữ liệu mẫu.
-- [ ] Khung NestJS: cấu hình kiểm tra bằng Zod, log JSON, health check, Swagger.
-- [ ] Khung Next.js (`web`, `admin`) và Expo (`mobile`) rỗng nhưng build được.
-- [ ] CI GitHub Actions: lint, typecheck, test, build.
-- [ ] Quy ước commit, hook pre-commit, template PR.
+- [x] (2026-11-17) Tạo monorepo pnpm, cấu trúc theo `monorepo-structure.md`. ~~Turborepo~~: không chạy được khi cấu hình ở `workspace/`, bỏ và dùng `pnpm -r` (ADR 0010).
+- [x] (2026-11-17) Docker Compose: Postgres, Redis, Mailpit; hai role DB (migrator, app). ~~MinIO~~: image cộng đồng đã ngừng phát hành.
+- [ ] Chọn giả lập lưu trữ tệp kiểu S3 thay MinIO (cần trước P2), chủ dự án duyệt.
+- [x] (2026-11-17) Áp `001_init.sql` bằng dbmate (role migrator); seed 2 chuỗi × 2 chi nhánh (`db/seeds/001_dev_seed.sql`); `pnpm db:test` đạt.
+- [x] (2026-11-17) Khung NestJS: cấu hình kiểm tra bằng Zod, log JSON có `request_id` (không ghi header/query), health check có kiểm CSDL, Swagger `/docs`.
+- [ ] Khung Next.js (`web`, `admin`) và Expo (`mobile`) rỗng nhưng build được (không giao diện, không CSS, theo cổng thiết kế).
+- [ ] CI GitHub Actions: đã viết `.github/workflows/ci.yml` và chạy từng bước trên máy; **chưa chạy trên GitHub** (chờ đẩy nhánh).
+- [x] (2026-11-17) Quy ước commit: lefthook (pre-commit: Prettier, ESLint, chặn `.env`; commit-msg: commitlint), template PR có sẵn.
 - [ ] **Spike** các điểm 🟡 trong `tech-stack.md` mục 9 (RLS với Kysely trước tiên).
 
 **DoD**
