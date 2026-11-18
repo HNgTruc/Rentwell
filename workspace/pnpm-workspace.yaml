@@ -8,3 +8,10 @@ allowBuilds:
   "@scarf/scarf": false   # đo lượt dùng (kéo theo từ swagger-ui), gửi dữ liệu ra ngoài: chặn
   "@swc/core": false      # postinstall chỉ kiểm tra file nhị phân; nhị phân có sẵn qua optionalDependencies
   "lefthook": false       # postinstall tự ghi hook vào .git; dự án cài hook bằng infra/scripts/setup-git.sh
+
+# Lỗ hổng bỏ qua khi chạy `pnpm audit`: chỉ thêm khi chưa có bản vá và gói không chạy ở production; ghi lý do và ngày.
+auditConfig:
+  ignoreGhsas:
+    # picomatch <=4.0.7 ReDoS (high), 2026-11-18: chỉ đến qua vitest/vite (công cụ dev), chưa có bản vá.
+    # Gỡ dòng này khi picomatch có bản vá và vitest/vite đã nâng.
+    - GHSA-fc5q-39xc-vjpf
