@@ -93,6 +93,7 @@ Chi tiết: `../02-database/schema-overview.md`.
 | Form | React Hook Form + Zod | ✅ | Dùng chung schema với backend |
 | Bảng dữ liệu | TanStack Table | ✅ | Màn hình quản trị nhiều bảng |
 | Biểu đồ | Recharts | 🟡 | Báo cáo doanh thu, tỷ lệ lấp đầy |
+| Animation | GSAP + `@gsap/react` khi CSS không đủ; hiệu ứng đơn giản dùng CSS/Tailwind (ADR 0011) | ✅ | Timeline, theo cuộn, FLIP; chỉ chạy phía client; không dùng cho mobile |
 | i18n | next-intl, mặc định tiếng Việt | 🟡 | Sẵn sàng thêm tiếng Anh |
 | Ứng dụng | Hai app tách: `web` (khách) và `admin` (cửa hàng + super admin) | ✅ | Khác bố cục, khác quyền, deploy độc lập |
 

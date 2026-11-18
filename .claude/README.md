@@ -34,8 +34,19 @@ Cấu hình Claude Code cho dự án Rentwell. Mọi thứ ở đây được co
     ├── inventory-reservation/SKILL.md #   Giữ chỗ, nhả chỗ, sổ cái tồn kho
     ├── payment-webhook/SKILL.md       #   Webhook thanh toán idempotent, hoàn tiền
     ├── clean-code/SKILL.md            #   Làm sạch code trong phạm vi chỉ định, không đổi hành vi
-    └── ui-ux-pro-max/                 #   Kho tra cứu UI/UX (phong cách, màu, phông, UX); có bối cảnh Rentwell
+    ├── ui-ux-pro-max/                 #   Kho tra cứu UI/UX (phong cách, màu, phông, UX); có bối cảnh Rentwell
+    └── gsap-*/                        #   Bộ skill GSAP chính thức (MIT, ADR 0011), mỗi thư mục có SKILL.md + LICENSE
+        ├── gsap-core/                 #     API lõi: to/from, easing, stagger, matchMedia
+        ├── gsap-timeline/             #     Timeline, tham số vị trí, nhãn
+        ├── gsap-scrolltrigger/        #     Animation theo cuộn, pin, scrub
+        ├── gsap-plugins/              #     Flip, Draggable, SplitText, SVG...
+        ├── gsap-utils/                #     gsap.utils: clamp, mapRange, snap...
+        ├── gsap-react/                #     useGSAP, scope, cleanup, SSR (Next.js)
+        ├── gsap-performance/          #     Transform, will-change, tránh giật
+        └── gsap-frameworks/           #     Vue, Svelte (không dùng trong Rentwell, giữ cho đủ bộ)
 ```
+
+Bộ `gsap-*` lấy nguyên từ `greensock/gsap-skills` (commit `aed9cfd`), không sửa nội dung; skill ghi `npm install` nhưng repo dùng `pnpm`. Cổng thiết kế vẫn áp dụng.
 
 Ngoài thư mục này, ở gốc repo còn `CLAUDE.md` (bối cảnh và quy tắc chung, luôn được nạp).
 
