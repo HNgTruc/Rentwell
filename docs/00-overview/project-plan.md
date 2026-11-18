@@ -67,7 +67,7 @@ Tổng khoảng 35 tuần; MVP web sau khoảng 21 tuần. Chi tiết công vi�
 
 **Tuần 2: kiểm chứng rủi ro (spike)**
 - [x] (2026-11-19) Kysely + RLS: mỗi request đặt `app.tenant_id` trong giao dịch, chứng minh không rò dữ liệu (ADR 0012; Testcontainers và kysely-codegen chờ duyệt).
-- [ ] Cổng thanh toán: tìm hiểu đăng ký merchant bằng tài khoản cá nhân, sandbox, webhook.
+- [x] (2026-11-19) Cổng thanh toán: so sánh xong, chọn MoMo (ADR 0013); chạy thử sandbox trước P4.
 - [ ] Dịch vụ bản đồ: kiểm tra API trả phí theo lượt có gói miễn phí (ứng viên Goong) cho khoảng cách giao hàng; không tự host OSRM.
 - [ ] Tìm kiếm tiếng Việt: thử `unaccent` + `pg_trgm`.
 - [ ] Khung Next.js (`web`, `admin`) và Expo build được. Ghi mỗi spike thành một ADR.
@@ -89,7 +89,7 @@ Tổng khoảng 35 tuần; MVP web sau khoảng 21 tuần. Chi tiết công vi�
 
 | Xong | Việc | Cần trước |
 |---|---|---|
-| [ ] | Chọn cổng thanh toán (PayOS, VNPay hoặc MoMo): Claude so sánh ở spike P0, chủ dự án chọn | P4, tìm hiểu ngay từ P0 |
+| [x] | Chọn cổng thanh toán (2026-11-19: MoMo, ADR 0013; điều kiện: hộ kinh doanh đăng ký được; so sánh ở `../03-api/payment-gateways.md`) | P4, tìm hiểu ngay từ P0 |
 | [x] | Giảm theo bậc áp cho tổng đơn hay từng dòng (2026-11-15: từng dòng, giá mùa trước rồi giảm bậc; ADR 0008) | P3 |
 | [x] | Cơ sở tính cọc theo phần trăm (2026-11-15: giá trị thay thế; ADR 0008) | P3 |
 | [x] | Thanh toán đến sau khi giữ chỗ hết hạn thì xử lý thế nào (2026-11-15: thử giữ lại, hết hàng tự hoàn tiền; `booking-flow.md` mục 5) | P4 |

@@ -66,7 +66,7 @@ flowchart LR
 | Tệp | S3-compatible (Cloudflare R2 hoặc S3 khi chạy thật; **giả lập khi dev chờ chốt**: image MinIO cộng đồng đã ngừng phát hành), upload qua presigned URL | 🟡 | Ảnh sản phẩm, giấy tờ xác minh, ảnh bàn giao |
 | Email | Resend hoặc SMTP | 🟡 | Giao dịch (xác nhận đơn, quên mật khẩu) |
 | Push | Expo Push Notifications (FCM/APNs bên dưới) | ✅ | Đi cùng Expo |
-| Thanh toán | PayOS, VNPay hoặc MoMo (chọn một cho MVP) | 🟡 | Cần xác nhận điều kiện đăng ký tài khoản merchant cho cá nhân |
+| Thanh toán | MoMo Payment Gateway (ADR 0013, 2026-11-19); dự phòng payOS | 🟡 | Đã chọn; còn chờ xác nhận hộ kinh doanh đăng ký merchant được và chạy thử sandbox |
 | Bản đồ, khoảng cách | API trả phí theo lượt có gói miễn phí (ứng viên Goong); không tự host OSRM (2026-11-17) | 🟡 | Tính khoảng cách giao hàng theo `delivery_fee_rules` |
 | Log, lỗi | Pino (JSON log) + Sentry | ✅ | Có `request_id` và `tenant_id` trong mỗi dòng log |
 

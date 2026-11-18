@@ -49,7 +49,8 @@ docs/
 │       ├── 0009-business-rules-batch-2026-11-17.md
 │       ├── 0010-pnpm-without-turborepo.md
 │       ├── 0011-gsap-animation.md
-│       └── 0012-kysely-rls-with-tenant.md
+│       ├── 0012-kysely-rls-with-tenant.md
+│       └── 0013-momo-payment-gateway.md
 ├── 02-database/
 │   ├── schema-overview.md     # Nhóm bảng, quy tắc, giới hạn đã biết
 │   ├── schema-001-init.sql    # Migration khởi tạo (49 bảng)
@@ -59,7 +60,8 @@ docs/
 │   └── proposal-004-walkin-holidays-config.md  # Khách vãng lai, ngày lễ, cờ xác minh (chờ duyệt)
 ├── 03-api/
 │   ├── api-conventions.md     # REST, lỗi, phân trang, idempotency, versioning
-│   └── booking-pricing.md     # Thuật toán giá, tồn kho, phí giao hàng
+│   ├── booking-pricing.md     # Thuật toán giá, tồn kho, phí giao hàng
+│   └── payment-gateways.md    # So sánh cổng thanh toán (spike P0)
 ├── 04-product/
 │   ├── roles-permissions.md   # Ma trận phân quyền RBAC
 │   ├── booking-flow.md        # Vòng đời đơn thuê

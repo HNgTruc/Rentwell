@@ -19,5 +19,6 @@ Architecture Decision Records: mỗi quyết định kiến trúc một file.
 | `0010-pnpm-without-turborepo.md` | Giữ cấu hình trong `workspace/`, bỏ Turborepo, dùng `pnpm -r`; mỗi package tự khai báo công cụ; TypeScript ghim 6.0. |
 | `0011-gsap-animation.md` | GSAP làm thư viện animation cho web và admin, kèm bộ skill `gsap-*`; không dùng cho mobile. |
 | `0012-kysely-rls-with-tenant.md` | Kysely giữ nguyên; truy vấn nghiệp vụ qua `withTenant` (`set_config` cấp giao dịch); spike chứng minh không rò tenant qua pool. |
+| `0013-momo-payment-gateway.md` | MoMo làm cổng thanh toán MVP (có API hoàn tiền), với điều kiện hộ kinh doanh đăng ký merchant được; dự phòng payOS. |
 
 > Khi thêm hoặc xóa mục trong thư mục này, cập nhật bảng trên.

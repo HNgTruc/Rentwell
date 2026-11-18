@@ -7,7 +7,7 @@ docker-compose cho dev (prod làm ở P8).
 | Mục | Mô tả |
 |---|---|
 | `docker-compose.dev.yml` | Postgres 16, Redis 7, Mailpit (xem thư ở http://localhost:8025). Cổng chỉ mở cho 127.0.0.1. Chạy: `pnpm db:up` trong `workspace/`. |
-| `postgres-init/` | Chạy một lần khi tạo volume: role `rentwell_migrator` (chủ bảng) và `rentwell_app` (ứng dụng, không superuser, không chủ bảng). |
+| `postgres-init/` | Chạy một lần khi tạo volume: role `rentwell_migrator` (chủ bảng), `rentwell_app` (ứng dụng, không superuser, không chủ bảng) và `rentwell_readonly` (chỉ đọc, chỉ dev). |
 
 ## Quy tắc
 
