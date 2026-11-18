@@ -66,9 +66,9 @@ Tổng khoảng 35 tuần; MVP web sau khoảng 21 tuần. Chi tiết công vi�
 - [ ] CI GitHub Actions: lint, typecheck, test, build (đã viết, chờ chạy xanh trên GitHub).
 
 **Tuần 2: kiểm chứng rủi ro (spike)**
-- [ ] Kysely + RLS: mỗi request đặt `app.tenant_id` trong giao dịch, chứng minh không rò dữ liệu.
+- [x] (2026-11-19) Kysely + RLS: mỗi request đặt `app.tenant_id` trong giao dịch, chứng minh không rò dữ liệu (ADR 0012; Testcontainers và kysely-codegen chờ duyệt).
 - [ ] Cổng thanh toán: tìm hiểu đăng ký merchant bằng tài khoản cá nhân, sandbox, webhook.
-- [ ] Dịch vụ bản đồ: chọn Goong hay OSRM cho tính khoảng cách giao hàng.
+- [ ] Dịch vụ bản đồ: kiểm tra API trả phí theo lượt có gói miễn phí (ứng viên Goong) cho khoảng cách giao hàng; không tự host OSRM.
 - [ ] Tìm kiếm tiếng Việt: thử `unaccent` + `pg_trgm`.
 - [ ] Khung Next.js (`web`, `admin`) và Expo build được. Ghi mỗi spike thành một ADR.
 

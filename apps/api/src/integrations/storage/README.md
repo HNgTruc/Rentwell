@@ -1,6 +1,6 @@
 # storage/
 
-Lưu trữ tệp S3/MinIO.
+Lưu trữ tệp kiểu S3 (giả lập khi dev chờ chốt, thay MinIO).
 
 _Chưa có nội dung (sẽ làm ở giai đoạn tương ứng)._
 

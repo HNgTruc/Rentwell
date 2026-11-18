@@ -57,7 +57,7 @@ flowchart LR
 |---|---|---|---|
 | Framework | NestJS | ✅ | Cấu trúc module rõ, DI, guard cho RBAC; hợp "modular monolith" |
 | Kiểu API | REST + OpenAPI (Swagger) | ✅ | Sinh tài liệu và client kiểu an toàn |
-| Truy cập DB | Kysely (query builder có kiểu) + kysely-codegen | 🟡 | Giữ SQL là trung tâm, hợp với RLS và hàm `reserve_inventory`. Phương án khác: Drizzle, Prisma (khó hơn khi dùng RLS và `SET LOCAL`) |
+| Truy cập DB | Kysely (query builder có kiểu) + kysely-codegen | ✅ Kysely (spike RLS đạt, ADR 0012); kysely-codegen chờ duyệt | Giữ SQL là trung tâm, hợp với RLS và hàm `reserve_inventory`. Phương án khác: Drizzle, Prisma (khó hơn khi dùng RLS và `SET LOCAL`) |
 | Migration | SQL thuần, quản lý bằng dbmate (ADR 0004) | ✅ | Schema hiện có là SQL thuần (49 bảng, trigger, RLS) nên giữ SQL làm nguồn sự thật |
 | Xác thực | JWT access token ngắn hạn + refresh token xoay vòng, băm mật khẩu argon2 | ✅ | Chuẩn cho web và mobile |
 | Phân quyền | RBAC qua bảng `memberships` + guard phía server + RLS ở DB | ✅ | Hai lớp bảo vệ độc lập |
@@ -67,7 +67,7 @@ flowchart LR
 | Email | Resend hoặc SMTP | 🟡 | Giao dịch (xác nhận đơn, quên mật khẩu) |
 | Push | Expo Push Notifications (FCM/APNs bên dưới) | ✅ | Đi cùng Expo |
 | Thanh toán | PayOS, VNPay hoặc MoMo (chọn một cho MVP) | 🟡 | Cần xác nhận điều kiện đăng ký tài khoản merchant cho cá nhân |
-| Bản đồ, khoảng cách | Goong API hoặc OSRM tự host | 🟡 | Tính khoảng cách giao hàng theo `delivery_fee_rules` |
+| Bản đồ, khoảng cách | API trả phí theo lượt có gói miễn phí (ứng viên Goong); không tự host OSRM (2026-11-17) | 🟡 | Tính khoảng cách giao hàng theo `delivery_fee_rules` |
 | Log, lỗi | Pino (JSON log) + Sentry | ✅ | Có `request_id` và `tenant_id` trong mỗi dòng log |
 
 ## 4. Cơ sở dữ liệu
@@ -114,7 +114,7 @@ Mobile phục vụ hai nhóm: **khách hàng** (tìm, đặt, theo dõi đơn) v
 
 | Hạng mục | Lựa chọn | Trạng thái |
 |---|---|---|
-| Dev cục bộ | Docker Compose (Postgres, Redis, MinIO, Mailpit) | ✅ |
+| Dev cục bộ | Docker Compose (Postgres, Redis, Mailpit; giả lập S3 chờ chốt thay MinIO) | ✅ |
 | CI | GitHub Actions: lint, typecheck, test, build | ✅ |
 | Container | Docker, ảnh nhiều tầng (multi-stage) | ✅ |
 | Chạy thật (giai đoạn đầu) | Một VPS + Docker Compose + Caddy/Traefik (HTTPS tự động) | 🟡 |
@@ -139,7 +139,7 @@ Chi tiết: `../07-quality/testing-strategy.md`.
 
 1. **Kysely + RLS:** mỗi request mở giao dịch, chạy `SET LOCAL app.tenant_id`, kiểm tra không rò dữ liệu giữa tenant.
 2. **Cổng thanh toán:** đăng ký merchant bằng tài khoản cá nhân có được không, webhook, hoàn tiền, giữ cọc.
-3. **Tính khoảng cách giao hàng:** chọn Goong hay OSRM theo giới hạn và chi phí.
+3. **Tính khoảng cách giao hàng:** kiểm tra Goong (hoặc API tương tự trả phí theo lượt) về giới hạn gọi và chi phí; không tự host OSRM.
 4. **Tìm kiếm tiếng Việt:** `unaccent` + `pg_trgm` đủ tốt chưa, hay cần công cụ tìm kiếm riêng.
 5. **Expo:** quét QR và upload ảnh chạy mượt trên máy thật.
 

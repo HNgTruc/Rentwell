@@ -12,7 +12,7 @@ Lược đồ có RLS, trigger cấm sửa, hàm giữ chỗ tồn kho, ràng bu
 3. **SQL thuần cho migration + Kysely cho truy vấn có kiểu (kysely-codegen sinh kiểu từ DB).**
 
 ## Quyết định
-Chọn phương án 3: **SQL là nguồn sự thật**, kiểu TypeScript sinh ngược từ CSDL. Công cụ chạy migration: dbmate hoặc node-pg-migrate (chốt sau spike).
+Chọn phương án 3: **SQL là nguồn sự thật**, kiểu TypeScript sinh ngược từ CSDL. Công cụ chạy migration: **dbmate** (chốt 2026-11-17 ở P0: áp `001_init.sql` bằng role migrator; node-pg-migrate không dùng).
 
 ## Hệ quả
 - Không có ORM tự sinh migration; viết SQL tay (đã có `schema-001-init.sql`).

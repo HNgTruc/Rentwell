@@ -62,7 +62,7 @@ apps/api/
 │   │
 │   └── integrations/               # Dịch vụ bên ngoài, mỗi cái sau một giao diện
 │       ├── payment/                #   cổng thanh toán (chưa chốt nhà cung cấp)
-│       ├── storage/                #   S3/MinIO
+│       ├── storage/                #   lưu trữ kiểu S3 (giả lập khi dev chờ chốt)
 │       ├── mail/                   #   gửi thư
 │       └── maps/                   #   khoảng cách (chưa chốt nhà cung cấp)
 │

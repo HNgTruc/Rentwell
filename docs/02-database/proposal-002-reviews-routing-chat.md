@@ -1,6 +1,6 @@
 # Đề xuất lược đồ 002: đánh giá, bộ phận hỗ trợ, định tuyến phiếu
 
-**Trạng thái:** Hướng thiết kế **đã được duyệt (2026-11-15)**; **chưa áp dụng**, chưa có file migration. Chưa có file migration; sau khi duyệt mới tạo `db/migrations/002_reviews_departments.sql` từ bản nháp dưới đây.
+**Trạng thái:** Hướng thiết kế **đã được duyệt (2026-11-15)**; **chưa áp dụng**, chưa có file migration; khi tới P6/P7 mới tạo `db/migrations/002_reviews_departments.sql` từ bản nháp dưới đây.
 Liên quan: `../04-product/support-reviews-chat.md`. Nguyên tắc: không sửa `001_init.sql` **sau khi đã áp**; thay đổi bằng migration mới, kèm kiểm thử RLS. (Trước lần áp đầu, `001_init.sql` được phép sửa: đã làm cho chi nhánh, proposal-003.)
 **Cần điều chỉnh khi làm P6/P7:** bản nháp SQL viết trước khi có chi nhánh và trước ADR 0009. Xem lại: `departments`, `support_tickets` theo `branch_id`; `reviews` theo chi nhánh; tên hiển thị rút gọn lấy từ `users` (hồ sơ chung), không từ `customer_profiles` (theo chuỗi).
 

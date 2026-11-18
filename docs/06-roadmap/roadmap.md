@@ -72,7 +72,7 @@ Mỗi giai đoạn gồm: **Mục tiêu**, **Công việc**, **Tiêu chí hoàn 
 - [ ] Khung Next.js (`web`, `admin`) và Expo (`mobile`) rỗng nhưng build được (không giao diện, không CSS, theo cổng thiết kế).
 - [ ] CI GitHub Actions: đã viết `.github/workflows/ci.yml` và chạy từng bước trên máy; **chưa chạy trên GitHub** (chờ đẩy nhánh).
 - [x] (2026-11-17) Quy ước commit: lefthook (pre-commit: Prettier, ESLint, chặn `.env`; commit-msg: commitlint), template PR có sẵn.
-- [ ] **Spike** các điểm 🟡 trong `tech-stack.md` mục 9 (RLS với Kysely trước tiên).
+- [ ] **Spike** các điểm 🟡 trong `tech-stack.md` mục 9 (RLS với Kysely trước tiên). Kysely + RLS: xong 2026-11-19 (ADR 0012).
 
 **DoD**
 - [ ] `pnpm install && docker compose up && pnpm dev` chạy trên máy sạch theo README.

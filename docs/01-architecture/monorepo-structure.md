@@ -209,7 +209,7 @@ apps/mobile/
 ## Giữ gốc sạch (không sinh file rác)
 
 1. **Đầu ra build và tạm vào trong từng app** và bị bỏ qua: `dist/`, `.next/`, `.turbo/`, `coverage/`, `*.log`, `tmp/`.
-2. **Tệp người dùng tải lên không vào git.** Chạy thật: S3/MinIO qua presigned URL. Phát triển: `storage/uploads/` (bị `storage/.gitignore` chặn). Chỉ tài nguyên tĩnh của sản phẩm (logo, ảnh mẫu) được commit, ở `storage/assets/`.
+2. **Tệp người dùng tải lên không vào git.** Chạy thật: lưu trữ kiểu S3 (R2 hoặc S3) qua presigned URL. Phát triển: `storage/uploads/` (bị `storage/.gitignore` chặn). Chỉ tài nguyên tĩnh của sản phẩm (logo, ảnh mẫu) được commit, ở `storage/assets/`.
 3. **Không lưu dữ liệu thật trong repo**, kể cả trong `seeds/`.
 4. **Không tạo file ở gốc** ngoài danh sách cho phép ở trên. Ghi chú nháp để ngoài repo hoặc trong `docs/`.
 5. **Script có chỗ riêng:** `infra/scripts/`, không để rải ở gốc.
@@ -229,7 +229,7 @@ Mọi thư mục đều có `README.md` mô tả: thư mục chứa gì, bảng 
 | Lệnh | Việc |
 |---|---|
 | `pnpm install` | Cài phụ thuộc |
-| `docker compose -f infra/compose/docker-compose.dev.yml up -d` | Bật Postgres, Redis, MinIO, Mailpit |
+| `docker compose -f infra/compose/docker-compose.dev.yml up -d` | Bật Postgres, Redis, Mailpit |
 | `pnpm db:migrate` | Chạy migration |
 | `pnpm db:seed` | Nạp dữ liệu mẫu |
 | `pnpm dev` | Chạy toàn bộ app ở chế độ phát triển |

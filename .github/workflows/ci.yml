@@ -67,6 +67,10 @@ jobs:
       - run: pnpm db:migrate
       - run: pnpm db:seed
       - run: pnpm db:test
+      - name: Kiểm thử cô lập tenant qua Kysely (role ứng dụng, ADR 0012)
+        env:
+          RLS_TEST_DATABASE_URL: postgres://rentwell_app:app_dev@127.0.0.1:5432/rentwell?sslmode=disable
+        run: pnpm test
       - name: Role ứng dụng không phải superuser, không chủ bảng, không BYPASSRLS
         run: |
           out=$(docker compose -f ../infra/compose/docker-compose.dev.yml exec -T postgres psql -U postgres -d rentwell -tAc \

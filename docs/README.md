@@ -47,7 +47,9 @@ docs/
 │       ├── 0007-mcp-server.md
 │       ├── 0008-pricing-tiers-deposit.md
 │       ├── 0009-business-rules-batch-2026-11-17.md
-│       └── 0010-pnpm-without-turborepo.md
+│       ├── 0010-pnpm-without-turborepo.md
+│       ├── 0011-gsap-animation.md
+│       └── 0012-kysely-rls-with-tenant.md
 ├── 02-database/
 │   ├── schema-overview.md     # Nhóm bảng, quy tắc, giới hạn đã biết
 │   ├── schema-001-init.sql    # Migration khởi tạo (49 bảng)

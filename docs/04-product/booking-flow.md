@@ -1,6 +1,6 @@
 # Vòng đời đơn thuê
 
-**Trạng thái:** Nháp · **Cập nhật lần cuối:** 2026-11-15
+**Trạng thái:** Nháp · **Cập nhật lần cuối:** 2026-11-19
 
 ## 1. Sơ đồ trạng thái
 
@@ -68,7 +68,7 @@ stateDiagram-v2
 
 ## Quy tắc bổ sung (đã chốt 2026-11-17, ADR 0009)
 
-- **Đơn tại quầy:** khách vãng lai chỉ cần tên và số điện thoại (hồ sơ khách theo chuỗi, chưa gắn tài khoản); không qua `hold`, tạo thẳng `confirmed` khi đã ghi nhận thu tiền tại quầy. Lược đồ: `../02-database/proposal-004-walkin-holidays-config.md` (chờ duyệt).
+- **Đơn tại quầy:** khách vãng lai chỉ cần tên và số điện thoại (hồ sơ khách theo chuỗi, chưa gắn tài khoản); không qua `hold`, tạo thẳng `confirmed` khi đã ghi nhận thu tiền tại quầy. Lược đồ: `../02-database/proposal-004-walkin-holidays-config.md` (đã duyệt và áp vào `001_init.sql`).
 - **Gia hạn:** tính lại theo tổng số đêm mới, thu phần chênh (`booking-pricing.md` mục 2).
 - **Đóng chi nhánh:** bị chặn khi còn đơn mở (`hold`, `confirmed`, `handed_over`), còn tồn kho hoặc còn phiếu chuyển hàng chưa xong tại chi nhánh đó; hệ thống liệt kê việc còn lại.
 - **Hết ngày nhận:** tính theo giờ đóng cửa của chi nhánh trong ngày đó (`opening_hours`: mỗi thứ một khung giờ, có ngày nghỉ).

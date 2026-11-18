@@ -1,6 +1,6 @@
 # Tính giá, tồn kho và phí giao hàng
 
-**Trạng thái:** Nháp · **Cập nhật lần cuối:** 2026-11-15
+**Trạng thái:** Nháp · **Cập nhật lần cuối:** 2026-11-17
 
 Đây là phần có rủi ro tiền bạc cao nhất. Mọi công thức là **hàm thuần** (không đọc DB, không đọc đồng hồ), đặt trong `packages/shared` hoặc `apps/api/src/modules/pricing`, có bảng ca kiểm thử.
 

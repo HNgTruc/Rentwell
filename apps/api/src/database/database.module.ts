@@ -3,8 +3,8 @@ import { Kysely, PostgresDialect } from 'kysely';
 import { Pool } from 'pg';
 import { APP_CONFIG, AppConfig } from '../config/env';
 
-// Cửa duy nhất vào PostgreSQL. P0 tuần 2 (spike Kysely + RLS) sẽ thêm `withTenant`: mở giao dịch,
-// SET LOCAL app.tenant_id, chạy truy vấn; và kiểu sinh từ kysely-codegen thay cho `unknown`.
+// Cửa duy nhất vào PostgreSQL. Truy vấn nghiệp vụ đi qua `withTenant` (tenant-context.ts, ADR 0012).
+// Còn chờ: kiểu sinh từ kysely-codegen thay cho `any`.
 export const DB = Symbol('DB');
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- chờ kiểu sinh tự động (kysely-codegen)
 export type Database = Kysely<any>;

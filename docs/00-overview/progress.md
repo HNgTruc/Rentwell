@@ -1,6 +1,6 @@
 # Tiến độ dự án
 
-**Cập nhật lần cuối:** 2026-11-15
+**Cập nhật lần cuối:** 2026-11-19
 
 ## Cách dùng (để không lặp lại bước đã làm)
 
@@ -57,8 +57,10 @@ Công cụ: Figma (đọc qua MCP Figma). Thứ tự cần có: hệ thiết k�
 - [x] (2026-11-17) Duyệt `proposal-004` và sửa `001_init.sql` (49 bảng); phụ thu ngày lễ cộng trước giảm bậc; ngưỡng xác minh theo cọc của dòng
 - [x] (2026-11-17) Chạy thử `001_init.sql` (49 bảng) và `db/tests/001_walkin_holidays_close_branch.sql` trên PostgreSQL 16.16: áp thành công, 19/19 ca đạt
 - [x] (2026-11-17) Giới hạn 3 đơn `hold` chưa thanh toán mỗi người dùng toàn nền tảng
-- [ ] Chọn dịch vụ bản đồ (Goong hay OSRM): spike P0
-- [ ] Chọn công nghệ migration (dbmate hay node-pg-migrate), Kysely, lưu tệp, email, hosting: spike P0 (tech-stack mục 9)
+- [ ] Chọn dịch vụ bản đồ: spike P0, hướng API trả phí theo lượt có gói miễn phí (ứng viên Goong), không tự host OSRM
+- [x] (2026-11-17) Công cụ migration: dbmate (đã áp `001_init.sql`, ADR 0004)
+- [x] (2026-11-19) Kysely: spike RLS đạt 8/8 ca (ADR 0012)
+- [ ] Chọn lưu tệp, email, hosting: spike P0 (tech-stack mục 9)
 - [x] (2026-11-17) Duyệt tổng thể `project-plan`, `roadmap`, `tech-stack` (điểm 🟡 vẫn chờ spike)
 - [x] (2026-11-17) MCP loại A: Postgres chỉ đọc (DB dev), GitHub, Figma; thêm đầu P0 sau khi có Postgres dev, mô tả để duyệt lần cuối trước khi thêm
 - [ ] Cho phép thêm SDK MCP (loại B, sau MVP)
@@ -74,7 +76,8 @@ Công cụ: Figma (đọc qua MCP Figma). Thứ tự cần có: hệ thiết k�
 
 ## Ghi chú ngắn (mới nhất ở trên)
 
-- 2026-11-17 (P0 tuần 1): monorepo pnpm (Turborepo không chạy với `workspace/`, bỏ theo ADR 0010; TypeScript ghim 6.0 vì typescript-eslint chưa hỗ trợ 7); `packages/config`, `packages/shared`; Compose dev (Postgres 16, Redis, Mailpit; MinIO không còn image, chờ chọn thay thế); dbmate áp 001 bằng role migrator; seed; khung NestJS + health + Swagger + log JSON; lefthook + commitlint; CI viết xong (chưa chạy trên GitHub). Lint, typecheck, test (12 ca), kiểm thử SQL đều đạt trên máy. Chưa tạo nhánh `feat/p0-foundation` (lệnh bị từ chối), thay đổi đang ở thư mục làm việc.
+- 2026-11-19: chủ dự án đã đẩy nhánh `feat/p0-foundation`, CI chạy xanh trên PR (chưa gộp vào `main`). ADR 0011 (GSAP cho web và admin) đã ghi từ 2026-11-18. Sửa các dòng trạng thái cũ trong tài liệu (dbmate đã chốt, bỏ OSRM tự host, bỏ MinIO, proposal-004 đã áp). Spike Kysely + RLS xong: `withTenant` (`apps/api/src/database/tenant-context.ts`), kiểm thử `apps/api/test/isolation/rls-isolation.spec.ts` 8/8 đạt trên Postgres dev bằng role ứng dụng, thêm bước chạy trong CI job `database`; ADR 0012. Còn chờ duyệt: Testcontainers, kysely-codegen. MCP loại A chờ mô tả chi tiết rồi duyệt.
+- 2026-11-17 (P0 tuần 1): monorepo pnpm (Turborepo không chạy với `workspace/`, bỏ theo ADR 0010; TypeScript ghim 6.0 vì typescript-eslint chưa hỗ trợ 7); `packages/config`, `packages/shared`; Compose dev (Postgres 16, Redis, Mailpit; MinIO không còn image, chờ chọn thay thế); dbmate áp 001 bằng role migrator; seed; khung NestJS + health + Swagger + log JSON; lefthook + commitlint; CI viết xong (chưa chạy trên GitHub). Lint, typecheck, test (12 ca), kiểm thử SQL đều đạt trên máy. (Sau đó đã commit lên nhánh `feat/p0-foundation`.)
 - 2026-11-17 (cuối): duyệt `project-plan`, `roadmap`, `tech-stack`; chọn MCP loại A (thêm đầu P0); thiết kế bằng Figma trước P1; chốt tiêu chí spike thanh toán và bản đồ; cập nhật skill `pricing-calculation`, `cases.md` và rule `pricing-money.md` theo ADR 0009. Chạy thử SQL: chờ chủ dự án bật Docker Desktop.
 - 2026-11-17 (sau): duyệt proposal-004, đã sửa `001_init.sql` (thêm `holidays`, `holiday_surcharges`, khách vãng lai, `verification_min_deposit`, trigger đóng chi nhánh, CHECK `opening_hours`) và chép sang `docs/02-database/schema-001-init.sql`; viết `db/tests/001_walkin_holidays_close_branch.sql`. Đã chạy thử cùng ngày trên PostgreSQL 16.16 (container tạm): 49 bảng, 19/19 ca kiểm thử đạt.
 - 2026-11-17: rà soát toàn bộ tài liệu trước P0. Chủ dự án chốt 14 quy tắc nghiệp vụ (ADR 0009). Viết `proposal-004` (chờ duyệt, chưa sửa `001_init.sql`). Phát hiện `users` và `user_addresses` đã nằm ngoài tenant nên hồ sơ khách chung gần như khớp lược đồ sẵn. Dọn mâu thuẫn: số bảng 47, trạng thái đầu file, tick việc đã xong. Giả định cần xác nhận: phụ thu ngày lễ cộng trước giảm bậc.

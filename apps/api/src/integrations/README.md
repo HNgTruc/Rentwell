@@ -9,6 +9,6 @@ Dịch vụ bên ngoài, mỗi cái sau một giao diện để đổi nhà cung
 | `mail/` | Gửi thư. |
 | `maps/` | Tính khoảng cách và bán kính giao (nhà cung cấp chưa chốt). |
 | `payment/` | Cổng thanh toán (nhà cung cấp chưa chốt, xem spike P4). |
-| `storage/` | Lưu trữ tệp S3/MinIO. |
+| `storage/` | Lưu trữ tệp kiểu S3 (giả lập khi dev chờ chốt, thay MinIO). |
 
 > Khi thêm hoặc xóa mục trong thư mục này, cập nhật bảng trên.
