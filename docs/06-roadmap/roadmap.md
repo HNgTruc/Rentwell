@@ -63,20 +63,25 @@ Mỗi giai đoạn gồm: **Mục tiêu**, **Công việc**, **Tiêu chí hoàn 
 - [x] (2026-11-19) Spike cổng thanh toán: so sánh vài cổng phổ biến ở Việt Nam, trình chủ dự án chọn. Đã chọn MoMo (ADR 0013, `../03-api/payment-gateways.md`); còn chạy thử sandbox trước P4. **Tiêu chí ưu tiên số 1: chuỗi nhỏ (hộ kinh doanh, cá nhân) tự đăng ký merchant dễ**; kèm sandbox, API hoàn tiền, webhook có chữ ký, khóa và webhook theo từng chuỗi (ADR 0009); sau đó mới xét phí.
 - [ ] Spike bản đồ: địa chỉ → tọa độ, khoảng cách đường đi, chi phí, giới hạn gọi. **Hướng đã chọn: API trả phí theo lượt có gói miễn phí** (ứng viên chính Goong), không tự host OSRM.
 - [ ] Kiểm tra tên miền cho Rentwell (web + tên miền con admin): Claude liệt kê vài tên miền còn trống, chủ dự án chọn; nếu vướng thì đổi tên sớm. Mua trước P8.
-- [ ] MCP loại A (Postgres chỉ đọc trên DB dev, GitHub, Figma): sau khi Docker Compose có Postgres, mô tả từng cái để duyệt lần cuối rồi thêm `.mcp.json`.
+  - 2026-11-21, tra RDAP: **đã có người đăng ký** `rentwell.com` (từ 2000, khóa đến 2032), `rentwell.app`, `rentwell.net`, `rentwellapp.com`; **còn trống** `rentwell.dev`, `getrentwell.com`; **chưa tra được** `.vn`, `.com.vn` (VNNIC không có tra cứu tự động), `.io`, `.co` (không có RDAP công khai), cần tra tay ở nhà đăng ký. Chủ dự án chọn.
+- [ ] MCP loại A (Postgres chỉ đọc trên DB dev, GitHub, Figma): Postgres MCP Pro đã thêm ở phạm vi local (2026-11-19); Figma dùng connector claude.ai; **GitHub MCP: chủ dự án muốn thêm (2026-11-21)**, Claude mô tả chi tiết để duyệt trước khi thêm.
 - [x] (2026-11-17) Tạo monorepo pnpm, cấu trúc theo `monorepo-structure.md`. ~~Turborepo~~: không chạy được khi cấu hình ở `workspace/`, bỏ và dùng `pnpm -r` (ADR 0010).
 - [x] (2026-11-17) Docker Compose: Postgres, Redis, Mailpit; hai role DB (migrator, app). ~~MinIO~~: image cộng đồng đã ngừng phát hành.
-- [ ] Chọn giả lập lưu trữ tệp kiểu S3 thay MinIO (cần trước P2), chủ dự án duyệt.
+- [ ] Giả lập lưu trữ tệp kiểu S3 thay MinIO (cần trước P2): **đã chọn Garage** (2026-11-21, ADR 0014); còn thêm vào Docker Compose.
+- [ ] Thêm Testcontainers (kiểm thử tích hợp) và kysely-codegen (sinh kiểu DB): đã duyệt 2026-11-21 (ADR 0014).
 - [x] (2026-11-17) Áp `001_init.sql` bằng dbmate (role migrator); seed 2 chuỗi × 2 chi nhánh (`db/seeds/001_dev_seed.sql`); `pnpm db:test` đạt.
 - [x] (2026-11-17) Khung NestJS: cấu hình kiểm tra bằng Zod, log JSON có `request_id` (không ghi header/query), health check có kiểm CSDL, Swagger `/docs`.
 - [ ] Khung Next.js (`web`, `admin`) và Expo (`mobile`) rỗng nhưng build được (không giao diện, không CSS, theo cổng thiết kế).
-- [ ] CI GitHub Actions: đã viết `.github/workflows/ci.yml` và chạy từng bước trên máy; **chưa chạy trên GitHub** (chờ đẩy nhánh).
+- [x] (2026-11-18) CI GitHub Actions (`.github/workflows/ci.yml`): chạy xanh trên PR #1 và trên `main`.
 - [x] (2026-11-17) Quy ước commit: lefthook (pre-commit: Prettier, ESLint, chặn `.env`; commit-msg: commitlint), template PR có sẵn.
-- [ ] **Spike** các điểm 🟡 trong `tech-stack.md` mục 9 (RLS với Kysely trước tiên). Kysely + RLS: xong 2026-11-19 (ADR 0012).
+- [ ] **Spike** các điểm 🟡 trong `tech-stack.md` mục 9:
+  - [x] (2026-11-19) Kysely + RLS (ADR 0012).
+  - [ ] Tìm kiếm tiếng Việt: `unaccent` + `pg_trgm` (làm trong P0, chốt 2026-11-21).
+  - Bản đồ: xem dòng "Spike bản đồ" ở trên (làm trong P0, cần chủ dự án tạo tài khoản và API key Goong).
 
 **DoD**
 - [ ] `pnpm install && docker compose up && pnpm dev` chạy trên máy sạch theo README.
-- [ ] CI xanh trên nhánh chính.
+- [x] (2026-11-18) CI xanh trên nhánh chính.
 - [ ] ADR cho mỗi spike đã chốt.
 
 **Rủi ro:** Mất thời gian chỉnh công cụ. Giảm thiểu: không tối ưu sớm, dùng mẫu chuẩn.

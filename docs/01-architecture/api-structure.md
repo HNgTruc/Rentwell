@@ -61,10 +61,10 @@ apps/api/
 │   │   └── late-fee.job.ts
 │   │
 │   └── integrations/               # Dịch vụ bên ngoài, mỗi cái sau một giao diện
-│       ├── payment/                #   cổng thanh toán (chưa chốt nhà cung cấp)
-│       ├── storage/                #   lưu trữ kiểu S3 (giả lập khi dev chờ chốt)
-│       ├── mail/                   #   gửi thư
-│       └── maps/                   #   khoảng cách (chưa chốt nhà cung cấp)
+│       ├── payment/                #   cổng thanh toán (MoMo, ADR 0013)
+│       ├── storage/                #   lưu trữ kiểu S3 (dev: Garage, ADR 0014)
+│       ├── mail/                   #   gửi thư (Resend; dev: Mailpit)
+│       └── maps/                   #   khoảng cách (ứng viên Goong, chờ spike)
 │
 ├── test/
 │   ├── integration/                # Gọi endpoint thật với Postgres thật

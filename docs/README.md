@@ -2,7 +2,7 @@
 
 Nền tảng cho thuê đồ đa cửa hàng (multi-tenant). Mỗi cửa hàng là một tenant, có web quản trị riêng, khách hàng đặt thuê qua web và mobile.
 
-> Trạng thái: **giai đoạn lập kế hoạch, chưa có code.** Tài liệu là nguồn sự thật duy nhất (single source of truth) cho mọi quyết định.
+> Trạng thái: **đang làm P0 (khởi tạo và hạ tầng)**; đã có khung API, migration, CI. Tiến độ: `00-overview/progress.md`. Tài liệu là nguồn sự thật duy nhất (single source of truth) cho mọi quyết định.
 
 ## Cách đọc tài liệu
 

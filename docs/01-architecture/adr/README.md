@@ -10,7 +10,7 @@ Architecture Decision Records: mỗi quyết định kiến trúc một file.
 | `0001-multi-tenant-rls.md` | Đa tenant bằng RLS. |
 | `0002-monorepo.md` | Chọn monorepo. |
 | `0003-modular-monolith.md` | Modular monolith. |
-| `0004-sql-first-migrations.md` | Migration SQL-first, công cụ dbmate (đã chốt); Kysely + RLS chờ spike. |
+| `0004-sql-first-migrations.md` | Migration SQL-first, công cụ dbmate; Kysely + RLS đã kiểm chứng (ADR 0012). |
 | `0005-one-shared-website.md` | Một website chung cho mọi cửa hàng, URL theo đường dẫn. |
 | `0006-chain-branches.md` | Chuỗi nhiều chi nhánh; gán đơn theo vị trí khách; trả đúng chi nhánh. |
 | `0007-mcp-server.md` | Máy chủ MCP riêng của Rentwell (loại B), chỉ đọc, làm sau MVP. |
@@ -20,5 +20,6 @@ Architecture Decision Records: mỗi quyết định kiến trúc một file.
 | `0011-gsap-animation.md` | GSAP làm thư viện animation cho web và admin, kèm bộ skill `gsap-*`; không dùng cho mobile. |
 | `0012-kysely-rls-with-tenant.md` | Kysely giữ nguyên; truy vấn nghiệp vụ qua `withTenant` (`set_config` cấp giao dịch); spike chứng minh không rò tenant qua pool. |
 | `0013-momo-payment-gateway.md` | MoMo làm cổng thanh toán MVP (có API hoàn tiền), với điều kiện hộ kinh doanh đăng ký merchant được; dự phòng payOS. |
+| `0014-dev-infra-choices-2026-11-21.md` | Garage giả lập S3 khi dev, Resend cho email, VPS + Compose + Caddy, duyệt Testcontainers và kysely-codegen. |
 
 > Khi thêm hoặc xóa mục trong thư mục này, cập nhật bảng trên.

@@ -1,6 +1,6 @@
 # Tiến độ dự án
 
-**Cập nhật lần cuối:** 2026-11-19
+**Cập nhật lần cuối:** 2026-11-21
 
 ## Cách dùng (để không lặp lại bước đã làm)
 
@@ -60,7 +60,7 @@ Công cụ: Figma (đọc qua MCP Figma). Thứ tự cần có: hệ thiết k�
 - [ ] Chọn dịch vụ bản đồ: spike P0, hướng API trả phí theo lượt có gói miễn phí (ứng viên Goong), không tự host OSRM
 - [x] (2026-11-17) Công cụ migration: dbmate (đã áp `001_init.sql`, ADR 0004)
 - [x] (2026-11-19) Kysely: spike RLS đạt 8/8 ca (ADR 0012)
-- [ ] Chọn lưu tệp, email, hosting: spike P0 (tech-stack mục 9)
+- [x] (2026-11-21) Chọn lưu tệp, email, hosting: giả lập S3 khi dev là Garage, email Resend, VPS + Compose + Caddy (ADR 0014); R2 hay S3 khi chạy thật để P8
 - [x] (2026-11-17) Duyệt tổng thể `project-plan`, `roadmap`, `tech-stack` (điểm 🟡 vẫn chờ spike)
 - [x] (2026-11-17) MCP loại A: Postgres chỉ đọc (DB dev), GitHub, Figma; thêm đầu P0 sau khi có Postgres dev, mô tả để duyệt lần cuối trước khi thêm
 - [ ] Cho phép thêm SDK MCP (loại B, sau MVP)
@@ -76,7 +76,9 @@ Công cụ: Figma (đọc qua MCP Figma). Thứ tự cần có: hệ thiết k�
 
 ## Ghi chú ngắn (mới nhất ở trên)
 
-- 2026-11-19: chủ dự án đã đẩy nhánh `feat/p0-foundation`, CI chạy xanh trên PR (chưa gộp vào `main`). ADR 0011 (GSAP cho web và admin) đã ghi từ 2026-11-18. Sửa các dòng trạng thái cũ trong tài liệu (dbmate đã chốt, bỏ OSRM tự host, bỏ MinIO, proposal-004 đã áp). Spike Kysely + RLS xong: `withTenant` (`apps/api/src/database/tenant-context.ts`), kiểm thử `apps/api/test/isolation/rls-isolation.spec.ts` 8/8 đạt trên Postgres dev bằng role ứng dụng, thêm bước chạy trong CI job `database`; ADR 0012. Còn chờ duyệt: Testcontainers, kysely-codegen. MCP loại A chờ mô tả chi tiết rồi duyệt. Sau đó: role `rentwell_readonly` (chỉ dev, BYPASSRLS, chỉ đọc) trong `infra/compose/postgres-init/02-readonly-dev.sql`, đã áp vào volume dev và kiểm tra (đọc được, ghi bị chặn); bản so sánh cổng thanh toán `../03-api/payment-gateways.md` (payOS không có API hoàn tiền), chủ dự án chọn MoMo (ADR 0013). MCP: chọn Postgres MCP Pro (crystaldba), thêm ở phạm vi local trên máy (không cần `.mcp.json` ở gốc repo).
+- 2026-11-21: quy tắc commit theo đầy đủ Conventional Commits 1.0.0 (`../08-guides/git-workflow.md` mục 2). Rà soát tài liệu, sửa các dòng trạng thái cũ (CI đã xanh trên `main` từ 2026-11-18). Chủ dự án chốt: Garage làm giả lập S3, Resend, VPS + Compose + Caddy, duyệt Testcontainers và kysely-codegen (ADR 0014); làm khung Next.js và Expo ngay trong P0; làm cả spike tìm kiếm và spike bản đồ trong P0; thêm GitHub MCP (mô tả trước khi thêm); Claude tra tên miền; duyệt tài liệu "Nháp" theo đợt (đợt 1 trước P1); thiết kế Figma chưa bắt đầu.
+
+- 2026-11-19: chủ dự án đã đẩy nhánh `feat/p0-foundation`, CI chạy xanh trên PR (đã gộp vào `main` bằng PR #1, `88d0a32`). ADR 0011 (GSAP cho web và admin) đã ghi từ 2026-11-18. Sửa các dòng trạng thái cũ trong tài liệu (dbmate đã chốt, bỏ OSRM tự host, bỏ MinIO, proposal-004 đã áp). Spike Kysely + RLS xong: `withTenant` (`apps/api/src/database/tenant-context.ts`), kiểm thử `apps/api/test/isolation/rls-isolation.spec.ts` 8/8 đạt trên Postgres dev bằng role ứng dụng, thêm bước chạy trong CI job `database`; ADR 0012. Còn chờ duyệt: Testcontainers, kysely-codegen. MCP loại A chờ mô tả chi tiết rồi duyệt. Sau đó: role `rentwell_readonly` (chỉ dev, BYPASSRLS, chỉ đọc) trong `infra/compose/postgres-init/02-readonly-dev.sql`, đã áp vào volume dev và kiểm tra (đọc được, ghi bị chặn); bản so sánh cổng thanh toán `../03-api/payment-gateways.md` (payOS không có API hoàn tiền), chủ dự án chọn MoMo (ADR 0013). MCP: chọn Postgres MCP Pro (crystaldba), thêm ở phạm vi local trên máy (không cần `.mcp.json` ở gốc repo).
 - 2026-11-17 (P0 tuần 1): monorepo pnpm (Turborepo không chạy với `workspace/`, bỏ theo ADR 0010; TypeScript ghim 6.0 vì typescript-eslint chưa hỗ trợ 7); `packages/config`, `packages/shared`; Compose dev (Postgres 16, Redis, Mailpit; MinIO không còn image, chờ chọn thay thế); dbmate áp 001 bằng role migrator; seed; khung NestJS + health + Swagger + log JSON; lefthook + commitlint; CI viết xong (chưa chạy trên GitHub). Lint, typecheck, test (12 ca), kiểm thử SQL đều đạt trên máy. (Sau đó đã commit lên nhánh `feat/p0-foundation`.)
 - 2026-11-17 (cuối): duyệt `project-plan`, `roadmap`, `tech-stack`; chọn MCP loại A (thêm đầu P0); thiết kế bằng Figma trước P1; chốt tiêu chí spike thanh toán và bản đồ; cập nhật skill `pricing-calculation`, `cases.md` và rule `pricing-money.md` theo ADR 0009. Chạy thử SQL: chờ chủ dự án bật Docker Desktop.
 - 2026-11-17 (sau): duyệt proposal-004, đã sửa `001_init.sql` (thêm `holidays`, `holiday_surcharges`, khách vãng lai, `verification_min_deposit`, trigger đóng chi nhánh, CHECK `opening_hours`) và chép sang `docs/02-database/schema-001-init.sql`; viết `db/tests/001_walkin_holidays_close_branch.sql`. Đã chạy thử cùng ngày trên PostgreSQL 16.16 (container tạm): 49 bảng, 19/19 ca kiểm thử đạt.
