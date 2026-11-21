@@ -18,7 +18,8 @@
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "eslint .",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "test:unit": "vitest run --passWithNoTests"
   },
   "devDependencies": {
     "@rentwell/config": "workspace:*",

@@ -57,7 +57,7 @@ flowchart LR
 |---|---|---|---|
 | Framework | NestJS | ✅ | Cấu trúc module rõ, DI, guard cho RBAC; hợp "modular monolith" |
 | Kiểu API | REST + OpenAPI (Swagger) | ✅ | Sinh tài liệu và client kiểu an toàn |
-| Truy cập DB | Kysely (query builder có kiểu) + kysely-codegen | ✅ Kysely (spike RLS đạt, ADR 0012); kysely-codegen đã duyệt (ADR 0014) | Giữ SQL là trung tâm, hợp với RLS và hàm `reserve_inventory`. Phương án khác: Drizzle, Prisma (khó hơn khi dùng RLS và `SET LOCAL`) |
+| Truy cập DB | Kysely (query builder có kiểu) + kysely-codegen | ✅ Kysely (spike RLS đạt, ADR 0012); kysely-codegen 0.20.0 đã dùng (ADR 0014) | Giữ SQL là trung tâm, hợp với RLS và hàm `reserve_inventory`. Phương án khác: Drizzle, Prisma (khó hơn khi dùng RLS và `SET LOCAL`) |
 | Migration | SQL thuần, quản lý bằng dbmate (ADR 0004) | ✅ | Schema hiện có là SQL thuần (49 bảng, trigger, RLS) nên giữ SQL làm nguồn sự thật |
 | Xác thực | JWT access token ngắn hạn + refresh token xoay vòng, băm mật khẩu argon2 | ✅ | Chuẩn cho web và mobile |
 | Phân quyền | RBAC qua bảng `memberships` + guard phía server + RLS ở DB | ✅ | Hai lớp bảo vệ độc lập |

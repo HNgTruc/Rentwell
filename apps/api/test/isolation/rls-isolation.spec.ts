@@ -1,20 +1,18 @@
 import { Kysely, PostgresDialect, sql } from 'kysely';
 import { Pool } from 'pg';
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, describe, expect, inject, it } from 'vitest';
 import type { Database } from '../../src/database/database.module';
 import { withTenant } from '../../src/database/tenant-context';
 
 // Spike P0 (ADR 0012): Kysely + RLS trên Postgres thật, bằng ROLE ỨNG DỤNG (rentwell_app).
-// Cần CSDL đã migrate và seed (`pnpm db:up && pnpm db:migrate && pnpm db:seed`).
-// Chỉ chạy khi có RLS_TEST_DATABASE_URL, ví dụ (giá trị giả của dev):
-//   postgres://rentwell_app:app_dev@127.0.0.1:5432/rentwell?sslmode=disable
-const url = process.env.RLS_TEST_DATABASE_URL;
+// CSDL do Testcontainers dựng, đã migrate và seed (test/helpers/postgres.global-setup.ts, ADR 0014).
+const url = inject('appDatabaseUrl');
 
 const TENANT_A = 'a0000000-0000-4000-8000-000000000000'; // chuỗi A trong seed
 const TENANT_B = 'b0000000-0000-4000-8000-000000000000'; // chuỗi B trong seed
 const USER_OWNER_A = 'c0000000-0000-4000-8000-000000000001';
 
-describe.skipIf(!url)('RLS với Kysely (role ứng dụng)', () => {
+describe('RLS với Kysely (role ứng dụng)', () => {
   let db: Database;
   let single: Database; // pool 1 kết nối: buộc mọi giao dịch dùng lại cùng một kết nối
 

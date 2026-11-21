@@ -1,14 +1,14 @@
 import { sql, Transaction } from 'kysely';
 import { z } from 'zod';
 import type { Database } from './database.module';
+import type { DB as Schema } from './db.generated';
 
 // Mọi truy vấn nghiệp vụ đi qua đây (CLAUDE.md quy tắc 2, ADR 0012).
 // `set_config(..., true)` tương đương `SET LOCAL`: giá trị chỉ sống trong giao dịch hiện tại,
 // tự mất khi COMMIT/ROLLBACK, nên không rò sang request khác dùng lại kết nối trong pool.
 // Dùng `set_config` thay `SET LOCAL` vì `SET` không nhận tham số (`$1`), còn `set_config` thì có.
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- chờ kiểu sinh tự động (kysely-codegen)
-export type TenantTransaction = Transaction<any>;
+export type TenantTransaction = Transaction<Schema>;
 
 export class InvalidTenantIdError extends Error {}
 
