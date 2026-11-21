@@ -6,7 +6,8 @@ Cửa duy nhất vào PostgreSQL: kết nối, giao dịch, `SET LOCAL app.tenan
 
 | Mục | Mô tả |
 |---|---|
-| `database.module.ts` | Pool `pg` + Kysely (token `DB`), đóng pool khi tắt app. Chưa có kiểu sinh (kysely-codegen chờ duyệt). |
+| `database.module.ts` | Pool `pg` + Kysely có kiểu (token `DB`, kiểu `Database = Kysely<DB>`), đóng pool khi tắt app. |
+| `db.generated.ts` | Kiểu bảng sinh bởi kysely-codegen (`pnpm db:codegen` sau mỗi migration). Không sửa tay, không định dạng bằng Prettier; CI kiểm khớp bằng `db:codegen:verify`. |
 | `tenant-context.ts` | `withTenant(db, tenantId, fn)`: mở giao dịch, `set_config('app.tenant_id', $1, true)` (bằng `SET LOCAL`), chạy `fn`. ADR 0012. |
 | `tenant-context.spec.ts` | Bảng ca cho `assertTenantId` (chỉ nhận UUID). |
 

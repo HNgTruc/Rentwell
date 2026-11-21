@@ -8,15 +8,17 @@
     "lint": "pnpm -r --if-present run lint",
     "typecheck": "pnpm run build && pnpm -r --if-present run typecheck",
     "test": "pnpm run build && pnpm -r --if-present run test",
-    "format": "prettier --config ../packages/config/prettier.json --write \"../{apps,packages}/**/*.{ts,tsx,js,json}\" --ignore-path .gitignore",
+    "test:unit": "pnpm run build && pnpm -r --if-present run test:unit",
+    "format": "prettier --config ../packages/config/prettier.json --write \"../{apps,packages}/**/*.{ts,tsx,js,json}\" \"!../**/*.generated.ts\" --ignore-path .gitignore",
     "db:up": "docker compose -f ../infra/compose/docker-compose.dev.yml up -d --wait",
     "db:down": "docker compose -f ../infra/compose/docker-compose.dev.yml down",
     "db:migrate": "dbmate --env DATABASE_MIGRATION_URL --migrations-dir ../db/migrations --no-dump-schema --wait up",
     "db:status": "dbmate --env DATABASE_MIGRATION_URL --migrations-dir ../db/migrations status",
     "db:seed": "docker compose -f ../infra/compose/docker-compose.dev.yml exec -T postgres psql -U postgres -d rentwell -v ON_ERROR_STOP=1 -q -f /db/seeds/001_dev_seed.sql",
     "db:test": "sh ../infra/scripts/db-test.sh",
+    "db:codegen": "pnpm --filter @rentwell/api db:codegen",
     "storage:init": "sh ../infra/scripts/garage-init.sh",
-    "format:check": "prettier --config ../packages/config/prettier.json --check \"../{apps,packages}/**/*.{ts,tsx,js,json}\" --ignore-path .gitignore"
+    "format:check": "prettier --config ../packages/config/prettier.json --check \"../{apps,packages}/**/*.{ts,tsx,js,json}\" \"!../**/*.generated.ts\" --ignore-path .gitignore"
   },
   "engines": {
     "node": ">=22"

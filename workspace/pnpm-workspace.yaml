@@ -8,6 +8,15 @@ allowBuilds:
   "@scarf/scarf": false   # đo lượt dùng (kéo theo từ swagger-ui), gửi dữ liệu ra ngoài: chặn
   "@swc/core": false      # postinstall chỉ kiểm tra file nhị phân; nhị phân có sẵn qua optionalDependencies
   "lefthook": false       # postinstall tự ghi hook vào .git; dự án cài hook bằng infra/scripts/setup-git.sh
+  # Kéo theo từ testcontainers (dockerode, ssh2), 2026-11-21: không cần script, đều có phương án JS thuần.
+  "cpu-features": false   # addon C++ tùy chọn của ssh2
+  "ssh2": false           # chỉ thử biên dịch binding mã hóa tùy chọn
+  "protobufjs": false     # postinstall chỉ kiểm tra phiên bản
+
+# Ghim phiên bản gói kéo theo: chỉ dùng bản đã phát hành ít nhất 2 tuần; ghi lý do và ngày.
+overrides:
+  # 2026-11-21: @testcontainers/postgresql 12.2.1 khai báo ^12.2.1, sẽ tự lên 12.2.2 (mới 2 ngày); giữ 12.2.1.
+  testcontainers: 12.2.1
 
 # Lỗ hổng bỏ qua khi chạy `pnpm audit`: chỉ thêm khi chưa có bản vá và gói không chạy ở production; ghi lý do và ngày.
 auditConfig:

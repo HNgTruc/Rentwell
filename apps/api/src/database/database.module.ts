@@ -2,12 +2,12 @@ import { Global, Inject, Module, OnApplicationShutdown } from '@nestjs/common';
 import { Kysely, PostgresDialect } from 'kysely';
 import { Pool } from 'pg';
 import { APP_CONFIG, AppConfig } from '../config/env';
+import type { DB as Schema } from './db.generated';
 
 // Cửa duy nhất vào PostgreSQL. Truy vấn nghiệp vụ đi qua `withTenant` (tenant-context.ts, ADR 0012).
-// Còn chờ: kiểu sinh từ kysely-codegen thay cho `any`.
+// Kiểu bảng sinh bởi kysely-codegen (`pnpm db:codegen` sau mỗi migration), không sửa tay.
 export const DB = Symbol('DB');
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- chờ kiểu sinh tự động (kysely-codegen)
-export type Database = Kysely<any>;
+export type Database = Kysely<Schema>;
 
 @Global()
 @Module({

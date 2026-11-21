@@ -7,7 +7,12 @@ pre-commit:
   commands:
     format:
       glob: "*.{ts,tsx,js,mjs,mts,json}"
-      exclude: "(^|/)(pnpm-lock\\.yaml|openapi/.*)$"
+      # lefthook 2 nhận glob ở exclude (không nhận regex).
+      # *.generated.ts: do kysely-codegen sinh, giữ nguyên để `db:codegen:verify` so khớp được.
+      exclude:
+        - "**/pnpm-lock.yaml"
+        - "**/openapi/**"
+        - "**/*.generated.ts"
       run: workspace/node_modules/.bin/prettier --config packages/config/prettier.json --check {staged_files}
     lint:
       glob: "*.{ts,tsx,js,mjs,mts}"

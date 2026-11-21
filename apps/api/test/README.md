@@ -1,6 +1,6 @@
 # test/
 
-Kiểm thử tích hợp và e2e của API, chạy với Postgres thật.
+Kiểm thử tích hợp và e2e của API, chạy với Postgres thật do Testcontainers dựng (nhóm `integration` trong `vitest.config.mts`, cần Docker). `pnpm test` chạy cả unit lẫn integration; `pnpm test:unit` chỉ chạy unit, không cần Docker.
 
 ## Bên trong
 
