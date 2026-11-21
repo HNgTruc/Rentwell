@@ -1,0 +1,22 @@
+# Garage: giả lập lưu trữ kiểu S3 cho dev và CI (ADR 0014). Một node, không nhân bản.
+# CHỈ dùng ở máy dev: mọi khóa trong file này là giá trị giả, không phải bí mật.
+# Khởi tạo layout, bucket và khóa truy cập: `pnpm storage:init` (infra/scripts/garage-init.sh).
+
+metadata_dir = "/var/lib/garage/meta"
+data_dir = "/var/lib/garage/data"
+db_engine = "sqlite"            # ổn định trên volume Docker Desktop (Windows, macOS)
+
+replication_factor = 1
+
+rpc_bind_addr = "[::]:3901"
+rpc_public_addr = "127.0.0.1:3901"
+rpc_secret = "dc22a643fd61e435d1454890f5d763fc4fcdc2b45eaea11eb09d3fbcba54e5f9"
+
+[s3_api]
+s3_region = "garage"
+api_bind_addr = "[::]:3900"
+root_domain = ".s3.garage.localhost"   # chỉ để có virtual-host; ứng dụng dùng path-style
+
+[admin]
+api_bind_addr = "[::]:3903"
+admin_token = "06db2eef1d9c5c013f65bc7e9f0567a4cba557356d7db903"

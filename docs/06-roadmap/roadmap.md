@@ -67,7 +67,7 @@ Mỗi giai đoạn gồm: **Mục tiêu**, **Công việc**, **Tiêu chí hoàn 
 - [ ] MCP loại A (Postgres chỉ đọc trên DB dev, GitHub, Figma): Postgres MCP Pro đã thêm ở phạm vi local (2026-11-19); Figma dùng connector claude.ai; **GitHub MCP: chủ dự án muốn thêm (2026-11-21)**, Claude mô tả chi tiết để duyệt trước khi thêm.
 - [x] (2026-11-17) Tạo monorepo pnpm, cấu trúc theo `monorepo-structure.md`. ~~Turborepo~~: không chạy được khi cấu hình ở `workspace/`, bỏ và dùng `pnpm -r` (ADR 0010).
 - [x] (2026-11-17) Docker Compose: Postgres, Redis, Mailpit; hai role DB (migrator, app). ~~MinIO~~: image cộng đồng đã ngừng phát hành.
-- [ ] Giả lập lưu trữ tệp kiểu S3 thay MinIO (cần trước P2): **đã chọn Garage** (2026-11-21, ADR 0014); còn thêm vào Docker Compose.
+- [x] (2026-11-21) Giả lập lưu trữ tệp kiểu S3 thay MinIO: Garage v2.5.0 trong Compose, `pnpm storage:init` (ADR 0014); đã thử PUT, LIST, GET, DELETE qua API S3.
 - [ ] Thêm Testcontainers (kiểm thử tích hợp) và kysely-codegen (sinh kiểu DB): đã duyệt 2026-11-21 (ADR 0014).
 - [x] (2026-11-17) Áp `001_init.sql` bằng dbmate (role migrator); seed 2 chuỗi × 2 chi nhánh (`db/seeds/001_dev_seed.sql`); `pnpm db:test` đạt.
 - [x] (2026-11-17) Khung NestJS: cấu hình kiểm tra bằng Zod, log JSON có `request_id` (không ghi header/query), health check có kiểm CSDL, Swagger `/docs`.
