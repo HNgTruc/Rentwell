@@ -76,6 +76,7 @@ Công cụ: Figma (đọc qua MCP Figma). Thứ tự cần có: hệ thiết k�
 
 ## Ghi chú ngắn (mới nhất ở trên)
 
+- 2026-11-21 (tối): Garage v2.5.0 trong Compose dev (`infra/compose/garage/garage.toml`), `pnpm storage:init` tạo layout, khóa cố định, bucket `rentwell-dev`; chạy lại không lỗi. Thử qua API S3 (curl SigV4): PUT 200, LIST thấy tệp, GET đúng nội dung, GET không ký 403, DELETE 204. Trên máy chủ dự án, cổng 6379 đang bị Redis của dự án khác chiếm nên `pnpm db:up` báo lỗi Redis (không phải lỗi repo).
 - 2026-11-21 (sau): khung `apps/web`, `apps/admin` (Next.js 16.4.6) và `apps/mobile` (Expo SDK 58, expo-router) build được; React ghim 19.3.0. Next cần `turbopack.root` và `outputFileTracingRoot` trỏ về gốc repo vì lockfile nằm ở `workspace/`. `eslint-config-next` báo peer chưa khai báo hỗ trợ ESLint 10 nhưng lint chạy đúng. Lint, typecheck, test đạt; `format:check` trên Windows báo các file cũ có CRLF (trong git vẫn LF, CI không ảnh hưởng).
 - 2026-11-21: quy tắc commit theo đầy đủ Conventional Commits 1.0.0 (`../08-guides/git-workflow.md` mục 2). Rà soát tài liệu, sửa các dòng trạng thái cũ (CI đã xanh trên `main` từ 2026-11-18). Chủ dự án chốt: Garage làm giả lập S3, Resend, VPS + Compose + Caddy, duyệt Testcontainers và kysely-codegen (ADR 0014); làm khung Next.js và Expo ngay trong P0; làm cả spike tìm kiếm và spike bản đồ trong P0; thêm GitHub MCP (mô tả trước khi thêm); Claude tra tên miền; duyệt tài liệu "Nháp" theo đợt (đợt 1 trước P1); thiết kế Figma chưa bắt đầu.
 

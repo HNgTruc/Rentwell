@@ -1,6 +1,6 @@
 # Dịch vụ cho môi trường phát triển. CHỈ dùng ở máy dev: mật khẩu là giá trị giả, cổng chỉ mở cho 127.0.0.1.
 # Chạy từ workspace/: docker compose -f ../infra/compose/docker-compose.dev.yml up -d
-# Lưu trữ tệp kiểu S3: chưa có (image MinIO cộng đồng đã ngừng phát hành), chờ chốt thay thế trước P2.
+# Lưu trữ tệp kiểu S3: Garage (ADR 0014); sau lần bật đầu tiên chạy `pnpm storage:init` để tạo bucket và khóa.
 name: rentwell-dev
 
 services:
@@ -41,5 +41,22 @@ services:
       - "127.0.0.1:1025:1025"   # SMTP
       - "127.0.0.1:8025:8025"   # giao diện xem thư: http://localhost:8025
 
+  garage:
+    image: dxflrs/garage:v2.5.0
+    ports:
+      - "127.0.0.1:3900:3900"   # API S3 (path-style, region "garage")
+      - "127.0.0.1:3903:3903"   # API quản trị
+    volumes:
+      - ./garage/garage.toml:/etc/garage.toml:ro
+      - garage-meta:/var/lib/garage/meta
+      - garage-data:/var/lib/garage/data
+    healthcheck:
+      test: ["CMD", "/garage", "status"]   # image không có shell; gọi thẳng CLI
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
 volumes:
   pgdata:
+  garage-meta:
+  garage-data:

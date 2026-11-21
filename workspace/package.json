@@ -15,6 +15,7 @@
     "db:status": "dbmate --env DATABASE_MIGRATION_URL --migrations-dir ../db/migrations status",
     "db:seed": "docker compose -f ../infra/compose/docker-compose.dev.yml exec -T postgres psql -U postgres -d rentwell -v ON_ERROR_STOP=1 -q -f /db/seeds/001_dev_seed.sql",
     "db:test": "sh ../infra/scripts/db-test.sh",
+    "storage:init": "sh ../infra/scripts/garage-init.sh",
     "format:check": "prettier --config ../packages/config/prettier.json --check \"../{apps,packages}/**/*.{ts,tsx,js,json}\" --ignore-path .gitignore"
   },
   "engines": {

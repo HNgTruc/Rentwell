@@ -15,7 +15,7 @@
 |---|---|
 | PostgreSQL 16 | CSDL (timezone `Asia/Ho_Chi_Minh`) |
 | Redis | Hàng đợi, giới hạn tần suất |
-| Garage | Giả lập S3 (ảnh, tệp), thay MinIO đã ngừng phát hành image (ADR 0014); chưa thêm vào Compose |
+| Garage v2.5 | Giả lập S3 (ảnh, tệp), thay MinIO đã ngừng phát hành image (ADR 0014). Lần đầu chạy `pnpm storage:init` |
 | Mailpit | Hộp thư giả để xem email gửi ra |
 
 ## Biến môi trường
@@ -24,7 +24,18 @@
 - API kiểm tra biến bằng Zod khi khởi động, thiếu hoặc sai thì **dừng ngay** với thông báo rõ.
 - Bí mật (khóa JWT, khóa cổng thanh toán, khóa S3) khác nhau giữa các môi trường; production lưu ở kho bí mật của nền tảng triển khai, không nằm trong repo.
 
-Nhóm biến chính: `DATABASE_URL` (role ứng dụng), `DATABASE_MIGRATION_URL` (role migration), `REDIS_URL`, `JWT_*`, `S3_*`, `PAYMENT_*`, `MAIL_*`, `MAPS_*`, `SENTRY_DSN`.
+Nhóm biến chính: `DATABASE_URL` (role ứng dụng), `DATABASE_MIGRATION_URL` (role migration), `REDIS_URL`, `JWT_*`, `S3_*` (dev: xem dưới), `PAYMENT_*`, `MAIL_*`, `MAPS_*`, `SENTRY_DSN`.
+
+Giá trị `S3_*` khi dev (giả, khớp `infra/scripts/garage-init.sh`):
+
+```
+S3_ENDPOINT=http://127.0.0.1:3900
+S3_REGION=garage
+S3_BUCKET=rentwell-dev
+S3_ACCESS_KEY_ID=GKce36af4d41dcddb051e67991
+S3_SECRET_ACCESS_KEY=68f0ed1f6905645a112fbbbcf307aced149a8f3d3256605ee59fef0dcdf251b7
+S3_FORCE_PATH_STYLE=true
+```
 
 ## Quy tắc
 
