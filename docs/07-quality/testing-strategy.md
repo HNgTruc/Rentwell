@@ -15,7 +15,7 @@
 |---|---|---|---|
 | Đơn vị | Vitest | Tính số đêm, giá, phí giao, phí trễ, hoàn cọc | Mỗi PR |
 | SQL / CSDL | pgTAP hoặc script SQL + Vitest | RLS, `CHECK`, trigger cấm sửa, hàm giữ chỗ | Mỗi PR |
-| Tích hợp API | Vitest/Jest + Testcontainers | Endpoint, guard, giao dịch, idempotency, webhook | Mỗi PR |
+| Tích hợp API | Vitest + Testcontainers (nhóm `integration`, `apps/api/test/`; `pnpm test:unit` bỏ qua nhóm này) | Endpoint, guard, giao dịch, idempotency, webhook | Mỗi PR |
 | E2E web | Playwright | Đặt thuê, thanh toán sandbox, vòng đời đơn | Hằng đêm, trước phát hành |
 | E2E mobile | Maestro | Luồng đặt thuê của khách, giao nhận của nhân viên | Trước phát hành |
 | Tải | k6 | Đặt trùng đồng thời; webhook trùng | Trước phát hành, sau thay đổi tồn kho |

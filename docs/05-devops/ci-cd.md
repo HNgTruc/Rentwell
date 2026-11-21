@@ -15,6 +15,8 @@ flowchart LR
   G --> H[Quét bảo mật phụ thuộc]
 ```
 
+Hiện tại (`.github/workflows/ci.yml`, 2026-11-21): job `quality` chạy `pnpm test` gồm cả kiểm thử tích hợp API trên Postgres riêng do Testcontainers dựng; job `database` chạy migration, seed, kiểm thử SQL/RLS trên Postgres của Compose và kiểm kiểu sinh bởi kysely-codegen khớp migration (`db:codegen:verify`).
+
 Điều kiện gộp PR: tất cả bước xanh, ít nhất một lần tự review, không còn bí mật bị lộ (quét bí mật).
 
 E2E (Playwright, Maestro) chạy theo lịch hàng đêm và trước phát hành, không chặn mỗi PR để giữ CI nhanh.
