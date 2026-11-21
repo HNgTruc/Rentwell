@@ -71,7 +71,7 @@ Mỗi giai đoạn gồm: **Mục tiêu**, **Công việc**, **Tiêu chí hoàn 
 - [ ] Thêm Testcontainers (kiểm thử tích hợp) và kysely-codegen (sinh kiểu DB): đã duyệt 2026-11-21 (ADR 0014).
 - [x] (2026-11-17) Áp `001_init.sql` bằng dbmate (role migrator); seed 2 chuỗi × 2 chi nhánh (`db/seeds/001_dev_seed.sql`); `pnpm db:test` đạt.
 - [x] (2026-11-17) Khung NestJS: cấu hình kiểm tra bằng Zod, log JSON có `request_id` (không ghi header/query), health check có kiểm CSDL, Swagger `/docs`.
-- [ ] Khung Next.js (`web`, `admin`) và Expo (`mobile`) rỗng nhưng build được (không giao diện, không CSS, theo cổng thiết kế).
+- [x] (2026-11-21) Khung Next.js 16 (`web` cổng 3001, `admin` cổng 3002) và Expo SDK 58 (`mobile`) rỗng nhưng build được (không giao diện, không CSS, theo cổng thiết kế); React ghim 19.3.0 cho cả ba app.
 - [x] (2026-11-18) CI GitHub Actions (`.github/workflows/ci.yml`): chạy xanh trên PR #1 và trên `main`.
 - [x] (2026-11-17) Quy ước commit: lefthook (pre-commit: Prettier, ESLint, chặn `.env`; commit-msg: commitlint), template PR có sẵn.
 - [ ] **Spike** các điểm 🟡 trong `tech-stack.md` mục 9:

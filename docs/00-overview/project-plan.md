@@ -70,7 +70,8 @@ Tổng khoảng 35 tuần; MVP web sau khoảng 21 tuần. Chi tiết công vi�
 - [x] (2026-11-19) Cổng thanh toán: so sánh xong, chọn MoMo (ADR 0013); chạy thử sandbox trước P4.
 - [ ] Dịch vụ bản đồ: kiểm tra API trả phí theo lượt có gói miễn phí (ứng viên Goong) cho khoảng cách giao hàng; không tự host OSRM.
 - [ ] Tìm kiếm tiếng Việt: thử `unaccent` + `pg_trgm`.
-- [ ] Khung Next.js (`web`, `admin`) và Expo build được. Ghi mỗi spike thành một ADR.
+- [x] (2026-11-21) Khung Next.js (`web`, `admin`) và Expo build được.
+- [ ] Ghi mỗi spike thành một ADR.
 
 **Xong P0 khi:** chạy `docker compose up` và `pnpm dev` trên máy sạch, CI xanh, ADR các spike đã ghi.
 
