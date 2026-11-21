@@ -1,13 +1,13 @@
 # Môi trường
 
-**Trạng thái:** Nháp · **Cập nhật lần cuối:** 2026-11-15
+**Trạng thái:** Nháp · **Cập nhật lần cuối:** 2026-11-21
 
 | Môi trường | Mục đích | Hạ tầng | Dữ liệu |
 |---|---|---|---|
-| `local` | Phát triển | Docker Compose (Postgres, Redis, Mailpit; giả lập S3 chờ chốt) | Seed giả |
+| `local` | Phát triển | Docker Compose (Postgres, Redis, Mailpit, Garage) | Seed giả |
 | `ci` | Kiểm thử tự động | Dịch vụ tạm trong GitHub Actions, Testcontainers | Tạo mới mỗi lần chạy |
 | `staging` | Thử trước khi phát hành | Giống production, quy mô nhỏ | Dữ liệu giả, không dùng dữ liệu thật |
-| `production` | Người dùng thật | VPS + Docker Compose (giai đoạn đầu) | Dữ liệu thật, sao lưu |
+| `production` | Người dùng thật | VPS + Docker Compose + Caddy (giai đoạn đầu, ADR 0014) | Dữ liệu thật, sao lưu |
 
 ## Dịch vụ cục bộ (Docker Compose)
 
@@ -15,7 +15,7 @@
 |---|---|
 | PostgreSQL 16 | CSDL (timezone `Asia/Ho_Chi_Minh`) |
 | Redis | Hàng đợi, giới hạn tần suất |
-| (chờ chốt, thay MinIO) | Giả lập S3 (ảnh, tệp); image MinIO cộng đồng đã ngừng phát hành |
+| Garage | Giả lập S3 (ảnh, tệp), thay MinIO đã ngừng phát hành image (ADR 0014); chưa thêm vào Compose |
 | Mailpit | Hộp thư giả để xem email gửi ra |
 
 ## Biến môi trường

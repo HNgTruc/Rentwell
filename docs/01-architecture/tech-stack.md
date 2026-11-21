@@ -1,6 +1,6 @@
 # Công nghệ sử dụng (Tech Stack)
 
-**Trạng thái:** Đã duyệt hướng tổng thể (2026-11-17); các điểm 🟡 vẫn chờ spike P0 · **Cập nhật lần cuối:** 2026-11-17
+**Trạng thái:** Đã duyệt hướng tổng thể (2026-11-17); các điểm 🟡 vẫn chờ spike P0 · **Cập nhật lần cuối:** 2026-11-21
 
 Nguyên tắc chọn công nghệ cho dự án làm một mình, chuẩn doanh nghiệp:
 
@@ -57,14 +57,14 @@ flowchart LR
 |---|---|---|---|
 | Framework | NestJS | ✅ | Cấu trúc module rõ, DI, guard cho RBAC; hợp "modular monolith" |
 | Kiểu API | REST + OpenAPI (Swagger) | ✅ | Sinh tài liệu và client kiểu an toàn |
-| Truy cập DB | Kysely (query builder có kiểu) + kysely-codegen | ✅ Kysely (spike RLS đạt, ADR 0012); kysely-codegen chờ duyệt | Giữ SQL là trung tâm, hợp với RLS và hàm `reserve_inventory`. Phương án khác: Drizzle, Prisma (khó hơn khi dùng RLS và `SET LOCAL`) |
+| Truy cập DB | Kysely (query builder có kiểu) + kysely-codegen | ✅ Kysely (spike RLS đạt, ADR 0012); kysely-codegen đã duyệt (ADR 0014) | Giữ SQL là trung tâm, hợp với RLS và hàm `reserve_inventory`. Phương án khác: Drizzle, Prisma (khó hơn khi dùng RLS và `SET LOCAL`) |
 | Migration | SQL thuần, quản lý bằng dbmate (ADR 0004) | ✅ | Schema hiện có là SQL thuần (49 bảng, trigger, RLS) nên giữ SQL làm nguồn sự thật |
 | Xác thực | JWT access token ngắn hạn + refresh token xoay vòng, băm mật khẩu argon2 | ✅ | Chuẩn cho web và mobile |
 | Phân quyền | RBAC qua bảng `memberships` + guard phía server + RLS ở DB | ✅ | Hai lớp bảo vệ độc lập |
 | Hàng đợi / tác vụ nền | BullMQ trên Redis | ✅ | Hết hạn giữ chỗ (`expire_holds`), gửi thông báo, webhook thanh toán |
 | Cache, rate limit | Redis | ✅ | Giới hạn tần suất, khóa phân tán nhẹ |
-| Tệp | S3-compatible (Cloudflare R2 hoặc S3 khi chạy thật; **giả lập khi dev chờ chốt**: image MinIO cộng đồng đã ngừng phát hành), upload qua presigned URL | 🟡 | Ảnh sản phẩm, giấy tờ xác minh, ảnh bàn giao |
-| Email | Resend hoặc SMTP | 🟡 | Giao dịch (xác nhận đơn, quên mật khẩu) |
+| Tệp | S3-compatible, upload qua presigned URL; dev: Garage (ADR 0014); chạy thật: Cloudflare R2 hoặc S3 (chốt ở P8) | 🟡 | Ảnh sản phẩm, giấy tờ xác minh, ảnh bàn giao |
+| Email | Resend khi chạy thật, Mailpit khi dev (ADR 0014) | ✅ | Giao dịch (xác nhận đơn, quên mật khẩu) |
 | Push | Expo Push Notifications (FCM/APNs bên dưới) | ✅ | Đi cùng Expo |
 | Thanh toán | MoMo Payment Gateway (ADR 0013, 2026-11-19); dự phòng payOS | 🟡 | Đã chọn; còn chờ xác nhận hộ kinh doanh đăng ký merchant được và chạy thử sandbox |
 | Bản đồ, khoảng cách | API trả phí theo lượt có gói miễn phí (ứng viên Goong); không tự host OSRM (2026-11-17) | 🟡 | Tính khoảng cách giao hàng theo `delivery_fee_rules` |
@@ -114,10 +114,10 @@ Mobile phục vụ hai nhóm: **khách hàng** (tìm, đặt, theo dõi đơn) v
 
 | Hạng mục | Lựa chọn | Trạng thái |
 |---|---|---|
-| Dev cục bộ | Docker Compose (Postgres, Redis, Mailpit; giả lập S3 chờ chốt thay MinIO) | ✅ |
+| Dev cục bộ | Docker Compose (Postgres, Redis, Mailpit; Garage giả lập S3, ADR 0014) | ✅ |
 | CI | GitHub Actions: lint, typecheck, test, build | ✅ |
 | Container | Docker, ảnh nhiều tầng (multi-stage) | ✅ |
-| Chạy thật (giai đoạn đầu) | Một VPS + Docker Compose + Caddy/Traefik (HTTPS tự động) | 🟡 |
+| Chạy thật (giai đoạn đầu) | Một VPS + Docker Compose + Caddy (HTTPS tự động, ADR 0014) | ✅ |
 | Chạy thật (khi cần mở rộng) | Chuyển sang dịch vụ quản lý (managed Postgres, container platform) | ⬜ |
 | Cấu hình, bí mật | Biến môi trường, kiểm tra bằng Zod lúc khởi động; bí mật không commit | ✅ |
 | Giám sát | Sentry (lỗi), OpenTelemetry + Grafana/Prometheus (số liệu), health check | 🟡 |
