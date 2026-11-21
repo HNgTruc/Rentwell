@@ -63,7 +63,7 @@ Tổng khoảng 35 tuần; MVP web sau khoảng 21 tuần. Chi tiết công vi�
 - [x] (2026-11-17) Docker Compose: Postgres, Redis, Mailpit (MinIO ngừng phát hành image; chọn thay thế trước P2).
 - [x] (2026-11-17) Áp `001_init.sql` làm migration đầu (dbmate); seed hai chuỗi mẫu.
 - [x] (2026-11-17) Khung NestJS: cấu hình bằng Zod, log JSON, health check, Swagger.
-- [ ] CI GitHub Actions: lint, typecheck, test, build (đã viết, chờ chạy xanh trên GitHub).
+- [x] (2026-11-18) CI GitHub Actions: lint, typecheck, test, build (xanh trên PR #1 và `main`).
 
 **Tuần 2: kiểm chứng rủi ro (spike)**
 - [x] (2026-11-19) Kysely + RLS: mỗi request đặt `app.tenant_id` trong giao dịch, chứng minh không rò dữ liệu (ADR 0012; Testcontainers và kysely-codegen chờ duyệt).

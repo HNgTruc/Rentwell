@@ -1,6 +1,6 @@
 # Quy tắc làm việc với Claude
 
-**Cập nhật lần cuối:** 2026-11-15
+**Cập nhật lần cuối:** 2026-11-21
 Áp dụng cho mọi phiên làm việc. Bản ngắn nằm trong `CLAUDE.md`; một phần được cưỡng chế bằng `.claude/settings.json`.
 
 ## 1. Không tự commit, không tự push
@@ -11,10 +11,10 @@
 ```bash
 git status
 git add <các file đã liệt kê>
-git commit -m "feat(bookings): thêm kiểm tra tồn kho khi giữ chỗ"
+git commit -m "feat(bookings): check inventory when placing a hold"
 ```
 
-- Thông điệp theo Conventional Commits (`feat`, `fix`, `docs`, `refactor`, `test`, `chore`), xem `git-workflow.md`.
+- Thông điệp viết bằng tiếng Anh, theo Conventional Commits 1.0.0; danh sách type và quy ước ở `git-workflow.md` mục 2.
 - Một commit một việc; nếu thay đổi gồm nhiều việc, Claude chia thành nhiều cặp lệnh.
 - Chỉ commit khi bạn nói rõ "hãy commit".
 
